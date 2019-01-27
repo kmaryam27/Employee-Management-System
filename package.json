@@ -1,0 +1,29 @@
+{
+  "name": "Employee-Management-System",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "seed": "node scripts/seedDB.js",
+    "install": "cd client && yarn install",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run build"
+  },
+  "repository": "https://github.com/kmaryam27/Employee-Management-System.git",
+  "author": "k_maryam27 <k_maryam27@yahoo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "express": "^4.16.4",
+    "gh-pages": "^2.0.1",
+    "mongoose": "^5.4.7",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
+    "passport": "^0.4.0",
+    "socket.io": "^2.2.0"
+  }
+}
