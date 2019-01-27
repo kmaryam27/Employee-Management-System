@@ -1,0 +1,51 @@
+#logo-Loc{
+    grid-area: 1/ 1/ span 1/ span 1;
+    width: 164px; 
+    height: 154px;
+}
+
+.mask a{
+    position: relative;
+    display:block;
+    width: 164px; 
+    height: 154px;
+    text-align:center;
+  }
+  .mask a{
+    background-position: -140px 0;
+  }
+  .mask a::after{
+    content:'';
+    position: absolute;
+    pointer-events: none;
+    top:0; left:0; right:0; bottom: 0;
+    background: radial-gradient(circle farthest-side at 0 0, rgba(255,255,255,0) 65%,rgba(255,255,255,.8) 85%,rgba(125,185,232,0) 100%) no-repeat;
+    background-position: inherit; 
+    -webkit-mask: url('https://s3.us-east-2.amazonaws.com/final-project-gt/photos/logo-2.png') center;
+    animation-timing-function: ease-in;
+    animation: slide 10s infinite;
+  }
+
+  @keyframes slide {
+    0% { background-position: -300px -150px;}
+    50% { background-position: 400px 200px;}
+    100% {background-position: -300px -150px;}
+} 
+
+@media only screen and (max-width: 600px) {
+    #logo-Loc{
+        width: 134px; 
+        height: 124px;
+    }
+    
+    .mask a{
+        position: relative;
+        display:block;
+        width: 134px; 
+        height: 124px;
+        text-align:center;
+      }
+      .mask a{
+        background-position: -140px 0;
+      }
+  }

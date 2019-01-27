@@ -1,0 +1,43 @@
+body{
+    font-family: 'Open Sans', sans-serif;
+    background-image: url("https://final-project-gt.s3.amazonaws.com/photos/bg-1920-1080.jpg");
+    background-repeat: repeat; 
+    background-size: auto; 
+    /* padding: 5%; */
+    padding-top: 1%;
+}
+
+.home{
+    display: grid;
+    grid-template-rows: 150px 400px 50px 1fr 300px;
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-content: center;
+}
+
+.header-color{
+    background: linear-gradient(-90deg,  rgb(87, 42, 42),black,black,black,rgb(22, 22, 22),rgb(70, 69, 69),rgb(148, 147, 147),rgb(206, 206, 150));
+    border-radius: 25px;
+}
+
+.main-header{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 164px 1fr;
+    grid-gap: 4px;
+}
+
+@media only screen and (max-width: 600px) {
+    .home{
+        display: grid;
+        grid-template-rows: 195px 400px 50px 1fr 300px;
+        grid-template-columns: 1fr;
+    }
+
+    .main-header{
+        display: grid;
+        grid-template-rows: 150px 25px;
+        grid-template-columns: 1fr;
+    }
+  }
+

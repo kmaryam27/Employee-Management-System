@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-// import '../components/home-page/Home-page.css';
+import '../components/home-page/Home-page.css';
 // import { Card, CardText } from 'material-ui/Card';
 // import Auth from '../utils/Auth';
-// import Header from '../components/Header/Header';
+import Logo from '../components/logo/Logo';
+// import Search from '../search/Search';
 // import Slider from '../components/slider/Slider';
 // import News from './NewsPage';
 // import Footer from '../components/footer/Footer';
@@ -17,8 +18,11 @@ class HomePage extends Component {
 
   render() {
     return (
-    <div className="home">Home
-      {/* <Header/> */}
+    <div className="home">
+        <header className="main-header header-color">
+            <Logo/>
+            {/* <Search className="main-search"/> */}
+        </header>
     {/* <Slider />
     <Card>
         {Auth.isUserAuthenticated() ? (
