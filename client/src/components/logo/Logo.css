@@ -36,6 +36,7 @@
     #logo-Loc{
         width: 134px; 
         height: 124px;
+        padding-left: 15px;
     }
     
     .mask a{
@@ -44,8 +45,5 @@
         width: 134px; 
         height: 124px;
         text-align:center;
-      }
-      .mask a{
-        background-position: -140px 0;
       }
   }

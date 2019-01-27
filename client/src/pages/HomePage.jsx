@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import '../components/home-page/Home-page.css';
-// import { Card, CardText } from 'material-ui/Card';
-// import Auth from '../utils/Auth';
+import { Card, CardText } from 'material-ui/Card';
+import Auth from '../utils/Auth';
 import Logo from '../components/logo/Logo';
-// import Search from '../search/Search';
-// import Slider from '../components/slider/Slider';
+import Search from '../components/search/Search';
+import Slider from '../components/slider/Slider';
 // import News from './NewsPage';
 // import Footer from '../components/footer/Footer';
 
@@ -21,9 +21,9 @@ class HomePage extends Component {
     <div className="home">
         <header className="main-header header-color">
             <Logo/>
-            {/* <Search className="main-search"/> */}
+            <Search className="main-search"/>
         </header>
-    {/* <Slider />
+        <Slider />
     <Card>
         {Auth.isUserAuthenticated() ? (
           <CardText style={{ fontSize: '16px', color: 'green' }}>Welcome!</CardText>
@@ -31,7 +31,7 @@ class HomePage extends Component {
           <CardText style={{ fontSize: '16px', color: 'red' }}>You are not logged in.</CardText>
         )}
     </Card>
-      <News  toggleAuthenticateStatus={this.props.toggleAuthenticateStatus}/>
+     {/* <News  toggleAuthenticateStatus={this.props.toggleAuthenticateStatus}/>
     <Footer/> */}
   </div>)
   }

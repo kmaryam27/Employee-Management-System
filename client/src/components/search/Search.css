@@ -1,0 +1,32 @@
+.searchForm_div{
+    padding: 1%;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 100px;
+    grid-gap: 10px;
+  }
+  
+  #search{
+    border: 1px solid black;
+    border-radius: 10px;
+    min-width: 400px;
+    height: 25px;
+    margin-top: 80px;
+    font-weight: bold;
+  }
+  
+  .btn{
+    margin-top: 20%;
+    text-align: center;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .search-input{
+        padding-left: 15px;
+      }
+    #search{
+        min-width: 300px;
+        margin-top: 0px;
+        align-content: center;
+      }
+  }

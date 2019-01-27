@@ -3,7 +3,7 @@ body{
     background-image: url("https://final-project-gt.s3.amazonaws.com/photos/bg-1920-1080.jpg");
     background-repeat: repeat; 
     background-size: auto; 
-    /* padding: 5%; */
+    padding: 5%;
     padding-top: 1%;
 }
 
@@ -28,9 +28,12 @@ body{
 }
 
 @media only screen and (max-width: 600px) {
+    body{
+        padding: 2%;
+    }
     .home{
         display: grid;
-        grid-template-rows: 195px 400px 50px 1fr 300px;
+        grid-template-rows: 195px 50px 1fr 300px;
         grid-template-columns: 1fr;
     }
 
