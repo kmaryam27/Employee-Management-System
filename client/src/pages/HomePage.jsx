@@ -5,8 +5,8 @@ import Auth from '../utils/Auth';
 import Logo from '../components/logo/Logo';
 import Search from '../components/search/Search';
 import Slider from '../components/slider/Slider';
-// import News from './NewsPage';
-// import Footer from '../components/footer/Footer';
+import Post from '../components/posts/Post-page';
+import Footer from '../components/footer/Footer';
 
 class HomePage extends Component {
   /**
@@ -31,8 +31,8 @@ class HomePage extends Component {
           <CardText style={{ fontSize: '16px', color: 'red' }}>You are not logged in.</CardText>
         )}
     </Card>
-     {/* <News  toggleAuthenticateStatus={this.props.toggleAuthenticateStatus}/>
-    <Footer/> */}
+    <Post  toggleAuthenticateStatus={this.props.toggleAuthenticateStatus}/>
+   <Footer/>
   </div>)
   }
 };

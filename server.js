@@ -49,10 +49,10 @@ const htmlRoutes = require('./server/routes/html-route');
 app.use('/', htmlRoutes);
 // const authRoutes = require('./server/routes/auth-route');
 // const apiRoutes = require('./server/routes/api-routes');
-// const newsRoutes = require('./server/routes/news-routes');
+const postRoutes = require('./server/routes/post-routes');
 // app.use('/auth', authRoutes);
 // app.use('/api', apiRoutes);
-// app.use('/news', newsRoutes);
+app.use('/', postRoutes);
 
 // require('./server/sockets/message-sockets')(io);
 

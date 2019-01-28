@@ -1,0 +1,46 @@
+footer{
+    background: linear-gradient(-90deg,  rgb(87, 42, 42),black,black,black,rgb(22, 22, 22),rgb(70, 69, 69),rgb(148, 147, 147));
+    color: white;
+    height: 300px;
+}
+
+.left-align{
+    float: left;
+    text-align: left;
+}
+
+.right-align{
+    float: right;
+}
+
+.center-align{
+    text-align: center;
+    justify-content: center;
+}
+
+.map-loc{
+    padding: 7px;
+    margin-right: 20%;
+    border-radius: 15%;
+}
+
+
+@media only screen and (max-width: 600px) {
+    
+    .right-align{
+        float: none;
+        text-align: center;
+    }
+
+    .left-align{
+        float: none;
+        text-align: left;
+    }
+    
+    
+    .map-loc{
+        display: none;
+        padding: 7px;
+        padding-left: 50px;
+    }
+  }
