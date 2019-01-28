@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 // import LogoutFunction from './pages/LogoutFunction.jsx';
 // import SignUpPage from './pages/SignUpPage.jsx';
 // import DashboardPage from './pages/DashboardPage.jsx';
+import PostModal from './pages/SimpleModalWrapped';
 // import { Modal } from '@material-ui/core';
 
 class App extends Component {
@@ -55,12 +56,12 @@ class App extends Component {
               )}
             </div>
             <Switch>
-            <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
+              <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
             {/* <PrivateRoute exact path="/dashboard" component={DashboardPage}/>
             <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
             <LoggedOutRoute path="/signup" component={SignUpPage}/>
             <Route path="/logout" component={LogoutFunction}/> */}
-            {/* <Route path="/:post_id" component={Modal}/> */}
+              <Route path="/:post_id" component={PostModal}/>
             </Switch>
           </div>
 

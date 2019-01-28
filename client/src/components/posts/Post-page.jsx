@@ -3,7 +3,7 @@ import './Post-page.css'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import API from '../../utils/API';
 import { Card, CardTitle, CardActions } from 'material-ui/Card';
-import {Link} from 'react-router-dom';
+
 
 const styles = {
   loading:{
@@ -24,19 +24,37 @@ const styles = {
     }
 }
 
+const Modal = props => {
+console.log(props.postSelected.subtitle)
+  return (
+    <div className={props.show === true? "modal display-block" : "modal display-none"}>
+      <section className="modal-main">
+      <h4>{props.postSelected.title}</h4>
+      <p><strong>{props.postSelected.subtitle}</strong></p>
+      <span>
+        <p>
+        {props.postSelected.context}
+        </p>
+      </span>
+      <p></p>
+        {props.children}
+        <button onClick={props.handleClose}>close</button>
+      </section>
+    </div>
+  );
+};
+
 
 const PostForm = props => (
     <div className="news-container" data-news={props.post._id}>
-        <div className= "news-grid" onClick={props.clickNewsHandler} key={props.post._id}>
+        <div className= "news-grid" key={props.post._id}>
           <div>
-              <img src={String(props.imageAddress)} style={styles.img} alt="new Post"/>
+              <img src={String(props.post.imageAddress)} style={styles.img} alt="new Post"/>
           </div> 
           <div className="news-header">
               <h4><strong>{props.post.title}</strong></h4>
               <p>{props.post.subtitle}</p>
-              <Link to={'/' + props.post._id}>
-                <p>read more</p>
-              </Link>
+                <button id={props.post._id}  onClick={props.handleOpen}>read more</button>
           </div>
     </div>  
     </div>
@@ -52,7 +70,9 @@ class Posts extends React.Component {
   list:[],
   news:[],
   isFetching:false,
-  selectedId: 0 
+  selectedId: 0,
+  open: false ,
+  postSelected: {}
   }
 
   componentDidMount() {
@@ -112,25 +132,27 @@ class Posts extends React.Component {
         })
     }
 
-    clickNewsHandler = (event) => {
-      event.preventDefault();  
-      // console.log(event.target.getAttribute("data-news"))
-      // if(event.target.id){
-      //   if(String(event.target.id).includes('news')){
-      //        this.setState({selected: event.target.id , open: true});
-      //   }
-      // }
-    
-    }
+    handleOpen = (event) => {
+      event.preventDefault();
+      let postId = event.target.id;
+      const selected = this.state.news.filter(e => e._id === postId);
 
+      console.log(event.target.id)
+      this.setState({postSelected: selected[0], open: true });
+    };
+  
+    handleClose = () => {
+      this.setState({ postSelected: {},open: false });
+    };
+  
 
   render() {
     return (
+
         <div id="post-loc">
              <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
             {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
-                <PostForm clickNewsHandler={this.clickNewsHandler} post={e} 
-                    imageAddress={(e.imageAddress === '')?'https://final-project-gt.s3.amazonaws.com/photos/img_plc.png': e.imageAddress} key={i}/>):
+                <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
                     <Card>
                       <CardTitle>We Have no post Yet..</CardTitle>
                     </Card>
@@ -142,6 +164,10 @@ class Posts extends React.Component {
                   </CardActions>
               : null
             }
+            <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
+          <p>Modal</p>
+          <p>Data</p>
+        </Modal>
         </div>
     );
   }

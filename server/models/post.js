@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   },
   imageAddress:{
     type: String,
-    default: ""
+    default: "https://final-project-gt.s3.amazonaws.com/photos/img_plc.png"
   },
   context:{
     type: String,
