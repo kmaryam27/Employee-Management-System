@@ -168,7 +168,7 @@ class HomePage extends Component {
     // document.getElementById('search').autocomplete = "on";
     if(event.target.value !== ''){
       const val = document.getElementById('search').value;
-      const selection = this.state.news.filter(e => (e.title.toUpperCase()).includes((val).toUpperCase()));
+      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
       console.log(selection)
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});

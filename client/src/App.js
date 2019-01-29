@@ -5,13 +5,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {BrowserRouter as Router,Route,Link, Switch} from 'react-router-dom'
 import { PrivateRoute, PropsRoute, LoggedOutRoute} from './components/routes/Routes';
 import Auth from './utils/Auth';
-// import Social from './components/social/Social';
+import Social from './components/social/Social';
 import HomePage from './pages/HomePage';
-// import LoginPage from './pages/LoginPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 // import LogoutFunction from './pages/LogoutFunction.jsx';
 // import SignUpPage from './pages/SignUpPage.jsx';
 // import DashboardPage from './pages/DashboardPage.jsx';
-import PostModal from './pages/SimpleModalWrapped';
+// import PostModal from './pages/SimpleModalWrapped';
 // import { Modal } from '@material-ui/core';
 
 class App extends Component {
@@ -41,7 +41,7 @@ class App extends Component {
           <div>
             <div className="top-bar">
               <div className="top-bar-left">
-                {/* <Social /> */}
+                <Social />
               </div>
               {this.state.authenticated ? (
                 <div className="top-bar-right">
@@ -57,11 +57,11 @@ class App extends Component {
             </div>
             <Switch>
               <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
+              <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
             {/* <PrivateRoute exact path="/dashboard" component={DashboardPage}/>
-            <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
             <LoggedOutRoute path="/signup" component={SignUpPage}/>
             <Route path="/logout" component={LogoutFunction}/> */}
-              <Route path="/:post_id" component={PostModal}/>
+              {/* <Route path="/:post_id" component={PostModal}/> */}
             </Switch>
           </div>
 
