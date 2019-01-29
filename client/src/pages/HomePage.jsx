@@ -137,7 +137,6 @@ class HomePage extends Component {
   }
 
     loadInitialContent(){
-      console.log('loadInitialContent');
       API.getPosts()
       .then(res => {
         if (this._isMounted){
@@ -166,8 +165,11 @@ class HomePage extends Component {
   };
 
   handleChange = (event) => {
+    // document.getElementById('search').autocomplete = "on";
     if(event.target.value !== ''){
-      const selection = this.state.test.filter(e => (e.title.toUpperCase()).includes((event.target.value).toUpperCase()));
+      const val = document.getElementById('search').value;
+      const selection = this.state.news.filter(e => (e.title.toUpperCase()).includes((val).toUpperCase()));
+      console.log(selection)
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
     this.setState({searchVal: event.target.value, test: selection, total: selection.length});
@@ -182,10 +184,12 @@ class HomePage extends Component {
 
   SearchOpration = (event) => {
     event.preventDefault();
+    // document.getElementById('search').autocomplete = "off";
     const val = document.getElementById('search').value;
 
+
     if(val !== ''){
-      const selection = this.state.test.filter(e => (e.title.toUpperCase()).includes((val).toUpperCase()));
+      const selection = this.state.news.filter(e => (e.title.toUpperCase()).includes((val).toUpperCase()));
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
       this.setState({searchVal: '', test: selection, total: selection.length});
@@ -213,7 +217,6 @@ class HomePage extends Component {
           <CardText style={{ fontSize: '16px', color: 'red' }}>You are not logged in.</CardText>
         )}
     </Card>
-    {console.log('mdmd'+ this.state.searchVal.length)}
      {this.state.searchVal.length > 0?
         <div id="post-loc">
              <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
@@ -243,7 +246,7 @@ class HomePage extends Component {
                </Card>
                }
        {
-         ((this.state.currentCount !== this.state.total)&& (this.state.currentCount > 2))?
+         (this.state.currentCount !== this.state.total)?
              <CardActions id="content-end" >
                  <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
              </CardActions>
