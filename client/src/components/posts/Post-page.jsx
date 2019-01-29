@@ -25,7 +25,6 @@ const styles = {
 }
 
 const Modal = props => {
-console.log(props.postSelected.subtitle)
   return (
     <div className={props.show === true? "modal display-block" : "modal display-none"}>
       <section className="modal-main">
@@ -61,117 +60,114 @@ const PostForm = props => (
 );
 
 
-class Posts extends React.Component {
-  _isMounted = false;
-  state = {
-  total:0,
-  currentCount:3,
-  offset:3,
-  list:[],
-  news:[],
-  isFetching:false,
-  selectedId: 0,
-  open: false ,
-  postSelected: {}
-  }
+// class Posts extends React.Component {
+//   _isMounted = false;
+//   state = {
+//   total:0,
+//   currentCount:3,
+//   offset:3,
+//   list:[],
+//   news:[],
+//   isFetching:false,
+//   selectedId: 0,
+//   open: false ,
+//   postSelected: {}
+//   }
 
-  componentDidMount() {
-    this._isMounted = true;
-    window.addEventListener('scroll', this.loadOnScroll);
-    this.loadInitialContent();
-  }
+//   componentDidMount() {
+//     this._isMounted = true;
+//     window.addEventListener('scroll', this.loadOnScroll);
+//     this.loadInitialContent();
+//   }
 
-  componentWillMount(){
-    this.props.toggleAuthenticateStatus();
-  }
+//   componentWillMount(){
+//     this.props.toggleAuthenticateStatus();
+//   }
 
-  componentWillUnmount(){
-    this._isMounted = false;
-    window.removeEventListener('scroll', this.loadOnScroll);
-  }
+//   componentWillUnmount(){
+//     this._isMounted = false;
+//     window.removeEventListener('scroll', this.loadOnScroll);
+//   }
 
 
-  loadOnScroll = (e) =>{
-      if(this.state.currentCount === this.state.total) return;
-      const el = document.getElementById('content-end');
-      var rect = el.getBoundingClientRect();
-      let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
-      if(isAtEnd){
-        if(!this.state.isFetching){
+//   loadOnScroll = (e) =>{
+//       if(this.state.currentCount === this.state.total) return;
+//       const el = document.getElementById('content-end');
+//       var rect = el.getBoundingClientRect();
+//       let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
+//       if(isAtEnd){
+//         if(!this.state.isFetching){
 
-          this.setState({isFetching:true});
+//           this.setState({isFetching:true});
 
-          setTimeout(() => {
-            var count = this.state.currentCount + this.state.offset;
-            if(count > this.state.total) count = this.state.total;
-            if(this.state.currentCount !== this.state.total){
-              this.setState({
-                isFetching:false,
-                currentCount:count,
-                list: (this.state.news).slice(0, count)
-              })
-            }
-          }, 1000);
-        }
-      }
-    }
+//           setTimeout(() => {
+//             var count = this.state.currentCount + this.state.offset;
+//             if(count > this.state.total) count = this.state.total;
+//             if(this.state.currentCount !== this.state.total){
+//               this.setState({
+//                 isFetching:false,
+//                 currentCount:count,
+//                 list: (this.state.news).slice(0, count)
+//               })
+//             }
+//           }, 1000);
+//         }
+//       }
+//     }
 
-    loadInitialContent(){
-        API.getPosts()
-        .then(res => {
-          if (this._isMounted){
-            let tot = res.data;
-            this.setState(prevState => ({
-                news: prevState.news.concat(res.data),
-                total: tot.length
-              }));
-            let ary = (this.state.news).slice(0,this.state.offset);
-            this.setState({list:ary});
-          }
+//       loadInitialContent(){
+//         API.getPosts()
+//         .then(res => {
+//           if (this._isMounted){
+//             let tot = res.data;
+//             this.setState(prevState => ({
+//                 news: prevState.news.concat(res.data),
+//                 total: tot.length
+//               }));
+//             let ary = (this.state.news).slice(0,this.state.offset);
+//             this.setState({list:ary});
+//           }
+//         });
+//     }
 
-        })
-    }
-
-    handleOpen = (event) => {
-      event.preventDefault();
-      let postId = event.target.id;
-      const selected = this.state.news.filter(e => e._id === postId);
-
-      console.log(event.target.id)
-      this.setState({postSelected: selected[0], open: true });
-    };
+//     handleOpen = (event) => {
+//       event.preventDefault();
+//       let postId = event.target.id;
+//       const selected = this.state.news.filter(e => e._id === postId);
+//       this.setState({postSelected: selected[0], open: true });
+//     };
   
-    handleClose = () => {
-      this.setState({ postSelected: {},open: false });
-    };
+//     handleClose = () => {
+//       this.setState({ postSelected: {},open: false });
+//     };
   
 
-  render() {
-    return (
+//   render() {
+//     return (
 
-        <div id="post-loc">
-             <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
-            {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
-                <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
-                    <Card>
-                      <CardTitle>We Have no post Yet..</CardTitle>
-                    </Card>
-                    }
-            {
-              (this.state.currentCount !== this.state.total)?
-                  <CardActions id="content-end" >
-                      <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
-                  </CardActions>
-              : null
-            }
-            <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
-          <p>Modal</p>
-          <p>Data</p>
-        </Modal>
-        </div>
-    );
-  }
+//         <div id="post-loc">
+//              <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
+//             {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
+//                 <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
+//                     <Card>
+//                       <CardTitle>We Have no post Yet..</CardTitle>
+//                     </Card>
+//                     }
+//             {
+//               (this.state.currentCount !== this.state.total)?
+//                   <CardActions id="content-end" >
+//                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
+//                   </CardActions>
+//               : null
+//             }
+//             <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
+//           <p>Modal</p>
+//           <p>Data</p>
+//         </Modal>
+//         </div>
+//     );
+//   }
 
-}
+// }
 
-export default Posts;
+// export default Posts;

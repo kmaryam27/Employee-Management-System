@@ -5,6 +5,7 @@ import axios from "axios";
  */
 export default {
   getPosts: () => axios.get("/post"),
+  searchHome:(chosen) => axios.get(`/search/${chosen}`),
   login: userData => axios.post("/auth/login",  userData),
   signUp: userData => axios.post('/auth/signup', userData),
   dashboard: token => axios.get('/api/dashboard', {headers: {Authorization: `bearer ${token}`}}),

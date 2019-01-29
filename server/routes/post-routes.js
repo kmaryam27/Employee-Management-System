@@ -3,7 +3,7 @@ const db = require('../models');
 
 const router = new express.Router();
 
-router.get('/post', (req, res) => {console.log('step 1')
+router.get('/post', (req, res) => {
         db.Post
           .find({})
           .then(function(data) {
@@ -16,16 +16,16 @@ router.get('/post', (req, res) => {console.log('step 1')
 });
 
 router.get('/search/:chosen', function(req, res) {
-  var choosen = String(req.params.chosen);
-  let dataArray = {news:[]};
-  db.News.find({}).then(function(data, err) {
+  var chosen = String(req.params.chosen);
+  let dataArray = {posts:[]};
+  db.Post.find({}).then(function(data, err) {
         if (err) res.json(err);
         else{
           data.forEach(e => {
-            e.title.toLowerCase().includes(choosen.toLowerCase())
-              ? dataArray.news.push(e)
-              : e.subtitle.toLowerCase().includes(choosen.toLowerCase())
-                ? dataArray.news.push(e): 0;
+            e.title.toLowerCase().includes(chosen.toLowerCase())
+              ? dataArray.posts.push(e)
+              : e.subtitle.toLowerCase().includes(chosen.toLowerCase())
+                ? dataArray.posts.push(e): 0;
           });
           res.json(dataArray);
         } 
