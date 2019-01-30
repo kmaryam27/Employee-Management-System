@@ -1,0 +1,112 @@
+.root{
+    display: flex;
+    position: static;
+    }
+  .appBar{
+      position: static;
+      margin-top: 10px;
+      background: linear-gradient(-90deg,  rgb(87, 42, 42),black,black,black,rgb(22, 22, 22),rgb(70, 69, 69),rgb(148, 147, 147));
+      -webkit-transition-timing-function: ease;
+      }
+  .appBarShift{
+      width: 10%;
+      -webkit-transition-timing-function: ease-out;
+         }
+  
+  .menuButton{
+           margin-left: 12px;
+           margin-right: 20px;
+      }
+  .hide{
+           display: none;
+      }
+  .drawer{
+          width: 10%;
+          flex-shrink: 0;
+      }
+  .drawerPaper {
+           width: 10%;
+      }
+       
+  .drawerHeader{
+           display: flex;
+           align-items: center;
+           padding: 0 8px;
+           justify-content: flex-end;
+         }
+  .content {
+           flex-grow: 1;
+           padding: 5px;
+           -webkit-transition-timing-function: ease;      
+           margin-left: -10%;
+           margin-top: 70px;
+          margin-left: 14%;
+         }
+  .contentShift {
+          -webkit-transition-timing-function: ease-out;
+           margin-left: 0;
+         } 
+  
+         
+  .search{
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    position: relative;
+    background-color: transparent;
+    font-weight: bold;
+    margin-left: 50px;
+    width: 25%;
+    min-width: 160px;
+  }
+  
+  .search:hover{
+      background-color: rgb(219, 217, 217, 0.25);
+  }
+  
+  .searchIcon{
+    grid-area: 1/1/span 1/ span 1;
+      height: 100%;
+      position: absolute;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 50px;
+      margin-right: 50px;
+    }
+  
+    .inputRoot {
+      grid-area: 1/2/span 1 / span 1;
+      color: inherit;
+      width: 100%;
+  
+    }
+    .inputInput {
+      padding-top: 2px;
+      padding-right: 2px;
+      padding-bottom: 2px;
+      margin-right: 50%;
+  
+    }
+  
+    .sectionDesktop {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .sectionMobile {
+      display: flex;
+   
+    }
+    
+  .grow{
+      flex-grow: 1;
+  }
+  
+   @media only screen and (max-width: 300px) {
+    .search{
+      margin-left: 0;
+    }
+    .welcome{
+      display: none;
+    }
+  }

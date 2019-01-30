@@ -8,9 +8,9 @@ import Auth from './utils/Auth';
 import Social from './components/social/Social';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage.jsx';
-// import LogoutFunction from './pages/LogoutFunction.jsx';
-// import SignUpPage from './pages/SignUpPage.jsx';
-// import DashboardPage from './pages/DashboardPage.jsx';
+import LogoutFunction from './pages/LogoutFunction.jsx';
+import SignUpPage from './pages/SignUpPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
 // import PostModal from './pages/SimpleModalWrapped';
 // import { Modal } from '@material-ui/core';
 
@@ -58,9 +58,9 @@ class App extends Component {
             <Switch>
               <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
               <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
-            {/* <PrivateRoute exact path="/dashboard" component={DashboardPage}/>
-            <LoggedOutRoute path="/signup" component={SignUpPage}/>
-            <Route path="/logout" component={LogoutFunction}/> */}
+              <PrivateRoute exact path="/dashboard" component={DashboardPage}/>
+              <LoggedOutRoute path="/signup" component={SignUpPage}/>
+              <Route path="/logout" component={LogoutFunction}/>
               {/* <Route path="/:post_id" component={PostModal}/> */}
             </Switch>
           </div>

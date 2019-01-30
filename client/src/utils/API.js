@@ -9,10 +9,10 @@ export default {
   login: userData => axios.post("/auth/login",  userData),
   signUp: userData => axios.post('/auth/signup', userData),
   dashboard: token => axios.get('/api/dashboard', {headers: {Authorization: `bearer ${token}`}}),
-  uploadImage: (token,imageData) => axios.post('/api/uploadimage', imageData, {headers: {Authorization: `bearer ${token}`, 'Content-Type': 'multipart/form-data'}}),
+//   uploadImage: (token,imageData) => axios.post('/api/uploadimage', imageData, {headers: {Authorization: `bearer ${token}`, 'Content-Type': 'multipart/form-data'}}),
   searchd: (token, identifier) => axios.get(`/api/search/${identifier}`, {headers: {Authorization: `bearer ${token}`}}),
   searchf: () => axios.get('/search/identifier'),
-
+  addPosts:(token, postData)  => axios.post('/api/addPost', postData, {headers: {Authorization: `bearer ${token}`}}),
 
   signUpm: (token,userData) => {
    console.log(userData);

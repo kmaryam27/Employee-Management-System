@@ -16,7 +16,7 @@ import { Card, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import MailIcon from '@material-ui/icons/Mail';
 import LockOpen from '@material-ui/icons/LockOpen';
-import Add from '@material-ui/icons/Add';
+import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -61,64 +61,93 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
-  postContent: {
-    minHeight: 120,
-  }
 });
 
-function PostForm(props) {
+function SignUpForm(props) {
   const { classes } = props;
+
   return (
     <main className={classes.main}>
       <CssBaseline />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <Add />
+          <PersonAdd />
         </Avatar>
         <Typography component="h1" variant="h5">
-          New Post
+          Sign up
         </Typography>
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
 
         <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/>
-    
+
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           
         <FormControl margin="normal" required fullWidth>
-            <TextField id="title" name="title" autoComplete="title" autoFocus 
-            errorText={props.errors.title} onChange={props.onChange} value={props.post.title} 
-            floatingLabelText="Title"
+            {/* <Person /> *************/}
+            <TextField id="name" name="name" autoComplete="name" autoFocus 
+            errorText={props.errors.name} onChange={props.onChange} value={props.user.name} 
+            floatingLabelText="Name"
             />
           </FormControl>
           
           <FormControl margin="normal" required fullWidth>
-            <TextField id="subtitle" name="subtitle" autoComplete="subtitle" 
-            errorText={props.errors.subtitle} onChange={props.onChange} value={props.post.subtitle} 
-            floatingLabelText="Subtitle"
+            {/* <MailIcon /> */}
+            <TextField id="email" name="email" autoComplete="email" 
+            errorText={props.errors.email} onChange={props.onChange} value={props.user.email} 
+            floatingLabelText="Email"
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <textarea className={classes.postContent} placeholder="import content ...." name="context" id="context"
-             onChange={props.onChange} value={props.post.context}  ></textarea>
+            {/* <LockOpen/> */}
+            <TextField name="password" type="password" id="password" autoComplete="current-password" 
+             onChange={props.onChange} errorText={props.errors.password} value={props.user.password} 
+             floatingLabelText="Password"
+             />
           </FormControl>
           
 
+          <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel
+            // ref={ref => {
+            //    this.InputLabelRef = ref;
+            // }}
+            htmlFor="outlined-age-native-simple"
+          >
+            job Title
+          </InputLabel>
+          <Select
+            native
+            value={props.access}
+            onChange={props.onChange}
+            input={
+              <OutlinedInput
+              labelWidth={100}
+                name="access"
+                id="outlined-age-native-simple"
+              />
+            }
+          >
+            <option value="" />
+            <option value={1}>Manager</option>
+            <option value={2}>Employee</option>
+          </Select>
+        </FormControl>
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-           Add Post
+            Sign in
           </Button>
+          <CardText>This part is just for Managers</CardText>
         </form>
       </Paper>
     </main>
   );
 }
 
-PostForm.propTypes = {
+SignUpForm.propTypes = {
   classes: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PostForm);
+export default withStyles(styles)(SignUpForm);

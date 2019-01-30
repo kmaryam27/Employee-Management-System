@@ -186,10 +186,10 @@ class HomePage extends Component {
     event.preventDefault();
     // document.getElementById('search').autocomplete = "off";
     const val = document.getElementById('search').value;
-
+    
 
     if(val !== ''){
-      const selection = this.state.news.filter(e => (e.title.toUpperCase()).includes((val).toUpperCase()));
+      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
       this.setState({searchVal: '', test: selection, total: selection.length});
@@ -199,6 +199,7 @@ class HomePage extends Component {
       this.setState({list:ary});
     this.setState({searchVal: '', test: selection, total: selection.length});
     }
+    document.getElementById('search').value = '';
     
   }
 

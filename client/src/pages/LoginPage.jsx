@@ -5,6 +5,7 @@ import LoginForm from '../components/login/Login-form.jsx';
 import API from '../utils/API';
 
 class LoginPage extends React.Component {
+  _isMounted = false;
   // set the initial component state
   state = {
     errors: {},
@@ -16,6 +17,7 @@ class LoginPage extends React.Component {
   }
   
   componentDidMount(){
+    this._isMounted = true;
     const storedMessage = localStorage.getItem('successMessage');
     let successMessage = '';
 
@@ -27,6 +29,7 @@ class LoginPage extends React.Component {
   }
 
   componentWillUnmount(){
+    this._isMounted = false;
     this.setState({
           errors: {}
         });
@@ -44,16 +47,17 @@ class LoginPage extends React.Component {
     const { email, password } = this.state.user;
 
     API.login({email, password}).then(res => {
+      if(this._isMounted){
         // save the token
         Auth.authenticateUser(res.data.token);
-
         // update authenticated state
-        this.props.toggleAuthenticateStatus()
-        
+        this.props.toggleAuthenticateStatus();
         // redirect signed in user to dashboard
         this.props.history.push('/dashboard');
         
-    }).catch(( {response} ) => {
+      }
+        
+    }).catch(( {response} ) => {console.log(response)
 
         const errors = response.data.errors ? response.data.errors : {};
         errors.summary = response.data.message;
