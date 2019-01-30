@@ -23,7 +23,7 @@ const mapStyles = {
         return (
             <footer>
                 <div className="right-align map-loc">
-                {console.log('map')}
+                {/* {console.log('map')}
                     <Map
                             google={this.props.google}
                             zoom={14}
@@ -32,7 +32,7 @@ const mapStyles = {
                             lat: 33.925697,
                             lng: -84.380094
                             }}
-                        />
+                        /> */}
                 </div> 
                 <div className="left-align">
                         <p>Final project In georgia Tech Global Learning Center</p>
@@ -59,7 +59,7 @@ const mapStyles = {
     }
   }
 
-  export default GoogleApiWrapper({
+  export default /*GoogleApiWrapper({
     apiKey: 'AIzaSyD0KXmC5gFadBpK5eQEdAuzTW4PJvoKiw4'
-  })(Footer);
+  })*/(Footer);
 
