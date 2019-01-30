@@ -30,7 +30,7 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import NewsAdd from '@material-ui/icons/LibraryAdd';
 import PortfolioIcon from '@material-ui/icons/Person';
 import PersonEdit from '@material-ui/icons/Edit';
-import SearchForm from '../../search/Search-page';
+import SearchForm from '../../search/Search';
 // import Autosuggest from 'react-autosuggest';
 import API from '../../../utils/API';
 
@@ -213,21 +213,129 @@ const styles = theme => ({
 });
 
 class PrimarySearchAppBar extends React.Component {
+  _isMounted = false;
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
     value: '',
     suggestions: [],
-
-    currentFocus: 0
+    currentFocus: 0,
+    searchVal: '',
+    SearchedPosts:[],
+news: [],
+list: [],
+    total:0,
+  currentCount:3,
+  offset:3,
+  postList:[],
+  memberList: [],
+  isFetching:false,
+  selectedId: 0,
+  open: false ,
+  postSelected: {},
+  test:[]
   };
 
 
-  // componentDidMount(){
-    // API.searchd(this.props.token).then(result => {////////////////////
+  componentDidMount() {
+    this._isMounted = true;
+    window.addEventListener('scroll', this.loadOnScroll);
+    this.loadInitialContent();
+  }
 
-    // })
-  // }
+  componentWillUnmount(){
+    this._isMounted = false;
+    window.removeEventListener('scroll', this.loadOnScroll);
+  }
+
+  loadOnScroll = (e) =>{
+    // if(this.state.currentCount === this.state.total) return;
+    // const el = document.getElementById('content-end');
+    // var rect = el.getBoundingClientRect();
+    // let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
+    // if(isAtEnd){
+    //   if(!this.state.isFetching){
+
+    //     this.setState({isFetching:true});
+
+    //     setTimeout(() => {
+    //       var count = this.state.currentCount + this.state.offset;
+    //       if(count > this.state.total) count = this.state.total;
+    //       if(this.state.currentCount !== this.state.total){
+    //         this.setState({
+    //           isFetching:false,
+    //           currentCount:count,
+    //           list: (this.state.news).slice(0, count)
+    //         })
+    //       }
+    //     }, 1000);
+    //   }
+    // }
+  }
+
+    loadInitialContent(){
+      const alldata = this.props.posts.concat(this.props.members);
+          this.setState(prevState => ({
+              postList: prevState.news.concat(this.props.posts),
+              memberList: prevState.news.concat(this.props.members),
+              total: (alldata.length),
+              test: alldata,
+              news: alldata
+            }));
+          let ary = (this.state.test).slice(0,this.state.offset);
+          this.setState({list:ary});
+        }
+
+
+  handleOpen = (event) => {
+    event.preventDefault();
+    let postId = event.target.id;
+    const selected = this.state.news.filter(e => e._id === postId);
+    this.setState({postSelected: selected[0], open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ postSelected: {},open: false });
+  };
+
+  handleChange = (event) => {
+    if(event.target.value !== ''){
+      const val = document.getElementById('search-private').value;
+      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
+      console.log(selection)
+      let ary = (selection).slice(0,this.state.offset);
+      this.setState({list:ary});
+    this.setState({searchVal: event.target.value, test: selection, total: selection.length});
+    }else{
+      const selection = this.state.news;
+      let ary = (selection).slice(0,this.state.offset);
+      this.setState({list:ary});
+    this.setState({searchVal: event.target.value, test: selection, total: selection.length});
+    }
+    
+  }
+
+  SearchOpration = (event) => {
+    event.preventDefault();
+    // document.getElementById('search').autocomplete = "off";
+    const val = document.getElementById('search-private').value;
+    
+
+    if(val !== ''){
+      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
+      let ary = (selection).slice(0,this.state.offset);
+      this.setState({list:ary});
+      this.setState({searchVal: '', test: selection, total: selection.length});
+    }else{
+      const selection = this.state.news;
+      let ary = (selection).slice(0,this.state.offset);
+      this.setState({list:ary});
+    this.setState({searchVal: '', test: selection, total: selection.length});
+    }
+    document.getElementById('search-private').value = '';
+    
+  }
+
 
   onChange = (event, { newValue }) => {
     console.log('onChange')
@@ -304,20 +412,7 @@ console.log('search' + this.state.value)
   };
 
 
-  // onKeyDown = (event, { newValue }) => {
-  //   console.log('onKeyDown')
-  //   this.setState({
-  //     value: newValue
-  //   });
-  // };
   
-  // (event) => {
-  //   event.preventDefault();
-  //   if (event.key === 'Enter') {
-  //      console.log('zzzzzzzzzzzzz')
-  //   }
-  // };
-
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
@@ -393,10 +488,17 @@ console.log('search' + this.state.value)
             </Typography>
 
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
+              {/* <div className={classes.searchIcon}>
                 <SearchIcon />
-              </div>
-              {/* <SearchForm/> */}
+              </div> */}
+              <form className="searchForm_div" id="search-form" autoComplete="off" onSubmit={this.SearchOpration}>
+      <div>
+        <div className='search-input'>
+          <input className="validate" type='text' name='search' id='search-private' placeholder="search..." value={this.state.searchVal} onChange={this.handleChange}/>
+        </div>
+      </div>
+    </form>
+              {/* <SearchForm className="dash-search" handleChange={this.handleChange} value={this.state.searchVal} SearchOpration={this.SearchOpration}/> */}
               {/* <div className="autocomplete" id="autoMainId">
                             <Autosuggest
                                 suggestions={suggestions}

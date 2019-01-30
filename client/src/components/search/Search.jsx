@@ -8,7 +8,6 @@ const Search = props => (
           <input className="validate" type='text' name='search' id='search' placeholder="search..." value={props.searchVal} onChange={props.handleChange}/>
         </div>
       </div>
-      {/* <button id="btn-search" onClick={props.SearchOpration}></button> */}
     </form>
   );
 

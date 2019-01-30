@@ -16,8 +16,8 @@ const config = {
     bucketName: 'final-project-gt',
     dirName: 'photos',
     region: 'us-east-2',
-    accessKeyId: 'AKIAIMAAFVI2ZAZ4Z57Q',
-    secretAccessKey: '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',
+    accessKeyId: 'AKIAJDHMIESY3IOZH25A',
+    secretAccessKey: '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',
 }
 
 class DashboardPage extends React.Component {
@@ -33,7 +33,9 @@ class DashboardPage extends React.Component {
     file: null,
     imgAdd: '',
     onloadImg: false,
-    searchResult: {}
+    searchResult: {},
+    posts:[], 
+    members: []
   }
 
   /**
@@ -45,7 +47,9 @@ class DashboardPage extends React.Component {
       this.setState({
           secretData: res.data.message,
           user: res.data.user,
-          token: Auth.getToken()
+          token: Auth.getToken(),
+          posts: res.data.items.posts,
+          members: res.data.members
         });
     })
   }
@@ -99,14 +103,19 @@ class DashboardPage extends React.Component {
     });
   }
 
+ insertAfter = (referenceNode, newNode) => {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
   
   handleFileUpload = (event) => {
+    
     this.setState({file: event.target.files[0]});
     uploadFile(event.target.files[0] , config)
     .then(data => {
       this.setState({imgAdd: data.location});
     })
-    .catch(err =>console.log(err) /* alert('problem in uploading image please try it later or call to suport services')*/)
+    .catch(err => alert('problem in uploading image please try it later or call to suport services'))
   }
 
   
@@ -117,10 +126,12 @@ class DashboardPage extends React.Component {
   render() {
     return (
       <div>
+        {  console.log(this.state.members)}
         <PersistentDrawerLeft avatar={this.state.user.avatar} token={this.state.token} imgAdd={this.state.imgAdd}
          onloadImg={this.state.onloadImg}  user={this.state.user} open={this.state.open} 
          addEmployeeCLick={this.addEmployeeCLick} portfolioCLick={this.portfolioCLick} addNewsCLick={this.addNewsCLick} 
-         handleDrawerClose={this.handleDrawerClose} handleDrawerOpen={this.handleDrawerOpen}/>
+         handleDrawerClose={this.handleDrawerClose} handleDrawerOpen={this.handleDrawerOpen}
+         posts={this.state.posts} members={this.state.members}/>
         <main className={(this.state.open === false)?"content contentShift": "content "}>
           <div className="drawerHeader"/>
           {(this.state.portfolio === true)?

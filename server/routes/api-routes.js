@@ -1,8 +1,6 @@
 const express = require('express');
 
 const router = new express.Router();
-// const upload = require('../services/file-upload');
-// const singleUpload = upload.single('image');
 const validator = require('validator');
 const passport = require('passport');
 const db = require('../models')
@@ -44,10 +42,27 @@ function validateSignupForm(payload) {
  * @description user values passed through from auth middleware
  */
 router.get('/dashboard', (req, res) => {
-  res.status(200).json({
-    message: "You're authorized to see this secret message.",
-    user: req.user
-  });
+  items={posts: [], members: []}
+  db.Post.find({}).then((data) => {
+     items.posts = data;
+     if(req.user.access === 1){
+      db.User.find({}).then((members) => {
+        items.members = members; 
+
+        res.status(200).json({
+          message: "You're authorized to see this secret message.",
+          user: req.user,
+          items: items
+        });
+
+      }).catch(function(err) {
+        res.json(items);
+      });
+     }
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
 });
 
 /**
