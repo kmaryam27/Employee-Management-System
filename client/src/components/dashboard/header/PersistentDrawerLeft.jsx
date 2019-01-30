@@ -30,6 +30,7 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import NewsAdd from '@material-ui/icons/LibraryAdd';
 import PortfolioIcon from '@material-ui/icons/Person';
 import PersonEdit from '@material-ui/icons/Edit';
+import SearchForm from '../../search/Search-page';
 // import Autosuggest from 'react-autosuggest';
 import API from '../../../utils/API';
 
@@ -221,6 +222,7 @@ class PrimarySearchAppBar extends React.Component {
     currentFocus: 0
   };
 
+
   // componentDidMount(){
     // API.searchd(this.props.token).then(result => {////////////////////
 
@@ -394,6 +396,7 @@ console.log('search' + this.state.value)
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
+              {/* <SearchForm/> */}
               {/* <div className="autocomplete" id="autoMainId">
                             <Autosuggest
                                 suggestions={suggestions}

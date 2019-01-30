@@ -4,8 +4,8 @@ import axios from "axios";
  * @description methods for interacting with API Auth routes
  */
 export default {
-  getPosts: () => axios.get("/post"),
-  searchHome:(chosen) => axios.get(`/search/${chosen}`),
+  getPosts: () => axios.get("/post/post"),
+  searchHome:(chosen) => axios.get(`/post/search/${chosen}`),
   login: userData => axios.post("/auth/login",  userData),
   signUp: userData => axios.post('/auth/signup', userData),
   dashboard: token => axios.get('/api/dashboard', {headers: {Authorization: `bearer ${token}`}}),

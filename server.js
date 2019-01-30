@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -45,14 +46,14 @@ passport.use('local-login', localLoginStrategy);
 const authCheckMiddleware = require('./server/middleware/auth-check');
 app.use('/api', authCheckMiddleware);
 
-const htmlRoutes = require('./server/routes/html-route');
-app.use('/', htmlRoutes);
+// const htmlRoutes = require('./server/routes/html-route');
+// app.use('/', htmlRoutes);
 const authRoutes = require('./server/routes/auth-route');
 const apiRoutes = require('./server/routes/api-routes');
 const postRoutes = require('./server/routes/post-routes');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
-app.use('/', postRoutes);
+app.use('/post', postRoutes);
 
 // require('./server/sockets/message-sockets')(io);
 
