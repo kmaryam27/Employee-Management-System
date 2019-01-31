@@ -21,14 +21,16 @@ const Modal = props => {
       <section className="modal-main">
       <h4>{props.postSelected.title}</h4>
       <p><strong>{props.postSelected.subtitle}</strong></p>
+      <div>
+        <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post image"/>
+      </div>
+      
       <span>
         <p>
         {props.postSelected.context}
         </p>
       </span>
-      <p></p>
-        {props.children}
-        <button onClick={props.handleClose}>close</button>
+        <button  onClick={props.handleClose}>close</button>
       </section>
     </div>
   );
@@ -39,6 +41,7 @@ const PostForm = props => (
       {/* <img src={postImg} alt="Recipe" id="post-bg"/> */}
       <div className= "news-grid" key={props.post._id}>
         <div>
+          {console.log(props.post)}
             <img src={String(props.post.imageAddress)} style={styles.img} alt="new Post"/>
         </div> 
         <div className="news-header">

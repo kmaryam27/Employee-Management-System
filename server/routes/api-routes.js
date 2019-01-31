@@ -45,10 +45,17 @@ router.get('/dashboard', (req, res) => {
   items={posts: [], members: []}
   db.Post.find({}).then((data) => {
      items.posts = data;
-     if(req.user.access === 1){
+     if(req.user.access === 2){
+         res.status(200).json({
+          message: "You're authorized to see this secret message.",
+          user: req.user,
+          items: items
+        });
+     }
+     else
+      if(req.user.access === 1){
       db.User.find({}).then((members) => {
         items.members = members; 
-
         res.status(200).json({
           message: "You're authorized to see this secret message.",
           user: req.user,
@@ -114,11 +121,11 @@ router.post("/addPost", (req, res) => {
   const post = {
     title: req.body.title,
     subtitle: req.body.subtitle,
-    imageAddress: req.body.imageAddress,
+    imageAddress: req.body.avatar,
     context: req.body.context
   }
   db.Post.create(post)
-  .then(function(data) {console.log(data._id)
+  .then(function(data) {
      return db.User.findOneAndUpdate({_id: userId}, { $push: { post: data._id } }, { new: true });
   })
   .then(function(result) {

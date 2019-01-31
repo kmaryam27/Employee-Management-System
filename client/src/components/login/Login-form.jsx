@@ -63,6 +63,7 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           <FormControl margin="normal" required fullWidth>
             {/* <MailIcon /> */}

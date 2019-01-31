@@ -27,10 +27,12 @@ class AddNewsPage extends React.Component {
    */
   handleAddNews = event => {
     event.preventDefault();
+
     const { title, subtitle, imageAddress, context} = this.state.post;
+    const avatar = this.props.imgAdd;
     const userId = this.state.user._id;
 
-    API.addPosts(this.props.token,{userId, title, subtitle, imageAddress, context}).then(res => {
+    API.addPosts(this.props.token,{userId, title, subtitle, avatar, context}).then(res => {
 
         alert('new post added successfully');
 

@@ -29,58 +29,15 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import NewsAdd from '@material-ui/icons/LibraryAdd';
 import PortfolioIcon from '@material-ui/icons/Person';
+import PersonPin from '@material-ui/icons/PersonPin'
 import PersonEdit from '@material-ui/icons/Edit';
 import SearchForm from '../../search/Search';
-// import Autosuggest from 'react-autosuggest';
 import API from '../../../utils/API';
-
-const languages = [
-  {name: 'o', year: 1972},
-  {name: 'olm', year: 2012},
-  {name: 'oojl', year: 2012},
-  {name: 'jhjhjh', year: 2012},
-  {name: 'aaa', year: 2012},
-  {name: 'oooo', year: 2012},
-  {name: 'oocc', year: 2012},
-  {name: 'oxsxs', year: 2012}
-]; 
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  console.log('9')
-const inputValue = value.trim().toLowerCase();
-const inputLength = inputValue.length;
-if(inputLength === 0 ) return [];
-let searchArr = [];
-let result = [];
-searchArr = languages.filter(lang =>
-  lang.name.toLowerCase().slice(0, inputLength) === inputValue
-);
-if(searchArr.length > 0) searchArr = searchArr.reverse();
-if(searchArr.length < 3) return searchArr;
-result = searchArr.slice(0, 3);
-return result;
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-<div>
-  {console.log('7')}
-  <strong>{suggestion.name}</strong>
-</div>
-  
-);
-
-
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
+    display: 'flex',
     width: '100%',
   },
   grow: {
@@ -147,16 +104,7 @@ const styles = theme => ({
       display: 'none',
     },
   },
-
-
-
-
-
-
-  root: {
-    display: 'flex',
-  },
-  appBar: {
+appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -207,9 +155,6 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
-
-
-
 });
 
 class PrimarySearchAppBar extends React.Component {
@@ -237,54 +182,55 @@ list: [],
   };
 
 
-  componentDidMount() {
-    this._isMounted = true;
-    window.addEventListener('scroll', this.loadOnScroll);
-    this.loadInitialContent();
-  }
+  // componentDidMount() {
+  //   this._isMounted = true;
+  //   window.addEventListener('scroll', this.props.loadOnScroll);
+  //   this.loadInitialContent();
+  // }
 
-  componentWillUnmount(){
-    this._isMounted = false;
-    window.removeEventListener('scroll', this.loadOnScroll);
-  }
+  // componentWillUnmount(){
+  //   this._isMounted = false;
+    // window.removeEventListener('scroll', this.props.loadOnScroll);
+  // }
 
-  loadOnScroll = (e) =>{
-    // if(this.state.currentCount === this.state.total) return;
-    // const el = document.getElementById('content-end');
-    // var rect = el.getBoundingClientRect();
-    // let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
-    // if(isAtEnd){
-    //   if(!this.state.isFetching){
+  // loadOnScroll = (e) =>{
+  //   if(this.state.currentCount === this.state.total) return;
+  //   const el = document.getElementById('content-end');
+  //   var rect = el.getBoundingClientRect();
+  //   let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
+  //   if(isAtEnd){
+  //     if(!this.state.isFetching){
 
-    //     this.setState({isFetching:true});
+  //       this.setState({isFetching:true});
 
-    //     setTimeout(() => {
-    //       var count = this.state.currentCount + this.state.offset;
-    //       if(count > this.state.total) count = this.state.total;
-    //       if(this.state.currentCount !== this.state.total){
-    //         this.setState({
-    //           isFetching:false,
-    //           currentCount:count,
-    //           list: (this.state.news).slice(0, count)
-    //         })
-    //       }
-    //     }, 1000);
-    //   }
-    // }
-  }
+  //       setTimeout(() => {
+  //         var count = this.state.currentCount + this.state.offset;
+  //         if(count > this.state.total) count = this.state.total;
+  //         if(this.state.currentCount !== this.state.total){
+  //           this.setState({
+  //             isFetching:false,
+  //             currentCount:count,
+  //             list: (this.state.news).slice(0, count)
+  //           })
+  //         }
+  //       }, 1000);
+  //     }
+  //   }
+  // }
 
-    loadInitialContent(){
-      const alldata = this.props.posts.concat(this.props.members);
-          this.setState(prevState => ({
-              postList: prevState.news.concat(this.props.posts),
-              memberList: prevState.news.concat(this.props.members),
-              total: (alldata.length),
-              test: alldata,
-              news: alldata
-            }));
-          let ary = (this.state.test).slice(0,this.state.offset);
-          this.setState({list:ary});
-        }
+    // loadInitialContent(){
+    //   const alldata = this.props.posts.concat(this.props.members);
+    //       this.setState(prevState => ({
+    //           postList: prevState.news.concat(this.props.posts),
+    //           memberList: prevState.news.concat(this.props.members),
+    //           total: (alldata.length),
+    //           test: alldata,
+    //           news: alldata,
+    //           searchVal: this.props.searchVal
+    //         }));
+    //       let ary = (this.state.test).slice(0,this.state.offset);
+    //       this.setState({list:ary});
+    //     }
 
 
   handleOpen = (event) => {
@@ -298,43 +244,41 @@ list: [],
     this.setState({ postSelected: {},open: false });
   };
 
-  handleChange = (event) => {
-    if(event.target.value !== ''){
-      const val = document.getElementById('search-private').value;
-      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
-      console.log(selection)
-      let ary = (selection).slice(0,this.state.offset);
-      this.setState({list:ary});
-    this.setState({searchVal: event.target.value, test: selection, total: selection.length});
-    }else{
-      const selection = this.state.news;
-      let ary = (selection).slice(0,this.state.offset);
-      this.setState({list:ary});
-    this.setState({searchVal: event.target.value, test: selection, total: selection.length});
-    }
+  // handleChange = (event) => {
+  //   if(event.target.value !== ''){
+  //     const val = document.getElementById('search-private').value;
+  //     const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
+  //     console.log(selection)
+  //     let ary = (selection).slice(0,this.state.offset);
+  //     this.setState({list:ary});
+  //   this.setState({searchVal: event.target.value, test: selection, total: selection.length});
+  //   }else{
+  //     const selection = this.state.news;
+  //     let ary = (selection).slice(0,this.state.offset);
+  //     this.setState({list:ary});
+  //   this.setState({searchVal: event.target.value, test: selection, total: selection.length});
+  //   }
     
-  }
+  // }
 
-  SearchOpration = (event) => {
-    event.preventDefault();
-    // document.getElementById('search').autocomplete = "off";
-    const val = document.getElementById('search-private').value;
+  // SearchOpration = (event) => {
+  //   event.preventDefault();
+  //   const val = document.getElementById('search-private').value;
     
-
-    if(val !== ''){
-      const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
-      let ary = (selection).slice(0,this.state.offset);
-      this.setState({list:ary});
-      this.setState({searchVal: '', test: selection, total: selection.length});
-    }else{
-      const selection = this.state.news;
-      let ary = (selection).slice(0,this.state.offset);
-      this.setState({list:ary});
-    this.setState({searchVal: '', test: selection, total: selection.length});
-    }
-    document.getElementById('search-private').value = '';
+  //   if(val !== ''){
+  //     const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
+  //     let ary = (selection).slice(0,this.state.offset);
+  //     this.setState({list:ary});
+  //     this.setState({searchVal: '', test: selection, total: selection.length});
+  //   }else{
+  //     const selection = this.state.news;
+  //     let ary = (selection).slice(0,this.state.offset);
+  //     this.setState({list:ary});
+  //   this.setState({searchVal: '', test: selection, total: selection.length});
+  //   }
+  //   document.getElementById('search-private').value = '';
     
-  }
+  // }
 
 
   onChange = (event, { newValue }) => {
@@ -350,44 +294,6 @@ list: [],
       value: newValue
     });
   };
-
- 
-  // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
-    console.log('1')
-    this.setState({
-      suggestions: getSuggestions(value)
-    });
-  };
-
-  onSuggestionSelected = (event) => {
-    event.preventDefault();
-    console.log('ddddddddd')
-    console.log(event.key)
-
-  };
-
-  showSugggestions = (event) => {
-    event.preventDefault();
-    console.log('rrrrrrr')
-    console.log(event.key)
-  };
- 
-  // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
-    console.log('2')
-    this.setState({
-      suggestions: []
-    });
-console.log('search' + this.state.value)
-    API.searchd(this.props.token, this.state.value).then(result => {
-      console.log('search//////////////')
-      console.log(result.data.news)
-      // this.setState({searchResult: result})
-    })
-  };
- 
 
 
   handleProfileMenuOpen = event => {
@@ -491,36 +397,13 @@ console.log('search' + this.state.value)
               {/* <div className={classes.searchIcon}>
                 <SearchIcon />
               </div> */}
-              <form className="searchForm_div" id="search-form" autoComplete="off" onSubmit={this.SearchOpration}>
-      <div>
-        <div className='search-input'>
-          <input className="validate" type='text' name='search' id='search-private' placeholder="search..." value={this.state.searchVal} onChange={this.handleChange}/>
-        </div>
-      </div>
-    </form>
-              {/* <SearchForm className="dash-search" handleChange={this.handleChange} value={this.state.searchVal} SearchOpration={this.SearchOpration}/> */}
-              {/* <div className="autocomplete" id="autoMainId">
-                            <Autosuggest
-                                suggestions={suggestions}
-                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                                getSuggestionValue={getSuggestionValue}
-                                renderSuggestion={renderSuggestion}
-                                inputProps={inputProps}
-                                onSuggestionSelected={this.onSuggestionSelected}
-                                onSuggestionHighlighted={this.onSuggestionHighlighted}
-                                highlightFirstSuggestion={true}
-                                />
-                            </div> */}
-              {/* <InputBase
-              value={this.state.value}
-              onClick={this.onChange}
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              /> */}
+              <form className="searchForm_div" id="search-form" autoComplete="off" onSubmit={this.props.SearchOpration}>
+                <div>
+                  <div className='search-input'>
+                    <input className="validate" type='text' name='search' id='search-private' placeholder="search..." value={this.props.searchVal} onChange={this.props.handleChange}/>
+                  </div>
+                </div>
+              </form>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -540,7 +423,7 @@ console.log('search' + this.state.value)
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.avatar}/>}
+              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar}/>}
                 
               </IconButton>
             </div>
@@ -571,6 +454,10 @@ console.log('search' + this.state.value)
           </div>
           <Divider />
           <List>
+              <ListItem button key={'dashboard'} onClick={this.props.dashboardCLick}>
+                <ListItemIcon><PersonPin /></ListItemIcon>
+                <ListItemText primary={'dashboard'} />
+              </ListItem>
               <ListItem button key={'portfolio'} onClick={this.props.portfolioCLick}>
                 <ListItemIcon><PortfolioIcon /></ListItemIcon>
                 <ListItemText primary={'portfolio'} />
