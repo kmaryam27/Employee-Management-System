@@ -21,7 +21,7 @@
     top:0; left:0; right:0; bottom: 0;
     background: radial-gradient(circle farthest-side at 0 0, rgba(255,255,255,0) 65%,rgba(255,255,255,.8) 85%,rgba(125,185,232,0) 100%) no-repeat;
     background-position: inherit; 
-    -webkit-mask: url('https://s3.us-east-2.amazonaws.com/final-project-gt/photos/logo-2.png') center;
+    -webkit-mask: url('../../assets/img/logo/logo-2.png') center;
     animation-timing-function: ease-in;
     animation: slide 10s infinite;
   }

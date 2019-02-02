@@ -1,31 +1,27 @@
 import React,{Component} from 'react';
 import '../components/home-page/Home-page.css';
+import '../components/posts/Post-page.css';
 import { Card, CardText   , CardTitle, CardActions} from 'material-ui/Card';
 import Auth from '../utils/Auth';
 import API from '../utils/API';
 import Logo from '../components/logo/Logo';
 import SearchForm from '../components/search/Search';
 import Slider from '../components/slider/Slider';
-// import Post from '../components/posts/Post-page';
-// import Search from '../components/search/Search-page';
 import Footer from '../components/footer/Footer';
-import postImg from '../assets/img/post.png';
-
-import '../components/posts/Post-page.css'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-const Modal = props => {
+const HomeModal = props => {
   return (
     <div className={props.show === true? "modal display-block" : "modal display-none"}>
       <section className="modal-main">
       <h4>{props.postSelected.title}</h4>
       <p><strong>{props.postSelected.subtitle}</strong></p>
       <div>
-        <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post image"/>
+        <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post"/>
       </div>
       
-      <span>
+      <span className="modal-body">
         <p>
         {props.postSelected.context}
         </p>
@@ -38,7 +34,6 @@ const Modal = props => {
 
 const PostForm = props => (
   <div className="news-container" data-news={props.post._id}>
-      {/* <img src={postImg} alt="Recipe" id="post-bg"/> */}
       <div className= "news-grid" key={props.post._id}>
         <div>
           {console.log(props.post)}
@@ -77,30 +72,47 @@ const styles = {
 
 class HomePage extends Component {
   _isMounted = false;
-  state={
-    searchVal: '',
-    SearchedPosts:[],
 
-    total:0,
-  currentCount:3,
-  offset:3,
-  list:[],
-  news:[],
-  isFetching:false,
-  selectedId: 0,
-  open: false ,
-  postSelected: {},
-  test:[]
+  state={
+    searchVal: '',//search var
+    news:[],//get all post
+    total:0,//lazy loading
+    test:[],
+    currentCount:3,
+    offset:3,
+    list:[],
+    isFetching:false,
+    selectedId: 0,//selected post to show with modal
+    open: false ,
+    postSelected: {}
   }
 
 
   componentDidMount() {
     this._isMounted = true;
     window.addEventListener('scroll', this.loadOnScroll);
-    this.loadInitialContent();
+    this.homeLoadInitialContent();
   }
 
-
+  /**
+   * @description get all post and divide them 3 post 3 post for lazy loading
+   * @description use _isMounted just for set state one time that page load
+   */
+  homeLoadInitialContent(){
+    API.getPosts()
+    .then(res => {
+      if (this._isMounted){
+        let tot = res.data;
+        this.setState(prevState => ({
+            news: prevState.news.concat(res.data),
+            test: prevState.news.concat(res.data),
+            total: tot.length
+          }));
+        let ary = (this.state.test).slice(0,this.state.offset);
+        this.setState({list:ary});
+      }
+    });
+}
 
   /**
    * @description update authenticated state on logout
@@ -114,6 +126,9 @@ class HomePage extends Component {
     window.removeEventListener('scroll', this.loadOnScroll);
   }
 
+  /**
+   * @description put post on lazy loading and use timer
+   */
   loadOnScroll = (e) =>{
     if(this.state.currentCount === this.state.total) return;
     const el = document.getElementById('content-end');
@@ -139,23 +154,11 @@ class HomePage extends Component {
     }
   }
 
-    loadInitialContent(){
-      API.getPosts()
-      .then(res => {
-        if (this._isMounted){
-          let tot = res.data;
-          this.setState(prevState => ({
-              news: prevState.news.concat(res.data),
-              test: prevState.news.concat(res.data),
-              total: tot.length
-            }));
-          let ary = (this.state.test).slice(0,this.state.offset);
-          this.setState({list:ary});
-        }
-      });
-  }
 
 
+/**
+ * @description open modal to show post
+ */
   handleOpen = (event) => {
     event.preventDefault();
     let postId = event.target.id;
@@ -163,16 +166,20 @@ class HomePage extends Component {
     this.setState({postSelected: selected[0], open: true });
   };
 
+  /**
+   * @description close moda 
+   */
   handleClose = () => {
     this.setState({ postSelected: {},open: false });
   };
 
+  /**
+   * @description onchange method for search posts
+   */
   handleChange = (event) => {
-    // document.getElementById('search').autocomplete = "on";
     if(event.target.value !== ''){
       const val = document.getElementById('search').value;
       const selection = this.state.news.filter(e => ((e.title.toUpperCase()).includes((val).toUpperCase()) || (e.subtitle.toUpperCase()).includes((val).toUpperCase())) || (e.context.toUpperCase()).includes((val).toUpperCase()));
-      console.log(selection)
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
     this.setState({searchVal: event.target.value, test: selection, total: selection.length});
@@ -185,9 +192,11 @@ class HomePage extends Component {
     
   }
 
+  /**
+   * @description onSubmit Methos for search
+   */
   SearchOpration = (event) => {
     event.preventDefault();
-    // document.getElementById('search').autocomplete = "off";
     const val = document.getElementById('search').value;
     
 
@@ -222,50 +231,41 @@ class HomePage extends Component {
         )}
     </Card>
      {this.state.searchVal.length > 0?
-        <div id="post-loc">
-             <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
+        <div className="post-loc">
+            <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
             {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
-                <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
-                    <Card>
-                      <CardTitle>We Have not this word on searched memory</CardTitle>
-                    </Card>
-                    }
+              <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
+              <Card>
+                <CardTitle>We Have not this word on searched memory</CardTitle>
+              </Card>
+            }
             {
               (this.state.currentCount !== this.state.total)?
-                  <CardActions id="content-end" >
-                      <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
-                  </CardActions>
-              : null
+                <CardActions id="content-end" >
+                  <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
+                </CardActions>: null
             }
-            <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
-          <p>searched</p>
-        </Modal>
+            <HomeModal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}/>
         </div>:
-        <div id="post-loc">
-        <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
-       {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
-           <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
-               <Card>
-                 <CardTitle>We Have no post Yet..</CardTitle>
-               </Card>
-               }
-       {
-         (this.state.currentCount !== this.state.total)?
-             <CardActions id="content-end" >
-                 <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
-             </CardActions>
-         : null
-       }
-       <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
-     <p>Modal</p>
-     <p>Data</p>
-   </Modal>
-   </div>
-      
-      
+        <div className="post-loc">
+          <CardTitle  title="New Posts" subtitle="recent most important news about our group" />
+          {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
+            <PostForm handleOpen={this.handleOpen} post={e} key={i}/>):
+            <Card>
+              <CardTitle>We Have no post Yet..</CardTitle>
+            </Card>
+          }
+          {
+            (this.state.currentCount !== this.state.total)?
+              <CardActions id="content-end" >
+                <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
+              </CardActions>: null
+          }
+          <HomeModal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}/>
+        </div>
       } 
-   <Footer/>
-  </div>)
+      <Footer/>
+    </div>)
   }
 };
 

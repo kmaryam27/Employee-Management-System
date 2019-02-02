@@ -34,7 +34,7 @@ const mapStyles = {
                             }}
                         /> */}
                 </div> 
-                <div className="left-align">
+                <div className="footer-txt">
                         <p>Final project In georgia Tech Global Learning Center</p>
                         <p> Employee Management system MERN Application </p>
                         <p>by: <strong>Maryam keshavarz</strong> </p>
@@ -42,18 +42,6 @@ const mapStyles = {
                         <p><a href="https://github.com/hannahpatellis">Hannah Patellis</a></p>
                         <p><a href="https://github.com/CjJordan">Cj Jordan</a></p> 
                     </div>
-                    {/* 
-                    <div  className="left-align">
-                    
-                    </div>
-                    <div className="left-align">
-                        <p><i className="fa fa-at mr-3">Heroku: </i><a href="https://final-mongo.herokuapp.com/">https://final-mongo.herokuapp.com/</a></p>
-                    </div>
-                    
-                    <div className="center-align">
-                        <hr/>
-                        <p className="text-center text-md-left">© 2019 Copyright: <strong>Maryam Keshavarz</strong></p>
-                    </div>   */}
             </footer>
         )
     }

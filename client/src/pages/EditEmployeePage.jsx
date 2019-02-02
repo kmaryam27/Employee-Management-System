@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SignUpForm from '../components/sign-up/Sign-up';
 import API from '../utils/API';
 
 class EditEmployeePage extends React.Component {
-  // set the initial component state
   state = {
     errors: {},
     access: 2
@@ -15,8 +13,8 @@ class EditEmployeePage extends React.Component {
   }
 
   /**
-   * Process the form.
-   * create a string for an HTTP body message
+   *@description  Process the form.
+   *@description  create a string for an HTTP body message
    *
    * @param {object} event - the JavaScript event object
    */
@@ -41,7 +39,7 @@ class EditEmployeePage extends React.Component {
   }
 
   /**
-   * Change the user object.
+   * @description Change the user object.
    *
    * @param {object} event - the JavaScript event object
    */
@@ -56,7 +54,7 @@ class EditEmployeePage extends React.Component {
   }
 
   /**
-   * Render the component.
+   * @description Render the component.
    */
   render() {
     return (

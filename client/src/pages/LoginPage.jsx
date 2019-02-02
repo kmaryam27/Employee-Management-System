@@ -35,24 +35,19 @@ class LoginPage extends React.Component {
         });
   }
   /**
-   * Process the form.
-   *
+   * @description Process the form.
+   *@description 45: create a string for an HTTP body message
    * @param {object} event - the JavaScript event object
    */
   processForm = event => {
-    // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    // create a string for an HTTP body message
     const { email, password } = this.state.user;
 
     API.login({email, password}).then(res => {
       if(this._isMounted){
-        // save the token
         Auth.authenticateUser(res.data.token);
-        // update authenticated state
         this.props.toggleAuthenticateStatus();
-        // redirect signed in user to dashboard
         this.props.history.push('/dashboard');
         
       }
@@ -70,8 +65,7 @@ class LoginPage extends React.Component {
   }
 
   /**
-   * Change the user object.
-   *
+   * @description Change the user object.
    * @param {object} event - the JavaScript event object
    */
   changeUser = event => {
@@ -85,7 +79,7 @@ class LoginPage extends React.Component {
   }
 
   /**
-   * Render the component.
+   * @description Render the component.
    */
   render() {
     return (

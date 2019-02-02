@@ -1,7 +1,7 @@
 class Auth {
 
     /**
-     * Authenticate a user. Save a token string in Local Storage
+     * @description Authenticate a user. Save a token string in Local Storage
      *
      * @param {string} token
      */
@@ -10,7 +10,7 @@ class Auth {
     }
   
     /**
-     * Check if a user is authenticated - check if a token is saved in Local Storage
+     * @description Check if a user is authenticated - check if a token is saved in Local Storage
      *
      * @returns {boolean}
      */
@@ -19,7 +19,7 @@ class Auth {
     }
   
     /**
-     * Deauthenticate a user. Remove a token from Local Storage.
+     *@description  Deauthenticate a user. Remove a token from Local Storage.
      *
      */
     static deauthenticateUser() {
@@ -27,7 +27,7 @@ class Auth {
     }
   
     /**
-     * Get a token value.
+     *@description  Get a token value.
      *
      * @returns {string}
      */

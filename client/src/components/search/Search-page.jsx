@@ -161,10 +161,7 @@ class Searchs extends React.Component {
                   </CardActions>
               : null
             }
-            <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}>
-          <p>searchhhhhh</p>
-          <p>Data</p>
-        </Modal>
+            <Modal show={this.state.open} handleClose={this.handleClose} postSelected={this.state.postSelected}/>
         </div>
     );
   }

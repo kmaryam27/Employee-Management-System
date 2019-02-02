@@ -20,8 +20,8 @@ class AddNewsPage extends React.Component {
   }
 
   /**
-   * Process the form.
-   * create a string for an HTTP body message
+   * @description Process the form.
+   * @description create a string for an HTTP body message
    *
    * @param {object} event - the JavaScript event object
    */
@@ -33,6 +33,8 @@ class AddNewsPage extends React.Component {
     const userId = this.state.user._id;
 
     API.addPosts(this.props.token,{userId, title, subtitle, avatar, context}).then(res => {
+
+      this.props.sendMessage(this.state.user.name +' ye post add kard');
 
         alert('new post added successfully');
 
@@ -47,7 +49,7 @@ class AddNewsPage extends React.Component {
   }
 
   /**
-   * Change the user object.
+   * @description Change the user object.
    *
    * @param {object} event - the JavaScript event object
    */
@@ -62,7 +64,7 @@ class AddNewsPage extends React.Component {
   }
 
   /**
-   * Render the component.
+   *@description Render the component.
    */
   render() {
     return (

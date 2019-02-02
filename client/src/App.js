@@ -11,20 +11,28 @@ import LoginPage from './pages/LoginPage.jsx';
 import LogoutFunction from './pages/LogoutFunction.jsx';
 import SignUpPage from './pages/SignUpPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
-// import PostModal from './pages/SimpleModalWrapped';
-// import { Modal } from '@material-ui/core';
+import io from 'socket.io-client'
+let socket = io(`http://localhost:3001`);
 
 class App extends Component {
 
   state = {
-    authenticated: false
+    authenticated: false,
+    socketData: {}
   }
 
   /**
    * @description in load page check if user is logged in on refresh
    */
   componentDidMount() {
-    this.toggleAuthenticateStatus()
+    this.toggleAuthenticateStatus();
+    socket.on(`emit-task`, data => {
+      this.setState({ socketData: data })
+    })
+  }
+
+  sendMessage = message => {
+    socket.emit(`update-task`, message);
   }
 
   /**
@@ -41,7 +49,7 @@ class App extends Component {
           <div>
             <div className="top-bar">
               <div className="top-bar-left">
-                <Social />
+                <Social/>
               </div>
               {this.state.authenticated ? (
                 <div className="top-bar-right">
@@ -51,17 +59,15 @@ class App extends Component {
               ) : (
                 <div className="top-bar-right">
                 <Link className="log-register" to="/login">Log in</Link>
-                {/* <Link to="/signup" className="log-register">Sign up</Link> */}
                 </div>
               )}
             </div>
             <Switch>
               <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
               <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
-              <PrivateRoute exact path="/dashboard" component={DashboardPage}/>
+              <PrivateRoute exact path="/dashboard" socket = { socket } sendMessage = { this.sendMessage } socketData={this.state.socketData} component={DashboardPage}/>
               <LoggedOutRoute path="/signup" component={SignUpPage}/>
               <Route path="/logout" component={LogoutFunction}/>
-              {/* <Route path="/:post_id" component={PostModal}/> */}
             </Switch>
           </div>
 

@@ -5,7 +5,13 @@ const validator = require('validator');
 const passport = require('passport');
 const db = require('../models')
 
-
+/**
+ * Validate the sign up form
+ *
+ * @param {object} payload - the HTTP body message
+ * @returns {object} The result of validation. Object contains a boolean validation result,
+ * @description errors tips, and a global message for the whole form.
+ */
 function validateSignupForm(payload) {
   const errors = {};
   let isFormValid = true;
@@ -91,8 +97,6 @@ router.post('/signup', (req, res, next) => {
     if (err) {
       
       if (err.name === 'MongoError' && err.code === 11000) {
-        // the 11000 Mongo code is for a duplication email error
-        // the 409 HTTP status code is for conflict error
         return res.status(409).json({
           success: false,
           message: 'Check the form for errors.',
@@ -115,7 +119,9 @@ router.post('/signup', (req, res, next) => {
   })(req, res, next);
 });
 
-
+/**
+ * @description add new post 
+ */
 router.post("/addPost", (req, res) => {
   const userId = req.body.userId;
   const post = {
@@ -136,46 +142,41 @@ router.post("/addPost", (req, res) => {
   });
 });
 
+/**
+ * @description update post
+ */
+router.put('/update', (req, res, next) => {
+  console.log(req.body)
+  // db.ToDoList.findOneAndUpdate({_id: req.body.task_id}, {$set: {compeleted: req.body.compeleted}})
+  // .then(function (dbtodolist) {
+  //     res.json(dbtodolist);
+  // })
+  // .catch(function(err) {
+  //     res.json(err);
+  // });
+
+});
 
 
-router.get('/search/:chosen', function(req, res) {
+router.delete('/deletepost/:id', (req, res) => {
+  const chosen = req.params.id;
+  db.Post.deleteOne({_id: chosen}).then((result) => {
+      res.json({message: "deleted"})
+  })
+  .catch(function(err){
+    res.json(err);
+  });
+});
 
-  let chosen = String(req.params.chosen).toLowerCase();
-  let dataArray = {users: [], news:[]};
- 
-
-      db.News.find({}).then(function(data, err) {
-        if (err) res.json(err);
-        else{
-          if(data.length > 0)
-          data.forEach(e => {
-            console.log(e.title);
-            console.log(chosen)
-            e.title.toLowerCase().includes(chosen)
-              ? dataArray.news.push(e)
-              : e.subtitle.toLowerCase().includes(chosen)
-                ? dataArray.news.push(e): 0;
-          });
-          // if(req.user.access !== 1)
-          res.json(dataArray);
-          // else{
-          //   db.User.find({}).then(function(data, err) {
-          //     if (err) res.json(dataArray);
-          //     else{
-          //       data.forEach(e => {
-          //         e.name.toLowerCase().includes(choosen.toLowerCase())
-          //           ? dataArray.users.push(e)
-          //           : e.email.toLowerCase().includes(choosen.toLowerCase())
-          //             ? dataArray.users.push(e): 0;
-          //       });
-          //     }
-          //   });
-          // }
-        }
-      }).catch(err => {
-        console.log(err);
-      });
-    });
+router.delete('/delete/:id', (req, res) => {
+  const chosen = req.params.id;
+  db.User.deleteOne({_id: chosen}).then((result) => {
+      res.json({message: "deleted"})
+  })
+  .catch(function(err){
+    res.json(err);
+  });
+});
 
 
 

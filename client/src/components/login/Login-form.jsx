@@ -4,23 +4,17 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Card, CardText } from 'material-ui/Card';
+import {CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-import MailIcon from '@material-ui/icons/Mail';
-import LockOpen from '@material-ui/icons/LockOpen';
 
 const styles = theme => ({
   main: {
     width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    display: 'block',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -41,12 +35,11 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing.unit,
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
-    //  background: linear-gradient(90deg, #DA6C6C, #5C1010, #DA6C6C)
   },
 });
 
@@ -66,14 +59,12 @@ function SignIn(props) {
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           <FormControl margin="normal" required fullWidth>
-            {/* <MailIcon /> */}
             <TextField id="email" name="email" autoComplete="email" autoFocus 
             errorText={props.errors.email} onChange={props.onChange} value={props.user.email} 
             floatingLabelText="Email"
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            {/* <LockOpen/> */}
             <TextField name="password" type="password" id="password" autoComplete="current-password" 
              onChange={props.onChange} errorText={props.errors.password} value={props.user.password} 
              floatingLabelText="Password"

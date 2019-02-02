@@ -21,7 +21,6 @@ function ImageAvatars(props) {
   return (
     <Grid container justify="center" alignItems="center">
       <Avatar alt="Remy Sharp" src={props.avatar} className={classes.avatar} />
-      {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.bigAvatar} /> */}
     </Grid>
   );
 }

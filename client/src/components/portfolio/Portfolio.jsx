@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from 'material-ui/TextField';
-import Add from '@material-ui/icons/Add';
+import Select from '@material-ui/core/Select';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import ImageUploader from '../image-upload/Image-upload';
 
 const styles = theme => ({
   main: {
     width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    display: 'block',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -35,7 +36,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%',
     marginTop: theme.spacing.unit,
   },
   submit: {
@@ -48,64 +49,89 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
-  postContent: {
-    minHeight: 120,
-  }
 });
 
-function PostForm(props) {
+function PortfolioForm(props) {
   const { classes } = props;
+
   return (
     <main className={classes.main}>
+    {console.log('porfolio form')}
+    {console.log(props.user.email)}
       <CssBaseline />
       <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <Add />
-        </Avatar>
+          <img style={{height: '100px', width: '100px'}} src={props.user.avatar} />
         <Typography component="h1" variant="h5">
-          New Post
+          Portfolio
         </Typography>
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
 
         <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/>
-    
+
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           
         <FormControl margin="normal" required fullWidth>
-            <TextField id="title" name="title" autoComplete="title" autoFocus 
-            errorText={props.errors.title} onChange={props.onChange} value={props.post.title} 
-            floatingLabelText="Title"
+            <TextField id="name" name="name" /*autoComplete="name"*/ autoFocus 
+            errorText={props.errors.name} onChange={props.onChange} placeholder={props.user.name} 
+            floatingLabelText="Name"
             />
           </FormControl>
           
           <FormControl margin="normal" required fullWidth>
-            <TextField id="subtitle" name="subtitle" autoComplete="subtitle" 
-            errorText={props.errors.subtitle} onChange={props.onChange} value={props.post.subtitle} 
-            floatingLabelText="Subtitle"
+            <TextField id="email" name="email" /*autoComplete="email" */ 
+            errorText={props.errors.email} onChange={props.onChange} placeholder={props.user.email} 
+            floatingLabelText="Email"
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <textarea className={classes.postContent} placeholder="import content ...." name="context" id="context"
-             onChange={props.onChange} value={props.post.context}  ></textarea>
+            <TextField name="password" type="password" id="password" /*autoComplete="current-password" */
+             onChange={props.onChange} errorText={props.errors.password} placeholder={props.user.password} 
+             floatingLabelText="Password"
+             />
           </FormControl>
           
-
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-           Add Post
-          </Button>
+        {props.user.access === 2? <div><InputLabel htmlFor="outlined-age-native-simple">
+            job Title: Employee
+          </InputLabel>
+          </div>:
+          <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel
+            htmlFor="outlined-age-native-simple"
+          >
+            job Title
+          </InputLabel>
+          <Select
+            native
+            value={props.user.access}
+            onChange={props.onChange}
+            input={
+              <OutlinedInput
+              labelWidth={100}
+                name="access"
+                id="outlined-age-native-simple"
+              />
+            }
+          >
+            <option value={1}>Manager</option>
+            <option value={2}>Employee</option>
+          </Select>
+        </FormControl>
+        }
+          {/* <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+            update
+          </Button> */}
         </form>
       </Paper>
     </main>
   );
 }
 
-PostForm.propTypes = {
+PortfolioForm.propTypes = {
   classes: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PostForm);
+export default withStyles(styles)(PortfolioForm);

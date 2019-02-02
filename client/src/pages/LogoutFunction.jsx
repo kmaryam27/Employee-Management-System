@@ -4,11 +4,11 @@ import Auth from '../utils/Auth';
 
 
 class LogoutFunction extends React.Component {
-
+/**
+ * @description change the current URL to / after logout
+ */
   componentDidMount() {
-    // deauthenticate user
     Auth.deauthenticateUser();
-    // change the current URL to / after logout
     this.props.history.push('/');
   }
 

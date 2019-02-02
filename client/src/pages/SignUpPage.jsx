@@ -4,7 +4,6 @@ import SignUpForm from '../components/sign-up/Sign-up';
 import API from '../utils/API';
 
 class SignUpPage extends React.Component {
-  // set the initial component state
   state = {
     errors: {},
     user: {
@@ -15,13 +14,9 @@ class SignUpPage extends React.Component {
     }
   }
 
-  componentDidMount(){
-    this.setState({avatar: this.props.imgAdd})
-  }
-
   /**
-   * Process the form.
-   * create a string for an HTTP body message
+   * @description Process the form.
+   * @description  create a string for an HTTP body message
    *
    * @param {object} event - the JavaScript event object
    */
@@ -32,7 +27,6 @@ class SignUpPage extends React.Component {
     API.signUpm(this.props.token,{name, email, password, access, avatar}).then(res => {
 
         localStorage.setItem('successMessage', res.data.message);
-
         alert('Employee added successfully');
 
     }).catch(( {response} ) => {
@@ -46,7 +40,7 @@ class SignUpPage extends React.Component {
   }
 
   /**
-   * Change the user object.
+   * @description Change the user object.
    *
    * @param {object} event - the JavaScript event object
    */
@@ -61,7 +55,7 @@ class SignUpPage extends React.Component {
   }
 
   /**
-   * Render the component.
+   *@description  Render the component.
    */
   render() {
     return (

@@ -27,7 +27,6 @@ const LeftArrow = (props) => {
 const RightArrow = (props) => {
     return (
       <div className="next-arrow" onClick={props.goToNextSlide}>
-      {/* {console.log(props.goToNextSlide)} */}
         <i className="fas fa-angle-right fa-2x"></i>
       </div>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 const Social = props => (
     <nav id="social-loc">
         <a href="/"><i className="fas fa-home fa-2x"></i></a>

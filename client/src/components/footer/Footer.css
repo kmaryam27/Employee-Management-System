@@ -4,9 +4,14 @@ footer{
     height: 300px;
 }
 
-.left-align{
+.footer-txt{
+    padding-left: 20px;
     float: left;
     text-align: left;
+}
+
+.footer-txt a{
+    color: gold;
 }
 
 .right-align{
@@ -32,8 +37,9 @@ footer{
         text-align: center;
     }
 
-    .left-align{
+    .footer-txt{
         float: none;
+        padding-left: 5px;
         text-align: left;
     }
     
