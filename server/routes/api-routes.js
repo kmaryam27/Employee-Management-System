@@ -145,7 +145,7 @@ router.post("/addPost", (req, res) => {
 /**
  * @description update post
  */
-router.put('/update', (req, res, next) => {
+router.put('/updatepost', (req, res, next) => {
   console.log(req.body)
   // db.ToDoList.findOneAndUpdate({_id: req.body.task_id}, {$set: {compeleted: req.body.compeleted}})
   // .then(function (dbtodolist) {
@@ -159,9 +159,39 @@ router.put('/update', (req, res, next) => {
 
 
 router.delete('/deletepost/:id', (req, res) => {
+  console.log(req.params);
   const chosen = req.params.id;
   db.Post.deleteOne({_id: chosen}).then((result) => {
-      res.json({message: "deleted"})
+    console.log(result)
+    db.Post.find({}).then((data) => {
+      items.posts = data;
+      if(req.user.access === 2){
+          res.status(200).json({
+           message: "the selected post romoved successfully",
+           user: req.user,
+           items: items
+         });
+      }
+      else
+       if(req.user.access === 1){
+       db.User.find({}).then((members) => {
+         items.members = members; 
+         res.status(200).json({
+           message: "the selected post romoved successfully",
+           user: req.user,
+           items: items
+         });
+ 
+       }).catch(function(err) {
+         res.json(items);
+       });
+      }
+     })
+     .catch(function(err) {
+       res.json(err);
+     });
+
+
   })
   .catch(function(err){
     res.json(err);
@@ -169,9 +199,39 @@ router.delete('/deletepost/:id', (req, res) => {
 });
 
 router.delete('/delete/:id', (req, res) => {
+  console.log(req.params);
   const chosen = req.params.id;
   db.User.deleteOne({_id: chosen}).then((result) => {
-      res.json({message: "deleted"})
+    console.log(result)
+    db.Post.find({}).then((data) => {
+      items.posts = data;
+      if(req.user.access === 2){
+          res.status(200).json({
+           message: "the selected user romoved successfully",
+           user: req.user,
+           items: items
+         });
+      }
+      else
+       if(req.user.access === 1){
+       db.User.find({}).then((members) => {
+         items.members = members; 
+         res.status(200).json({
+           message: "the selected user romoved successfully",
+           user: req.user,
+           items: items
+         });
+ 
+       }).catch(function(err) {
+         res.json(items);
+       });
+      }
+     })
+     .catch(function(err) {
+       res.json(err);
+     });
+
+
   })
   .catch(function(err){
     res.json(err);

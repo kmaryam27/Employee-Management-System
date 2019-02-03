@@ -43,6 +43,7 @@ const Modal = props => {
           </p>
         </span>
         <button style={{textAlign:"center"}} onClick={props.handleClose}>close</button>
+        <button data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>update</button>
         </section>:
         <section className="modal-main" style={{textAlign:"center"}}>
           <h4 style={{textAlign:"center"}}>{props.postSelected.name}</h4>
@@ -51,6 +52,7 @@ const Modal = props => {
           <img style={{width:'200px', height:'200px'}} src={props.postSelected.avatar} alt="user avatar"/>
         </div>
         <button style={{textAlign:"center"}} onClick={props.handleClose}>close</button>
+        <button data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>update</button>
         </section>
         }
     </div>
@@ -72,7 +74,7 @@ const PostForm = props => (
               <h4><strong>{props.post.title}</strong></h4>
               <p>{props.post.subtitle}</p>
               <button data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              {/* <button data-id={props.post._id} value="update" onClick={props.handleUpdatePost}>update</button> */}
+              <button data-id={props.post._id} value="update" onClick={props.handleUpdatePost}>update</button>
               <button data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</button>
           </div>
       </div> :
@@ -194,6 +196,56 @@ class DashboardPage extends React.Component {
     console.log(postId)
     console.log(this.state.token)
      API.removePost(this.state.token, postId).then(res => {
+
+
+      const allSrverdata = res.data.items.posts.concat(res.data.items.members);
+      const val = document.getElementById('search-private').value;
+      if(val !== ''){
+        const selection = allSrverdata.filter(e => 
+          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.context.toUpperCase()).includes((val).toUpperCase())):
+                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
+      }else{
+        let ary = [];
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: [], total: 0, open: false});
+      }
+
+
+      alert(res.data.message);
+      
+     })
+  };
+
+
+  handleDeleteUser = (event) => {
+    event.preventDefault();
+    let postId = event.target.getAttribute('data-id');
+     API.removeUser(this.state.token, postId).then(res => {
+      const allSrverdata = res.data.items.posts.concat(res.data.items.members);
+      const val = document.getElementById('search-private').value;
+      if(val !== ''){
+        const selection = allSrverdata.filter(e => 
+          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.context.toUpperCase()).includes((val).toUpperCase())):
+                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
+      }else{
+        let ary = [];
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: [], total: 0, open: false});
+      }
+
+
       alert(res.data.message);
       
      })
@@ -202,11 +254,7 @@ class DashboardPage extends React.Component {
 
   handleUpdatePost = (event) => {
     event.preventDefault();
-    console.log('inja')
-
     let postId = event.target.getAttribute('data-id');
-    console.log(postId)
-    console.log(this.state.token)
     const selected = this.state.allData.filter(e => e._id === postId);
      API.updatePost(this.state.token, selected).then(res => {
       alert(res.data.message);
@@ -239,9 +287,6 @@ class DashboardPage extends React.Component {
           allDataSearch: alldata,
           allData: alldata
         });
-
-        // let ary = (this.state.allDataSearch).slice(0,this.state.offset);
-        // this.setState({list:ary});
     }).catch((err) => console.log(err)); 
   }
   }
@@ -447,7 +492,7 @@ class DashboardPage extends React.Component {
             <div className="post-loc">
               <CardTitle  title="Search" subtitle="search all post and modigy your posts" style={{textAlign:"center"}}/>
                 {this.state.list.length > 0 ?(this.state.list).map((e,i) =>  
-                  <PostForm handleOpen={this.handleOpen} post={e} user={this.state.user} key={i} handleDeletePost={this.handleDeletePost}/>):
+                  <PostForm handleOpen={this.handleOpen} post={e} user={this.state.user} key={i} handleUpdatePost={this.handleUpdatePost} handleDeleteUser={this.handleDeleteUser} handleDeletePost={this.handleDeletePost}/>):
                   <Card>
                     <CardTitle>We Have not this word on searched memory</CardTitle>
                   </Card>
@@ -458,7 +503,7 @@ class DashboardPage extends React.Component {
                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
                     </CardActions>: null
                 }
-                    <Modal show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
+                    <Modal handleUpdatePost={this.handleUpdatePost} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
                 </div>:
                 this.state.list.length > 0 ?
                 <div className="post-loc">
