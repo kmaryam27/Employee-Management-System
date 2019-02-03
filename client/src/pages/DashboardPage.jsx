@@ -19,8 +19,8 @@ const config = {
     bucketName: 'final-project-gt',
     dirName: 'photos',
     region: 'us-east-2',
-    accessKeyId: 'AKIAIW7332XREZCP7M5A',
-    secretAccessKey: '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',
+    accessKeyId: '',
+    secretAccessKey: '',
 }
 
 /**
