@@ -15,7 +15,7 @@ router.get('/post', (req, res) => {
           });
 });
 
-router.get('/dashboard/getImage/:id', (req, res, next) => {
+router.get('/getImage/:id', (req, res, next) => {
   console.log(req.params.id);
   res.sendFile(path.join(__dirname, `../public/${req.params.id}.png`));
 });
