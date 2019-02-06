@@ -1,6 +1,4 @@
 {
     "MongoURI": "mongodb://admin:myjs123@ds139899.mlab.com:39899/heroku_qqk56k4d",
-    "jwtSecret": "Harry Potter!!",
-    "AWS_SECRET_ACCESS": "7e3HU5tH+MKyOSAcJtvwg5FzFW3+TDZoH7gsjvl4",
-    "AWS_ACCESS_KEY": "AKIAIN6MT6X2DA7GKNCQ"
+    "jwtSecret": "Harry Potter!!"
   }

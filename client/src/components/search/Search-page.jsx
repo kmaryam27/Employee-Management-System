@@ -119,7 +119,6 @@ class Searchs extends React.Component {
         API.searchHome(this.props.searchVal)
         .then(res => {
           if (this._isMounted){
-              console.log(res.data.posts)
             let tot = res.data.posts;
             this.setState(prevState => ({
                 news: prevState.news.concat(res.data.posts),

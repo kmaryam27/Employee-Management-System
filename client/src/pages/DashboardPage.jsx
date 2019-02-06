@@ -9,19 +9,21 @@ import EditEmployeePage from './EditEmployeePage';
 import { white } from 'material-ui/styles/colors';
 import { Card, CardTitle, CardActions} from 'material-ui/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from 'material-ui/TextField';
+import FormControl from '@material-ui/core/FormControl';
 
 /**
  * @description Optional Import for upload images in aws.amazon.com
  */
-import { uploadFile } from 'react-s3';
+// import { uploadFile } from 'react-s3';
  
-const config = {
-    bucketName: 'final-project-gt',
-    dirName: 'photos',
-    region: 'us-east-2',
-    accessKeyId: '',
-    secretAccessKey: '',
-}
+// const config = {
+//     bucketName: 'final-project-gt',
+//     dirName: 'photos',
+//     region: '',
+//     accessKeyId: '',
+//     secretAccessKey: '',
+// }
 
 /**
  * @description dashboard modal form
@@ -32,15 +34,25 @@ const Modal = props => {
     <div className={props.show === true? "modal display-block" : "modal display-none"}>
     {(props.postSelected.title)?
       <section className="modal-main" style={{textAlign:"center"}}>
-        <h4 style={{textAlign:"center"}}>{props.postSelected.title}</h4>
-        <p style={{textAlign:"center"}}><strong>{props.postSelected.subtitle}</strong></p>
+       <FormControl margin="normal" required fullWidth  style={{textAlign:"center"}}>
+        <TextField data-id="title" style={{textAlign:"center", paddingLeft:"5px"}} autoFocus 
+              onChange={props.onChangeModel} value={props.postModel.title} placeholder={props.postSelected.title}
+              floatingLabelText="Title"
+              />
+       </FormControl>
+       <FormControl margin="normal" required fullWidth  style={{textAlign:"center", paddingLeft:"5px"}}>  
+        <TextField data-id="subtitle"  
+            onChange={props.onChangeModel} value={props.postModel.subtitle} placeholder={props.postSelected.subtitle}
+            floatingLabelText="Subtitle"
+            />
+      </FormControl>
         <div>
           <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post image"/>
         </div>
         <span>
-          <p>
-          {props.postSelected.context}
-          </p>
+          <textarea data-id="context"  style={{width:'99%', height:'auto'}}
+            onChange={props.onChangeModel} value={props.postModel.context} placeholder={props.postSelected.context}
+            ></textarea>
         </span>
         <button style={{textAlign:"center"}} onClick={props.handleClose}>close</button>
         <button data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>update</button>
@@ -74,7 +86,6 @@ const PostForm = props => (
               <h4><strong>{props.post.title}</strong></h4>
               <p>{props.post.subtitle}</p>
               <button data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              <button data-id={props.post._id} value="update" onClick={props.handleUpdatePost}>update</button>
               <button data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</button>
           </div>
       </div> :
@@ -87,7 +98,6 @@ const PostForm = props => (
             <h4>Employee: <strong>{props.post.name}</strong></h4>
             <p>{props.post.email}</p>
               <button data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              {/* <button data-id={props.post._id} value="update" onClick={props.handleUpdateUser}>update</button> */}
               <button data-id={props.post._id} value="delete" onClick={props.handleDeleteUser}>delete</button>
         </div>
       </div> :null
@@ -133,11 +143,8 @@ class DashboardPage extends React.Component {
     imgAdd: '',
     searchVal: '',//search navbar var
     posts:[], //all post + users
-    // members: [],
     allData: [],
     allDataSearch: [],
-    // postList:[],
-    // memberList:[],
     total: 0,//lazy loading
     currentCount:0,
     offset:3,
@@ -146,23 +153,16 @@ class DashboardPage extends React.Component {
     userPosts: [],//posts for update
     seleced: [],//show on modal
     postSelected: {},
-    notifications: 0,//notifications
-    notificationList: []
+    postModel: {
+      title: '',//update
+      subtitle: '',
+      context: '',
+      imageAddress: ''
+  },
+  notificationList:[]
   }
 
-  manageSockets = () => {
-
-    if(this.props.socketData === {}){
-      if(this.props.socketData.length !== 0){
-      // console.log('**********')
-      let mynotifications = this.state.notificationList;
-      mynotifications.push(this.props.socketData);
-      this.setState({notifications: this.state.notifications + 1,
-      notificationList: mynotifications})
-      }
-    }
-  }
-
+  
     /**
    * This method will be executed after initial rendering.
    */
@@ -193,8 +193,6 @@ class DashboardPage extends React.Component {
   handleDeletePost = (event) => {
     event.preventDefault();
     let postId = event.target.getAttribute('data-id');
-    console.log(postId)
-    console.log(this.state.token)
      API.removePost(this.state.token, postId).then(res => {
 
 
@@ -255,8 +253,26 @@ class DashboardPage extends React.Component {
   handleUpdatePost = (event) => {
     event.preventDefault();
     let postId = event.target.getAttribute('data-id');
-    const selected = this.state.allData.filter(e => e._id === postId);
-     API.updatePost(this.state.token, selected).then(res => {
+    const selected = this.state.postModel;
+     API.updatePost(this.state.token, {postId, selected}).then(res => {
+      const allSrverdata = res.data.items.posts.concat(res.data.items.members);
+      const val = document.getElementById('search-private').value;
+      if(val !== ''){
+        const selection = allSrverdata.filter(e => 
+          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.context.toUpperCase()).includes((val).toUpperCase())):
+                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
+                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false, postModel: {}});
+      }else{
+        let ary = [];
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: [], total: 0, open: false, postModel: {}});
+      }
+
       alert(res.data.message);
      })
   };
@@ -272,8 +288,7 @@ class DashboardPage extends React.Component {
     .then(res => {
       
       const alldata = res.data.items.posts.concat(res.data.items.members);
-      console.log(alldata)
-      console.log('alldata')
+     
       this.setState({
           secretData: res.data.message,
           user: res.data.user,
@@ -285,9 +300,10 @@ class DashboardPage extends React.Component {
           memberList: res.data.items.members,
           total: (alldata.length),
           allDataSearch: alldata,
-          allData: alldata
+          allData: alldata,
+          notificationList: res.data.items.act
         });
-    }).catch((err) => console.log(err)); 
+    }).catch((err) => alert("we have some problem in database please run agin or call for support")); 
   }
   }
 
@@ -303,7 +319,6 @@ class DashboardPage extends React.Component {
 
   portfolioCLick = e => {
     e.preventDefault();
-    {console.log(this.state.user)}
     this.setState({
       dashboard:false,
       portfolio: true, 
@@ -380,19 +395,22 @@ class DashboardPage extends React.Component {
     var mydiv = document.getElementById("upload-msg");
     mydiv.innerHTML = "please wait ...";
     this.setState({file: event.target.files[0]});
-    uploadFile(event.target.files[0] , config)
-    .then(data => {
-      this.setState({imgAdd: data.location});
-      mydiv.innerHTML = "File uploaded";
-    })
-    .catch(err => {
-      mydiv.innerHTML = "";
-      alert('problem in uploading image please try it later or call to suport services');
-    })
+    console.log(event.target.files[0])
+    // const fd = new FormData();
+    // fd.append('image', event.target.files[0], event.target.files[0].name);
+    
+    const data = new FormData();
+    data.append('file', event.target.files[0]);
+    data.append('filename', (event.target.files[0].name)/*.split('.').slice(0, -1).join('.')*/);
+
+    API.uploadFile(Auth.getToken(),data).then((response) => {
+      console.log(response)
+        // this.setState({ imageURL: `http://localhost:8000/${body.file}` });
+      
+    });
   }
 
-  loadOnScroll = (e) =>{console.log('scroll')
-  console.log(this.state.currentCount + '***' + this.state.total)
+  loadOnScroll = (e) =>{
     if(this.state.currentCount === this.state.total) return;
     const el = document.getElementById('contentd-end');
     if(el){
@@ -400,18 +418,13 @@ class DashboardPage extends React.Component {
       var rect = el.getBoundingClientRect();
     let isAtEnd = (rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) 
     if(isAtEnd){
-      console.log(this.state.isFetching)
       if(!this.state.isFetching){
-
         this.setState({isFetching:true});
 
         setTimeout(() => {
           var count = this.state.currentCount + this.state.offset;
-          console.log('this.state.count')
-          console.log(this.state.count)
           if(count > this.state.total) count = this.state.total;
           if(this.state.currentCount !== this.state.total){
-            console.log(this.state.allData)
             this.setState({
               isFetching:false,
               currentCount:count,
@@ -449,14 +462,13 @@ class DashboardPage extends React.Component {
     event.preventDefault();
     let val = document.getElementById('search-private').value;
     
-    if(val !== ''){console.log('enter ' + val)
+    if(val !== ''){
       const selection = this.state.allData.filter(e => 
         (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
                     (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
                     (e.context.toUpperCase()).includes((val).toUpperCase())):
                     ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
                     (e.email.toUpperCase()).includes((val).toUpperCase())));
-        console.log(selection)
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
       this.setState({searchVal: '', allDataSearch: selection, total: selection.length, open: false});
@@ -469,7 +481,15 @@ class DashboardPage extends React.Component {
     document.getElementById('search-private').value = '';
   }
 
+  onChangeModel = (event) => {
+    const field = event.target.getAttribute('data-id');
+    const postModel = this.state.postModel;
+    postModel[field] = event.target.value;
 
+    this.setState({
+      postModel
+    });
+  }
 
 
   /**
@@ -478,14 +498,14 @@ class DashboardPage extends React.Component {
   render() {
     return (
       <div>
+        {console.log(this.state.user)}
         <PersistentDrawerLeft token={this.state.token} imgAdd={this.state.imgAdd}
          user={this.state.user} open={this.state.open} 
          addEmployeeCLick={this.addEmployeeCLick} portfolioCLick={this.portfolioCLick} dashboardCLick={this.dashboardCLick} addNewsCLick={this.addNewsCLick} 
          handleDrawerClose={this.handleDrawerClose} handleDrawerOpen={this.handleDrawerOpen}
          posts={this.state.posts} members={this.state.members} searchVal={this.state.searchVal} 
          SearchOpration={this.SearchOpration} handleChange={this.handleChange}
-         socketData={this.props.socketData} manageSockets={this.manageSockets} notificationList={this.state.notificationList} 
-         notifications={this.notifications}/>
+         socketData={this.props.socketData} notificationList={this.state.notificationList}/>
         <main className={(this.state.open === false)?"content contentShift": "content "}>
           <div className="drawerHeader"/>
           {(this.state.searchVal.length > 0)?
@@ -503,7 +523,7 @@ class DashboardPage extends React.Component {
                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
                     </CardActions>: null
                 }
-                    <Modal handleUpdatePost={this.handleUpdatePost} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
+                    <Modal onChangeModel={this.onChangeModel} postModel={this.state.postModel} handleUpdatePost={this.handleUpdatePost} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
                 </div>:
                 this.state.list.length > 0 ?
                 <div className="post-loc">
@@ -516,7 +536,7 @@ class DashboardPage extends React.Component {
                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
                     </CardActions>: null
                 }
-                <Modal style={{textAlign: "center"}} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
+                <Modal onChangeModel={this.onChangeModel} postModel={this.state.postModel} style={{textAlign: "center"}} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
               </div>
               :
                 (this.state.portfolio === true)?

@@ -27,6 +27,8 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import NewsAdd from '@material-ui/icons/LibraryAdd';
 import PortfolioIcon from '@material-ui/icons/Person';
 import PersonPin from '@material-ui/icons/PersonPin'
+import API from '../../../utils/API';
+import Auth from '../../../utils/Auth';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -153,31 +155,41 @@ class PrimarySearchAppBar extends React.Component {
     anchorEl: null,//topnavbar var
     mobileMoreAnchorEl: null,
     open: false ,
+    
+    notifications: 0,//notifications
+    notificationList: [],
+
+    myFile: null
   };
 
 
-  componentDidMount() {
+  update() {
     this._isMounted = true;
-    this.props.manageSockets();
+    this.manageSockets();
   }
 
-  // manageSockets = () => {
-
-  //   if(this.props.socketData === {}){
-  //     if(this.props.socketData.length !== 0){
-  //     console.log('**********')
-  //     let mynotifications = this.state.notificationList;
-  //     mynotifications.push(this.props.socketData);
-  //     this.setState({notifications: this.state.notifications + 1,
-  //     notificationList: mynotifications})
-  //     }
-  //   }
-  // }
-
-  componentWillUnmount(){
-    this._isMounted = false;
+  manageSockets = () => {
+console.log('soket')
+console.log(this.props.socketData)
+    if(this.props.socketData === {}){
+      if(this.props.socketData.length !== 0){
+      console.log('**********')
+      let mynotifications = this.state.notificationList;
+      let newNotification = 0;
+      for (let i = 0; i < this.props.socketData.length; i++) {
+        mynotifications.push(this.props.socketData[i]);
+        newNotification++;
+      }   
+      this.setState({notifications: this.state.notifications + newNotification,
+      notificationList: mynotifications})
+      }
+    }
   }
 
+
+  componentDidUpdate() {
+    console.log(this.props.user);
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -213,8 +225,7 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+      {this.props.notificationList.map((e,i) => <MenuItem key={i} onClick={this.handleMenuClose}>{e.act}</MenuItem>)}
       </Menu>
     );
 
@@ -236,13 +247,13 @@ class PrimarySearchAppBar extends React.Component {
         </MenuItem> */}
         <MenuItem>
           <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-            <Badge badgeContent={this.props.notifications !== 0? this.props.notifications: null} color="secondary">
+            <Badge badgeContent={this.props.notificationList.length !== 0? this.props.notificationList.length: null} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
+        <MenuItem>
           <IconButton color="inherit">
             <AccountCircle />
           </IconButton>
@@ -280,7 +291,7 @@ class PrimarySearchAppBar extends React.Component {
                 </Badge>
               </IconButton> */}
               <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-                <Badge badgeContent={this.props.notifications !== 0? this.props.notifications: null} color="secondary">
+                <Badge badgeContent={this.state.notifications !== 0? this.state.notifications: null} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -290,7 +301,7 @@ class PrimarySearchAppBar extends React.Component {
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar}/>}
+              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar?`http://localhost:3001/post/getImage/${this.props.user.avatar}`:'https://ryanacademy.ie/wp-content/uploads/2017/04/user-placeholder.png'/*this.props.user.avatar*/}/>}
                 
               </IconButton>
             </div>

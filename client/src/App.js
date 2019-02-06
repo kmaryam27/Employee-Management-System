@@ -27,6 +27,7 @@ class App extends Component {
   componentDidMount() {
     this.toggleAuthenticateStatus();
     socket.on(`emit-task`, data => {
+      console.log('data omad client' + data)
       this.setState({ socketData: data })
     })
   }

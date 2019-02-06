@@ -7,7 +7,10 @@ const path = require("path");
 const mongoose = require('mongoose');
 const passport = require('passport');
 const config = require('./server/config');
-const logger = require('morgan')
+const logger = require('morgan');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -31,11 +34,12 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-
-
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(fileUpload());
+app.use('/public', express.static(__dirname + '/public'));
 
 const localSignupStrategy = require('./server/passport/local-signup');
 const localLoginStrategy = require('./server/passport/local-login');

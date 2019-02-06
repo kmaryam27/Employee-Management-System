@@ -36,7 +36,6 @@ const PostForm = props => (
   <div className="news-container" data-news={props.post._id}>
       <div className= "news-grid" key={props.post._id}>
         <div>
-          {console.log(props.post)}
             <img src={String(props.post.imageAddress)} style={styles.img} alt="new Post"/>
         </div> 
         <div className="news-header">

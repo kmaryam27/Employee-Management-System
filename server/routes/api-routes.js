@@ -3,7 +3,10 @@ const express = require('express');
 const router = new express.Router();
 const validator = require('validator');
 const passport = require('passport');
-const db = require('../models')
+const db = require('../models');
+const path = require('path');
+let items={posts: [], members: [], act:[]};
+
 
 /**
  * Validate the sign up form
@@ -12,6 +15,7 @@ const db = require('../models')
  * @returns {object} The result of validation. Object contains a boolean validation result,
  * @description errors tips, and a global message for the whole form.
  */
+.3
 function validateSignupForm(payload) {
   const errors = {};
   let isFormValid = true;
@@ -48,34 +52,38 @@ function validateSignupForm(payload) {
  * @description user values passed through from auth middleware
  */
 router.get('/dashboard', (req, res) => {
-  items={posts: [], members: []}
   db.Post.find({}).then((data) => {
      items.posts = data;
-     if(req.user.access === 2){
-         res.status(200).json({
-          message: "You're authorized to see this secret message.",
-          user: req.user,
-          items: items
-        });
-     }
-     else
-      if(req.user.access === 1){
-      db.User.find({}).then((members) => {
-        items.members = members; 
+     db.Activity.find({}).then((acts) => {
+      items.act = acts;
+      if(req.user.access === 2){
         res.status(200).json({
-          message: "You're authorized to see this secret message.",
-          user: req.user,
-          items: items
-        });
+         message: "You're authorized to see this secret message.",
+         user: req.user,
+         items: items
+       });
+    }
+    else
+     if(req.user.access === 1){
+     db.User.find({}).then((members) => {
+       items.members = members; 
+       res.status(200).json({
+         message: "You're authorized to see this secret message.",
+         user: req.user,
+         items: items
+       });
 
-      }).catch(function(err) {
-        res.json(items);
-      });
-     }
-    })
-    .catch(function(err) {
+     }).catch(function(err) {
+       res.json(items);
+     });
+    }
+   }).catch(function(err) {
+    res.json(items);
+  });
+}).catch(function(err) {
       res.json(err);
-    });
+  });
+     
 });
 
 /**
@@ -83,7 +91,6 @@ router.get('/dashboard', (req, res) => {
  */
 router.post('/signup', (req, res, next) => {
   const validationResult = validateSignupForm(req.body);
-  console.log(req.body)
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
@@ -146,23 +153,53 @@ router.post("/addPost", (req, res) => {
  * @description update post
  */
 router.put('/updatepost', (req, res, next) => {
-  console.log(req.body)
-  // db.ToDoList.findOneAndUpdate({_id: req.body.task_id}, {$set: {compeleted: req.body.compeleted}})
-  // .then(function (dbtodolist) {
-  //     res.json(dbtodolist);
-  // })
-  // .catch(function(err) {
-  //     res.json(err);
-  // });
-
+  const postId = req.body.postId;
+  const selected = req.body.selected;
+  db.Post.findOne({ _id: req.body.postId}).then(post => { 
+    
+    ((req.body.selected.title !== '')&&(req.body.selected.title)) ? (post.title = req.body.selected.title) : 0;
+    ((req.body.selected.subtitle !== '')&&(req.body.selected.subtitle))? (post.subtitle = req.body.selected.subtitle): 0;
+    ((req.body.selected.context !== '' )&&(req.body.selected.context))? (post.context = req.body.selected.context) : 0;
+    ((req.body.selected.imageAddress !== '')&&(req.body.selected.imageAddress))? (post.imageAddress = req.body.selected.imageAddress): 0;
+    
+    db.Post.findOneAndUpdate({ _id: postId }, {$set: {title: post.title, subtitle: post.subtitle, imageAddress: post.imageAddress, context: post.context }}).then((raw) => {
+      
+      db.Post.find({}).then((data) => {
+        items.posts = data;
+        if(req.user.access === 2){
+            res.status(200).json({
+             message: "the selected post updated successfully",
+             user: req.user,
+             items: items
+           });
+        }
+        else
+         if(req.user.access === 1){
+         db.User.find({}).then((members) => {
+           items.members = members; 
+           res.status(200).json({
+             message: "the selected post updated successfully",
+             user: req.user,
+             items: items
+           });
+   
+         }).catch(function(err) {
+           res.json(items);
+         });
+        } 
+      }); 
+    })
+    .catch(function(err) {
+            res.json(err);
+        });;
+  });
 });
+
 
 
 router.delete('/deletepost/:id', (req, res) => {
-  console.log(req.params);
   const chosen = req.params.id;
   db.Post.deleteOne({_id: chosen}).then((result) => {
-    console.log(result)
     db.Post.find({}).then((data) => {
       items.posts = data;
       if(req.user.access === 2){
@@ -198,11 +235,12 @@ router.delete('/deletepost/:id', (req, res) => {
   });
 });
 
+/**
+ * @description delete user
+ */
 router.delete('/delete/:id', (req, res) => {
-  console.log(req.params);
   const chosen = req.params.id;
   db.User.deleteOne({_id: chosen}).then((result) => {
-    console.log(result)
     db.Post.find({}).then((data) => {
       items.posts = data;
       if(req.user.access === 2){
@@ -239,5 +277,30 @@ router.delete('/delete/:id', (req, res) => {
 });
 
 
+
+/**
+  * @description upload new image for update product 
+  * @param {String} id
+*/
+router.post('/upload', (req, res, next) => {
+  let imageFile = req.files.file;
+  const myroute = path.join(__dirname, "../public")
+  imageFile.mv(path.join(__dirname, `../public/${req.body.filename}`), function(err) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    
+    console.log(path.join(__dirname, `../public/${req.body.filename}`));
+    res.json(path.join(`${req.body.filename}`));
+    // res.json({file: `${__dirname}/public/${req.body.filename}`});
+  });
+
+});
+
+
+router.get('/getImage/:id', (req, res, next) => {
+  console.log(req.params.id);
+  res.sendFile(path.join(__dirname, `../public/${req.params.id}.png`));
+});
 
 module.exports = router;

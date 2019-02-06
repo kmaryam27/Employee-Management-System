@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('../models');
-
+const path = require('path');
 const router = new express.Router();
 
 router.get('/post', (req, res) => {
@@ -13,6 +13,11 @@ router.get('/post', (req, res) => {
           .catch(function(err) {
             res.json(err);
           });
+});
+
+router.get('/getImage/:id', (req, res, next) => {
+  console.log(req.params.id);
+  res.sendFile(path.join(__dirname, `../public/${req.params.id}.png`));
 });
 
 router.get('/search/:chosen', function(req, res) {

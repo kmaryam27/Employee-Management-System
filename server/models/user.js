@@ -15,7 +15,7 @@ const UserSchema = new Schema({
   name: String,
   avatar: {
     type: String,
-    default: "https://final-project-gt.s3.amazonaws.com/photos/img_plc.png"
+    default: "http://sg-fs.com/wp-content/uploads/2017/08/user-placeholder.png"
   },
   access: {
     type: Number,
