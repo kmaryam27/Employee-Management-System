@@ -301,7 +301,7 @@ console.log(this.props.socketData)
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar?`http://localhost:3001/post/getImage/${this.props.user.avatar}`:'https://ryanacademy.ie/wp-content/uploads/2017/04/user-placeholder.png'/*this.props.user.avatar*/}/>}
+              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar?`${window.location}/post/getImage/${this.props.user.avatar}`:'https://ryanacademy.ie/wp-content/uploads/2017/04/user-placeholder.png'/*this.props.user.avatar*/}/>}
                 
               </IconButton>
             </div>
