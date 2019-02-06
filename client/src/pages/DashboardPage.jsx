@@ -395,17 +395,13 @@ class DashboardPage extends React.Component {
     var mydiv = document.getElementById("upload-msg");
     mydiv.innerHTML = "please wait ...";
     this.setState({file: event.target.files[0]});
-    console.log(event.target.files[0])
-    // const fd = new FormData();
-    // fd.append('image', event.target.files[0], event.target.files[0].name);
-    
+
     const data = new FormData();
     data.append('file', event.target.files[0]);
-    data.append('filename', (event.target.files[0].name)/*.split('.').slice(0, -1).join('.')*/);
+    data.append('filename', (event.target.files[0].name));
 
     API.uploadFile(Auth.getToken(),data).then((response) => {
-      console.log(response)
-        // this.setState({ imageURL: `http://localhost:8000/${body.file}` });
+      console.log(response.data);
       
     });
   }
@@ -501,7 +497,8 @@ class DashboardPage extends React.Component {
         {console.log(this.state.user)}
         <PersistentDrawerLeft token={this.state.token} imgAdd={this.state.imgAdd}
          user={this.state.user} open={this.state.open} 
-         addEmployeeCLick={this.addEmployeeCLick} portfolioCLick={this.portfolioCLick} dashboardCLick={this.dashboardCLick} addNewsCLick={this.addNewsCLick} 
+         addEmployeeCLick={this.addEmployeeCLick} portfolioCLick={this.portfolioCLick} 
+         dashboardCLick={this.dashboardCLick} addNewsCLick={this.addNewsCLick} 
          handleDrawerClose={this.handleDrawerClose} handleDrawerOpen={this.handleDrawerOpen}
          posts={this.state.posts} members={this.state.members} searchVal={this.state.searchVal} 
          SearchOpration={this.SearchOpration} handleChange={this.handleChange}

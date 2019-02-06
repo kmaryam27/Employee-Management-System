@@ -284,23 +284,20 @@ router.delete('/delete/:id', (req, res) => {
 */
 router.post('/upload', (req, res, next) => {
   let imageFile = req.files.file;
-  const myroute = path.join(__dirname, "../public")
-  imageFile.mv(path.join(__dirname, `../public/${req.body.filename}`), function(err) {
+const date = Date.now();
+const filenameSource = req.body.filename.split(".");
+const filename = filenameSource[0] + String(date);
+
+
+  imageFile.mv(path.join(__dirname, `../public/${filename}.jpg`), function(err) {
     if (err) {
       return res.status(500).send(err);
     }
-    
-    console.log(path.join(__dirname, `../public/${req.body.filename}`));
-    res.json(path.join(`${req.body.filename}`));
-    // res.json({file: `${__dirname}/public/${req.body.filename}`});
+    res.json(`${filename}.jpg`);
   });
 
 });
 
 
-router.get('/getImage/:id', (req, res, next) => {
-  console.log(req.params.id);
-  res.sendFile(path.join(__dirname, `../public/${req.params.id}.png`));
-});
 
 module.exports = router;

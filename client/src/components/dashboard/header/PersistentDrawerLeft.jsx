@@ -291,7 +291,8 @@ console.log(this.props.socketData)
                 </Badge>
               </IconButton> */}
               <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-                <Badge badgeContent={this.state.notifications !== 0? this.state.notifications: null} color="secondary">
+              <Badge badgeContent={this.props.notificationList.length !== 0? this.props.notificationList.length: null} color="secondary">
+                {/* <Badge badgeContent={this.state.notifications !== 0? this.state.notifications: null} color="secondary"> */}
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -301,7 +302,12 @@ console.log(this.props.socketData)
                 onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
-              {this.props.avatar === ''?<AccountCircle />:<ImageAvatars avatar={this.props.user.avatar?String(window.location).includes('localhost')?`http://localhost:3001/post/getImage/${this.props.user.avatar}`:`https://final-mongo.herokuapp.com/post/getImage/${this.props.user.avatar}`:'https://ryanacademy.ie/wp-content/uploads/2017/04/user-placeholder.png'/*this.props.user.avatar*/}/>}
+              {this.props.avatar === ''?<AccountCircle />:
+              <ImageAvatars avatar={this.props.user.avatar?
+                String(window.location).includes('localhost')?
+                  `http://localhost:3001/post/getImage/${this.props.user.avatar}`:
+                  `https://final-mongo.herokuapp.com/post/getImage/${this.props.user.avatar}`
+                :'https://ryanacademy.ie/wp-content/uploads/2017/04/user-placeholder.png'}/>}
                 
               </IconButton>
             </div>
