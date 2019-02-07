@@ -130,6 +130,13 @@ router.post('/signup', (req, res, next) => {
  */
 router.post("/addPost", (req, res) => {
   const userId = req.body.userId;
+  if(!((req.body.title)&&(req.body.subtitle)&&(req.body.context)))
+  return res.status(400).json({
+    success: false,
+    message: 'fill title and subtitle and cotext',
+    errors: {title1: 'Please provide a correct email address.'}
+  });
+   
   const post = {
     title: req.body.title,
     subtitle: req.body.subtitle,
