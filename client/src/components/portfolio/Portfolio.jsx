@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import ImageUploader from '../image-upload/Image-upload';
+import { prototype } from 'react-transition-group/TransitionGroup';
 
 const styles = theme => ({
   main: {
@@ -56,38 +57,40 @@ function PortfolioForm(props) {
 
   return (
     <main className={classes.main}>
-    {console.log('porfolio form')}
-    {console.log(props.user.email)}
       <CssBaseline />
       <Paper className={classes.paper}>
-          <img style={{height: '100px', width: '100px'}} src={props.user.avatar} />
         <Typography component="h1" variant="h5">
           Portfolio
         </Typography>
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
 
-        <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/>
-
+        <div style={{margin:'10px'}}>
+            <img style={{width:'100px', height:'100px'}} 
+              src={((props.uploadedImg)&&(props.uploadedImg !== ''))?
+                String(window.location).includes('localhost')?
+                `http://localhost:3001/post/getImage/${props.uploadedImg}`:
+                `https://final-mongo.herokuapp.com/post/getImage/${props.uploadedImg}`
+                :((props.user.avatar)&&(String(window.location).includes('localhost')))?
+                `http://localhost:3001/post/getImage/${props.user.avatar}`:
+                (props.postSelected.avatar)?
+                `https://final-mongo.herokuapp.com/post/getImage/${props.user.avatar}`: null
+                } alt="post image"/>
+                <ImageUploader handleFileUpload={props.handleFileUpload}/>
+        </div>
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           
         <FormControl margin="normal" required fullWidth>
-            <TextField id="name" name="name" /*autoComplete="name"*/ autoFocus 
-            errorText={props.errors.name} onChange={props.onChange} placeholder={props.user.name} 
+            <TextField name="name" autoFocus 
+            errorText={props.errors.name} onChange={props.onChange} value={props.userPortfolio.name} placeholder={props.user.name} 
             floatingLabelText="Name"
             />
           </FormControl>
           
           <FormControl margin="normal" required fullWidth>
-            <TextField id="email" name="email" /*autoComplete="email" */ 
-            errorText={props.errors.email} onChange={props.onChange} placeholder={props.user.email} 
+            <TextField name="email" 
+            errorText={props.errors.email} onChange={props.onChange} value={props.userPortfolio.email} placeholder={props.user.email} 
             floatingLabelText="Email"
             />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <TextField name="password" type="password" id="password" /*autoComplete="current-password" */
-             onChange={props.onChange} errorText={props.errors.password} placeholder={props.user.password} 
-             floatingLabelText="Password"
-             />
           </FormControl>
           
         {props.user.access === 2? <div><InputLabel htmlFor="outlined-age-native-simple">
@@ -102,7 +105,7 @@ function PortfolioForm(props) {
           </InputLabel>
           <Select
             native
-            value={props.user.access}
+            value={props.userPortfolio.access}
             onChange={props.onChange}
             input={
               <OutlinedInput
@@ -117,21 +120,22 @@ function PortfolioForm(props) {
           </Select>
         </FormControl>
         }
-          {/* <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="secondary" className={classes.submit}>
             update
-          </Button> */}
+          </Button>
         </form>
       </Paper>
     </main>
   );
 }
 
+
 PortfolioForm.propTypes = {
   classes: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(PortfolioForm);

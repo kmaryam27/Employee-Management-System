@@ -308,6 +308,7 @@ router.put('/update', (req, res, next) => {
     ((req.body.selected.name !== '')&&(req.body.selected.name)) ? (userSelected.name = req.body.selected.name) : 0;
     ((req.body.selected.email !== '')&&(req.body.selected.email))? (userSelected.email = req.body.selected.email): 0;
     ((req.body.selected.avatar !== '' )&&(req.body.selected.avatar))? (userSelected.avatar = req.body.selected.avatar) : 0;
+    (req.body.selected.access)? (userSelected.access = req.body.selected.access) : 0;
     db.User.findOneAndUpdate({ _id: userId }, {$set: 
       {name: userSelected.name, email: userSelected.email, avatar: userSelected.avatar, access: userSelected.access}}).then((raw) => {
       console.log(raw)

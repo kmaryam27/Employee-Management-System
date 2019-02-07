@@ -196,8 +196,8 @@ class DashboardPage extends React.Component {
   }
 
   
-    /**
-   * This method will be executed after initial rendering.
+  /**
+   * @description This method will be executed after initial rendering.
    */
   componentDidMount() {
     this._isMounted = true;
@@ -314,11 +314,9 @@ class DashboardPage extends React.Component {
 
   handleUpdateUser = (event) => {
     event.preventDefault();
-    console.log(event.target.getAttribute('data-id'))
     let userId = event.target.getAttribute('data-id');
     const selected = this.state.userModel;
     if(this.state.uploadedImg !== '') selected.avatar = this.state.uploadedImg;
-    console.log(selected.avatar)
      API.updateUser(this.state.token, {userId, selected}).then(res => {
        console.log(res)
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
@@ -624,7 +622,7 @@ class DashboardPage extends React.Component {
               </div>
               :
                 (this.state.portfolio === true)?
-            <PortfolioPage secretData={this.state.secretData} user={this.state.user}  token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
+            <PortfolioPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData} user={this.state.user}  token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
             (this.state.addEmployee === true)?
               <SignUpPage secretData={this.state.secretData} user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd}   handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
               (this.state.addNews === true)?

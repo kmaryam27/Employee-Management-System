@@ -4,22 +4,35 @@ import PortfolioForm from '../components/portfolio/Portfolio';
 import API from '../utils/API';
 
 class portfolioPage extends React.Component {
+  _isMounted = false;
   state = {
     errors: {},
-    user: {
+    userPortfolio: {
       email: '',
       name: '',
-      password: '',
+      avatar: '',
       access: 2
-    },
-    userFirst:{}
+    }
   }
 
-  componentDidMount(){
-      
-    console.log(this.props.user)
-    this.setState({userFirst: this.props.user, user: this.state.user})
+  componentDidMount() {
+    this._isMounted = true;
+    if(this._isMounted === true) {
+      const userPortfolio = this.state.userPortfolio;
+      userPortfolio['access'] = this.props.user.access;
+      this.setState({
+        userPortfolio
+      });
+    }
   }
+
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
+
+
+
+
 
   /**
    * Process the form.
@@ -29,17 +42,14 @@ class portfolioPage extends React.Component {
    */
   processForm = event => {
     event.preventDefault();
-    const _id = this.state.userFirst._id;
-    const { name, email/*, password*/, access} = this.state.user;
-    const password = '12345678';
-    const avatar = this.props.imgAdd;
-    API.updatePortfolio(this.props.token,{_id,name, email, access, password}).then(res => {
-    localStorage.setItem('successMessage', res.data.message);
-        alert('Employee added successfully');
+      let userId = this.props.user._id;
+      const selected = this.state.userPortfolio;
+      if(this.state.uploadedImg !== '') selected.avatar = this.props.uploadedImg;
+       API.updateUser(this.props.token, {userId, selected}).then(res => {
+        alert('Portfolio changed successfully please refresh the page');
     }).catch(( {response} ) => {
         const errors = response.data.errors ? response.data.errors : {};
         errors.summary = response.data.message;
-
         this.setState({
           errors
         });
@@ -53,10 +63,10 @@ class portfolioPage extends React.Component {
    */
   changeUser = event => {
     const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
+    const userPortfolio = this.state.userPortfolio;
+    userPortfolio[field] = event.target.value;
     this.setState({
-      user
+      userPortfolio
     });
   }
 
@@ -66,17 +76,16 @@ class portfolioPage extends React.Component {
   render() {
     return (
         <div>
-            {console.log('render portfolio')}
-            {console.log(this.props.user)}
             <PortfolioForm
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.props.user}
-        submitFile={this.props.submitFile} 
+        userPortfolio={this.state.userPortfolio}
         handleFileUpload={this.props.handleFileUpload} 
         file={this.props.file}
         imgAdd={this.props.imgAdd}
+        uploadedImg={this.props.uploadedImg}
       />
         </div>
     
