@@ -168,7 +168,7 @@ class PrimarySearchAppBar extends React.Component {
 
   componentWillUpdate(){
     this._isMounted = true;
-    this.manageSockets();
+    // this.manageSockets();
   }
 
   manageSockets = () => {
