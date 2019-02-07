@@ -45,7 +45,7 @@ const HomeModal = props => {
         <p><strong>{props.postSelected.subtitle}</strong></p>
         <div>
           <img style={{width:'200px', height:'200px'}} 
-              src={props.uploadedImg !== ''?
+              src={((props.uploadedImg)&&(props.uploadedImg !== ''))?
               String(window.location).includes('localhost')?
                 `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
                 `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:
@@ -70,13 +70,13 @@ const HomeModal = props => {
  */
 const PostForm = props => (
   <div className="news-container" data-news={props.post._id}>
-      <div className= "news-grid" key={props.post._id}>
+    <div className= "news-grid" key={props.post._id}>
       <div>
-              <img src={props.post.imageAddress?
-                         String(window.location).includes('localhost')?
-                          `http://localhost:3001/post/getImage/${props.post.imageAddress}`:
-                          `https://final-mongo.herokuapp.com/post/getImage/${props.post.imageAddress}`:
-                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'} style={styles.img} alt="new Post"/>
+        <img src={props.post.imageAddress?
+          String(window.location).includes('localhost')?
+            `http://localhost:3001/post/getImage/${props.post.imageAddress}`:
+            `https://final-mongo.herokuapp.com/post/getImage/${props.post.imageAddress}`:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'} style={styles.img} alt="new Post"/>
           </div> 
         <div className="news-header">
             <h4><strong>{props.post.title}</strong></h4>

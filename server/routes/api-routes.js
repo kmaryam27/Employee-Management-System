@@ -154,9 +154,6 @@ router.post("/addPost", (req, res) => {
  */
 router.put('/updatepost', (req, res, next) => {
   const postId = req.body.postId;
-  const selected = req.body.selected;
-  console.log(req.body.selected.imageAddress)
-  console.log(req.body.postId)
   db.Post.findOne({ _id: req.body.postId}).then(post => { 
     
     ((req.body.selected.title !== '')&&(req.body.selected.title)) ? (post.title = req.body.selected.title) : 0;
@@ -300,6 +297,50 @@ router.post('/upload', (req, res, next) => {
     });
 });
 
+
+/**
+ * @description update post
+ */
+router.put('/update', (req, res, next) => {
+  const userId = req.body.userId;
+  db.User.findOne({ _id: req.body.userId}).then(userSelected => { 
+
+    ((req.body.selected.name !== '')&&(req.body.selected.name)) ? (userSelected.name = req.body.selected.name) : 0;
+    ((req.body.selected.email !== '')&&(req.body.selected.email))? (userSelected.email = req.body.selected.email): 0;
+    ((req.body.selected.avatar !== '' )&&(req.body.selected.avatar))? (userSelected.avatar = req.body.selected.avatar) : 0;
+    db.User.findOneAndUpdate({ _id: userId }, {$set: 
+      {name: userSelected.name, email: userSelected.email, avatar: userSelected.avatar, access: userSelected.access}}).then((raw) => {
+      console.log(raw)
+      db.Post.find({}).then((data) => {
+        items.posts = data;
+        if(req.user.access === 2){
+            res.status(200).json({
+             message: "the selected user updated successfully",
+             user: req.user,
+             items: items
+           });
+        }
+        else
+         if(req.user.access === 1){
+         db.User.find({}).then((members) => {
+           items.members = members; 
+           res.status(200).json({
+             message: "the selected user updated successfully",
+             user: req.user,
+             items: items
+           });
+   
+         }).catch(function(err) {
+           res.json(items);
+         });
+        } 
+      }); 
+    })
+    .catch(function(err) {
+            res.json(err);
+        });;
+  });
+});
 
 
 module.exports = router;
