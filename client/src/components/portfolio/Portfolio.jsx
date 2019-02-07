@@ -63,7 +63,6 @@ function PortfolioForm(props) {
           Portfolio
         </Typography>
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
-
         <div style={{margin:'10px'}}>
             <img style={{width:'100px', height:'100px'}} 
               src={((props.uploadedImg)&&(props.uploadedImg !== ''))?
@@ -72,7 +71,7 @@ function PortfolioForm(props) {
                 `https://final-mongo.herokuapp.com/post/getImage/${props.uploadedImg}`
                 :((props.user.avatar)&&(String(window.location).includes('localhost')))?
                 `http://localhost:3001/post/getImage/${props.user.avatar}`:
-                (props.postSelected.avatar)?
+                (props.user.avatar)?
                 `https://final-mongo.herokuapp.com/post/getImage/${props.user.avatar}`: 'http://sg-fs.com/wp-content/uploads/2017/08/user-placeholder.png'
                 } alt="post image"/>
                 <ImageUploader handleFileUpload={props.handleFileUpload}/>
