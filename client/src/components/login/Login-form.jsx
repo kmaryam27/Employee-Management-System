@@ -70,10 +70,10 @@ function SignIn(props) {
              floatingLabelText="Password"
              />
           </FormControl>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="secondary" className={classes.submit}>
             Sign in
           </Button>
-          <CardText>This part is just for employees</CardText>
+          <CardText>This part is just for Employees</CardText>
         </form>
       </Paper>
     </main>

@@ -46,7 +46,9 @@ const localLoginStrategy = require('./server/passport/local-login');
 passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
-// pass the authenticaion checker middleware
+/**
+ * @description pass the authenticaion checker middleware
+ */ 
 const authCheckMiddleware = require('./server/middleware/auth-check');
 app.use('/api', authCheckMiddleware);
 
@@ -59,8 +61,9 @@ app.use('/post', postRoutes);
 
 require('./server/sockets/message-sockets')(io);
 
-// Send every request to the React app
-// Define any API routes before this runs
+/**
+ * @description Send every request to the React app, Define any API routes before this runs
+ */
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });

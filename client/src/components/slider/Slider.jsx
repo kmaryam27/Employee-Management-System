@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './Slider.css';
 import ReactTimeout from 'react-timeout';
-
+/**
+ * @description images for slider
+ */
 import logo from '../../assets/img/logo/logo-2.png';
 import p1 from '../../assets/img/slider/kabab.jpg';
 import p2 from '../../assets/img/slider/shirini.jpg';
@@ -15,7 +17,12 @@ import p9 from '../../assets/img/slider/dande.jpg';
 import p10 from '../../assets/img/slider/cake2.jpg';
 import p11 from '../../assets/img/slider/falafel.jpg';
 import p12 from '../../assets/img/slider/jooj.jpg';
+import { Slide } from '@material-ui/core';
 
+/**
+ * @description left arrow component
+ * @param {*} props 
+ */
 const LeftArrow = (props) => {
     return (
       <div className="back-arrow" onClick={props.goToPrevSlide}>
@@ -24,6 +31,10 @@ const LeftArrow = (props) => {
     );
   }
 
+/**
+ * @description right arrow component
+ * @param {*} props 
+ */
 const RightArrow = (props) => {
     return (
       <div className="next-arrow" onClick={props.goToNextSlide}>
@@ -32,6 +43,10 @@ const RightArrow = (props) => {
     );
   }
 
+  /**
+ * @description slider component
+ * @param {*} props 
+ */
 const SliderImg = props => (
     <div id="slideshow">
         <div className="slider-img fade"  id="s1">
@@ -93,8 +108,8 @@ const SliderImg = props => (
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect1' src={p12}/></a>
             </div>
         </div>
-        <LeftArrow goToPrevSlide={props.goToPrevSlide}/>
-        <RightArrow goToNextSlide={props.goToNextSlide}/>
+        <LeftArrow goToPrevSlide={props.goToPrevSlide} onClick={props.goToPrevSlide}/>
+        <RightArrow goToNextSlide={props.goToNextSlide} onClick={props.goToNextSlide}/>
         <div>
             <span className="dot"></span> 
             <span className="dot"></span> 
@@ -111,11 +126,13 @@ class Slider extends Component {
         this.showSlides(); 
     }
 
-    goToNextSlide(){
+    goToNextSlide(){console.log('goToNextSlide')
       var slides = document.getElementsByClassName("slider-img");
       var dots = document.getElementsByClassName("dot");
       if ( slides.length > 0){ 
         for (let i = 0; i < slides.length; i++) {
+            console.log(slides[i])
+            console.log(slides[i + 1])
             if(slides[i].style.display === "block"){
                 slides[i].style.display = "none";
                 dots[i].className = dots[i].className.replace(" active", "");
@@ -126,7 +143,7 @@ class Slider extends Component {
         }
     }
 
-    goToPrevSlide(){
+    goToPrevSlide(){console.log('goToPrevSlide')
         var slides = document.getElementsByClassName("slider-img");
         var dots = document.getElementsByClassName("dot");
         if ( slides.length > 0){ 

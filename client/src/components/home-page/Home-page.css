@@ -35,6 +35,37 @@ body{
     opacity: 0.6;
 }
 
+.news-grid{
+    border-radius: 10px;
+}
+
+.btn-post{
+    background-color: transparent;
+    color: blue;
+    border: none;
+    text-decoration: underline;
+}
+
+.btn-update{
+    background-color: #F50057;
+    color: white;
+    border: none;
+    box-shadow: none;
+    font-size: 15px;
+    height: 37px;
+    border-radius: 8%;
+    margin-left: 2px;
+    outline: none;
+}
+.btn-update:hover{
+    cursor: pointer;
+    background-color: #C51162;
+}
+
+.btn-post:hover{
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
     body{
         padding: 2%;

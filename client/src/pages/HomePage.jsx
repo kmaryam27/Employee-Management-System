@@ -9,43 +9,8 @@ import SearchForm from '../components/search/Search';
 import Slider from '../components/slider/Slider';
 import Footer from '../components/footer/Footer';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
 
-
-const HomeModal = props => {
-  return (
-    <div className={props.show === true? "modal display-block" : "modal display-none"}>
-      <section className="modal-main">
-      <h4>{props.postSelected.title}</h4>
-      <p><strong>{props.postSelected.subtitle}</strong></p>
-      <div>
-        <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post"/>
-      </div>
-      
-      <span className="modal-body">
-        <p>
-        {props.postSelected.context}
-        </p>
-      </span>
-        <button  onClick={props.handleClose}>close</button>
-      </section>
-    </div>
-  );
-};
-
-const PostForm = props => (
-  <div className="news-container" data-news={props.post._id}>
-      <div className= "news-grid" key={props.post._id}>
-        <div>
-            <img src={String(props.post.imageAddress)} style={styles.img} alt="new Post"/>
-        </div> 
-        <div className="news-header">
-            <h4><strong>{props.post.title}</strong></h4>
-            <p>{props.post.subtitle}</p>
-              <button id={props.post._id}  onClick={props.handleOpen}>read more</button>
-        </div>
-  </div>  
-  </div>
-);
 
 
 const styles = {
@@ -68,7 +33,63 @@ const styles = {
 }
 
 
+/**
+ * @description Homepage Modal for show post details
+ * @param {*} props 
+ */
+const HomeModal = props => {
+  return (
+    <div className={props.show === true? "modal display-block" : "modal display-none"} style={{zIndex: "10000"}}>
+      <section className="modal-main">
+        <h4>{props.postSelected.title}</h4>
+        <p><strong>{props.postSelected.subtitle}</strong></p>
+        <div>
+          <img style={{width:'200px', height:'200px'}} 
+              src={props.uploadedImg !== ''?
+              String(window.location).includes('localhost')?
+                `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
+                `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'
+                } alt="post image"/>
+        </div>
+        
+        <span className="modal-body">
+          <p>
+          {props.postSelected.context}
+          </p>
+        </span>
+        <Button onClick={props.handleClose} variant="contained" color="secondary">close</Button>
+      </section>
+    </div>
+  );
+};
 
+/**
+ * @description post Form for show up posts
+ * @param {*} props 
+ */
+const PostForm = props => (
+  <div className="news-container" data-news={props.post._id}>
+      <div className= "news-grid" key={props.post._id}>
+      <div>
+              <img src={props.post.imageAddress?
+                         String(window.location).includes('localhost')?
+                          `http://localhost:3001/post/getImage/${props.post.imageAddress}`:
+                          `https://final-mongo.herokuapp.com/post/getImage/${props.post.imageAddress}`:
+                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'} style={styles.img} alt="new Post"/>
+          </div> 
+        <div className="news-header">
+            <h4><strong>{props.post.title}</strong></h4>
+            <p>{props.post.subtitle}</p>
+              <button className="btn-post" id={props.post._id}  onClick={props.handleOpen}>read more</button>
+        </div>
+    </div>  
+  </div>
+);
+
+/**
+ * @description homePage:
+ */
 class HomePage extends Component {
   _isMounted = false;
 
@@ -120,6 +141,9 @@ class HomePage extends Component {
    this.props.toggleAuthenticateStatus();
   }
 
+  /**
+   * @description remove scroll option for lazy loading 
+   */
   componentWillUnmount(){
     this._isMounted = false;
     window.removeEventListener('scroll', this.loadOnScroll);

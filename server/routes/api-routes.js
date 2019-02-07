@@ -155,6 +155,8 @@ router.post("/addPost", (req, res) => {
 router.put('/updatepost', (req, res, next) => {
   const postId = req.body.postId;
   const selected = req.body.selected;
+  console.log(req.body.selected.imageAddress)
+  console.log(req.body.postId)
   db.Post.findOne({ _id: req.body.postId}).then(post => { 
     
     ((req.body.selected.title !== '')&&(req.body.selected.title)) ? (post.title = req.body.selected.title) : 0;
@@ -284,18 +286,18 @@ router.delete('/delete/:id', (req, res) => {
 */
 router.post('/upload', (req, res, next) => {
   let imageFile = req.files.file;
-const date = Date.now();
-const filenameSource = req.body.filename.split(".");
-const filename = filenameSource[0] + String(date);
+  const date = Date.now();
+  const filenameSource = req.body.filename.split(".");
+  const filename = filenameSource[0] + String(date);
 
 
-  imageFile.mv(path.join(__dirname, `../public/${filename}.jpg`), function(err) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    res.json(`${filename}.jpg`);
-  });
-
+    imageFile.mv(path.join(__dirname, `../public/${filename}.jpg`), function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      console.log('ax save shod')
+      res.json(`${filename}.jpg`);
+    });
 });
 
 

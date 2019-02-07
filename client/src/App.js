@@ -17,8 +17,8 @@ let socket = io(`http://localhost:3001`);
 class App extends Component {
 
   state = {
-    authenticated: false,
-    socketData: {}
+    authenticated: false,//auth
+    socketData: {}//notifications
   }
 
   /**
@@ -31,7 +31,9 @@ class App extends Component {
       this.setState({ socketData: data })
     })
   }
-
+/**
+ * @description for notification
+ */
   sendMessage = message => {
     socket.emit(`update-task`, message);
   }

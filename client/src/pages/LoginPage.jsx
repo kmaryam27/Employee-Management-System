@@ -6,7 +6,7 @@ import API from '../utils/API';
 
 class LoginPage extends React.Component {
   _isMounted = false;
-  // set the initial component state
+  
   state = {
     errors: {},
     successMessage: '',

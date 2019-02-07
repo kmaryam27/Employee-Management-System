@@ -4,7 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import API from '../../utils/API';
 import { Card, CardTitle, CardActions } from 'material-ui/Card';
 
-
+/**
+ * @description this class for this step of project doesn't work
+ */
 const styles = {
   loading:{
     padding: "10px",

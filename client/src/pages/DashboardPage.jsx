@@ -11,99 +11,8 @@ import { Card, CardTitle, CardActions} from 'material-ui/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from 'material-ui/TextField';
 import FormControl from '@material-ui/core/FormControl';
-
-/**
- * @description Optional Import for upload images in aws.amazon.com
- */
-// import { uploadFile } from 'react-s3';
- 
-// const config = {
-//     bucketName: 'final-project-gt',
-//     dirName: 'photos',
-//     region: '',
-//     accessKeyId: '',
-//     secretAccessKey: '',
-// }
-
-/**
- * @description dashboard modal form
- * @param {*} props 
- */
-const Modal = props => {
-  return (
-    <div className={props.show === true? "modal display-block" : "modal display-none"}>
-    {(props.postSelected.title)?
-      <section className="modal-main" style={{textAlign:"center"}}>
-       <FormControl margin="normal" required fullWidth  style={{textAlign:"center"}}>
-        <TextField data-id="title" style={{textAlign:"center", paddingLeft:"5px"}} autoFocus 
-              onChange={props.onChangeModel} value={props.postModel.title} placeholder={props.postSelected.title}
-              floatingLabelText="Title"
-              />
-       </FormControl>
-       <FormControl margin="normal" required fullWidth  style={{textAlign:"center", paddingLeft:"5px"}}>  
-        <TextField data-id="subtitle"  
-            onChange={props.onChangeModel} value={props.postModel.subtitle} placeholder={props.postSelected.subtitle}
-            floatingLabelText="Subtitle"
-            />
-      </FormControl>
-        <div>
-          <img style={{width:'200px', height:'200px'}} src={props.postSelected.imageAddress} alt="post image"/>
-        </div>
-        <span>
-          <textarea data-id="context"  style={{width:'99%', height:'auto'}}
-            onChange={props.onChangeModel} value={props.postModel.context} placeholder={props.postSelected.context}
-            ></textarea>
-        </span>
-        <button style={{textAlign:"center"}} onClick={props.handleClose}>close</button>
-        <button data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>update</button>
-        </section>:
-        <section className="modal-main" style={{textAlign:"center"}}>
-          <h4 style={{textAlign:"center"}}>{props.postSelected.name}</h4>
-          <p style={{textAlign:"center"}}><strong>{props.postSelected.email}</strong></p>
-        <div>
-          <img style={{width:'200px', height:'200px'}} src={props.postSelected.avatar} alt="user avatar"/>
-        </div>
-        <button style={{textAlign:"center"}} onClick={props.handleClose}>close</button>
-        <button data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>update</button>
-        </section>
-        }
-    </div>
-  );
-};
-
-/**
- * @description dashboard post form
- * @param {*} props 
- */
-const PostForm = props => (
-    <div className="news-container" data-news={props.post._id}>
-      {props.post.title?
-        <div className= "news-grid" key={props.post._id}>
-          <div>
-              <img src={String(props.post.imageAddress)} style={styles.img} alt="new Post"/>
-          </div> 
-          <div className="news-header">
-              <h4><strong>{props.post.title}</strong></h4>
-              <p>{props.post.subtitle}</p>
-              <button data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              <button data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</button>
-          </div>
-      </div> :
-      (props.user.access === 1)?
-      <div className= "news-grid" key={props.post._id}>
-        <div>
-            <img src={String(props.post.avatar)} style={styles.img} alt="new Post"/>
-        </div> 
-        <div className="news-header">
-            <h4>Employee: <strong>{props.post.name}</strong></h4>
-            <p>{props.post.email}</p>
-              <button data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              <button data-id={props.post._id} value="delete" onClick={props.handleDeleteUser}>delete</button>
-        </div>
-      </div> :null
-      }
-  </div>
-);
+import Button from '@material-ui/core/Button';
+import Uploader from '../components/image-upload/Image-upload';
 
 
 const styles = {
@@ -126,6 +35,101 @@ const styles = {
 }
 
 
+/**
+ * @description dashboard modal form
+ * @param {*} props 
+ */
+const Modal = props => {
+  return (
+    <div className={props.show === true? "modal display-block" : "modal display-none"} style={{zIndex: "10000"}}>
+    {(props.postSelected.title)?
+      <section className="modal-main" style={{textAlign:"center"}}>
+       <FormControl margin="normal" required fullWidth  style={{textAlign:"center"}}>
+        <TextField data-id="title" style={{textAlign:"center", paddingLeft:"5px"}} autoFocus 
+              onChange={props.onChangeModel} value={props.postModel.title} placeholder={props.postSelected.title}
+              floatingLabelText="Title"
+              />
+       </FormControl>
+       <FormControl margin="normal" required fullWidth  style={{textAlign:"center", paddingLeft:"5px"}}>  
+        <TextField data-id="subtitle"  
+            onChange={props.onChangeModel} value={props.postModel.subtitle} placeholder={props.postSelected.subtitle}
+            floatingLabelText="Subtitle"
+            />
+      </FormControl>
+        <div style={{margin:'10px'}}>
+        {console.log('props.handleFileUpload')}
+        {console.log(props.handleFileUpload)}
+        <Uploader handleFileUpload={props.handleFileUpload}/>
+          <img style={{width:'200px', height:'200px'}} 
+            src={props.uploadedImg !== ''?
+              String(window.location).includes('localhost')?
+              `http://localhost:3001/post/getImage/${props.uploadedImg}`:
+              `https://final-mongo.herokuapp.com/post/getImage/${props.uploadedImg}`
+              :String(window.location).includes('localhost')?
+              `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
+              `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`
+              } alt="post image"/>
+        </div>
+        <span>
+          <textarea data-id="context"  style={{width:'99%', minHeight:'100px' , height:'auto'}}
+            onChange={props.onChangeModel} value={props.postModel.context} placeholder={props.postSelected.context}
+            ></textarea>
+        </span>
+        <Button variant="contained" color="secondary" style={{textAlign:"center"}} onClick={props.handleClose}>close</Button>
+        <button className="btn-update" variant="contained" color="secondary" data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>UPDATE</button>
+        </section>:
+        <section className="modal-main" style={{textAlign:"center"}}>
+          <h4 style={{textAlign:"center"}}>{props.postSelected.name}</h4>
+          <p style={{textAlign:"center"}}><strong>{props.postSelected.email}</strong></p>
+        <div>
+          <img style={{width:'200px', height:'200px'}} src={props.postSelected.avatar} alt="user avatar"/>
+        </div>
+        <Button variant="contained" color="secondary" style={{textAlign:"center"}} onClick={props.handleClose}>close</Button>
+        <button className="btn-update" variant="contained" color="secondary" data-id={props.postSelected._id} value="update" onClick={props.handleUpdatePost}>UPDATE</button>
+        </section>
+        }
+    </div>
+  );
+};
+
+/**
+ * @description dashboard post form
+ * @param {*} props 
+ */
+const PostForm = props => (
+    <div className="news-container" data-news={props.post._id}>
+      {props.post.title?
+        <div className= "news-grid" key={props.post._id}>
+          <div>
+              <img src={props.post.imageAddress?
+                         String(window.location).includes('localhost')?
+                          `http://localhost:3001/post/getImage/${props.post.imageAddress}`:
+                          `https://final-mongo.herokuapp.com/post/getImage/${props.post.imageAddress}`:
+                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'} style={styles.img} alt="new Post"/>
+          </div> 
+          <div className="news-header">
+              <h4><strong>{props.post.title}</strong></h4>
+              <p>{props.post.subtitle}</p>
+              <button className="btn-post" data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
+              <Button variant="contained" color="secondary" data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</Button>
+          </div>
+      </div> :
+      (props.user.access === 1)?
+      <div className= "news-grid" key={props.post._id}>
+        <div>
+            <img src={String(props.post.avatar)} style={styles.img} alt="new Post"/>
+        </div> 
+        <div className="news-header">
+            <h4>Employee: <strong>{props.post.name}</strong></h4>
+            <p>{props.post.email}</p>
+              <button className="btn-post" data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
+              <Button variant="contained" color="secondary" data-id={props.post._id} value="delete" onClick={props.handleDeleteUser}>delete</Button>
+        </div>
+      </div> :null
+      }
+  </div>
+);
+
 
 class DashboardPage extends React.Component {
   _isMounted = false;
@@ -141,6 +145,7 @@ class DashboardPage extends React.Component {
     editEmployee: false,
     file: null,//upload file var
     imgAdd: '',
+    uploadedImg: '',
     searchVal: '',//search navbar var
     posts:[], //all post + users
     allData: [],
@@ -186,7 +191,7 @@ class DashboardPage extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ postSelected: {},openModal: false });
+    this.setState({ postSelected: {},openModal: false , uploadedImg: ''});
   };
 
 
@@ -254,6 +259,8 @@ class DashboardPage extends React.Component {
     event.preventDefault();
     let postId = event.target.getAttribute('data-id');
     const selected = this.state.postModel;
+    if(this.state.uploadedImg !== '') selected.imageAddress = this.state.uploadedImg;
+    console.log(selected)
      API.updatePost(this.state.token, {postId, selected}).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = document.getElementById('search-private').value;
@@ -393,6 +400,7 @@ class DashboardPage extends React.Component {
   
   handleFileUpload = (event) => {
     var mydiv = document.getElementById("upload-msg");
+    console.log('file upload');
     mydiv.innerHTML = "please wait ...";
     this.setState({file: event.target.files[0]});
 
@@ -402,7 +410,8 @@ class DashboardPage extends React.Component {
 
     API.uploadFile(Auth.getToken(),data).then((response) => {
       console.log(response.data);
-      
+      mydiv.innerHTML = "file uploaded";
+      this.setState({uploadedImg: response.data})   
     });
   }
 
@@ -520,7 +529,7 @@ class DashboardPage extends React.Component {
                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
                     </CardActions>: null
                 }
-                    <Modal onChangeModel={this.onChangeModel} postModel={this.state.postModel} handleUpdatePost={this.handleUpdatePost} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
+                    <Modal handleFileUpload={this.handleFileUpload} uploadedImg={this.state.uploadedImg} onChangeModel={this.onChangeModel} postModel={this.state.postModel} handleUpdatePost={this.handleUpdatePost} show={this.state.openModal} style={{textAlign: "center"}} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
                 </div>:
                 this.state.list.length > 0 ?
                 <div className="post-loc">
@@ -533,7 +542,7 @@ class DashboardPage extends React.Component {
                       <CircularProgress className="test2" variant="indeterminate" disableShrink style={styles.facebook} size={24} thickness={4}/>
                     </CardActions>: null
                 }
-                <Modal onChangeModel={this.onChangeModel} postModel={this.state.postModel} style={{textAlign: "center"}} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
+                <Modal handleFileUpload={this.handleFileUpload} uploadedImg={this.state.uploadedImg} onChangeModel={this.onChangeModel} postModel={this.state.postModel} handleUpdatePost={this.handleUpdatePost} style={{textAlign: "center"}} show={this.state.openModal} handleClose={this.handleClose} postSelected={this.state.postSelected} user={this.state.user}/>
               </div>
               :
                 (this.state.portfolio === true)?
