@@ -30,10 +30,6 @@ class portfolioPage extends React.Component {
     this._isMounted = false;
   }
 
-
-
-
-
   /**
    * Process the form.
    * create a string for an HTTP body message
@@ -70,27 +66,23 @@ class portfolioPage extends React.Component {
     });
   }
 
-  /**
-   * Render the component.
-   */
   render() {
     return (
         <div>
-            <PortfolioForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        user={this.props.user}
-        userPortfolio={this.state.userPortfolio}
-        handleFileUpload={this.props.handleFileUpload} 
-        file={this.props.file}
-        imgAdd={this.props.imgAdd}
-        uploadedImg={this.props.uploadedImg}
-      />
+          <PortfolioForm
+            onSubmit={this.processForm}
+            onChange={this.changeUser}
+            errors={this.state.errors}
+            user={this.props.user}
+            userPortfolio={this.state.userPortfolio}
+            handleFileUpload={this.props.handleFileUpload} 
+            file={this.props.file}
+            imgAdd={this.props.imgAdd}
+            uploadedImg={this.props.uploadedImg}
+          />
         </div>
-    
-    );
-  }
+        );
+      }
 
 }
 

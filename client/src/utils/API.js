@@ -16,6 +16,9 @@ export default {
   updateUser:(token,userData) => axios.put('/api/update', userData,{headers: {'Authorization': `bearer ${token}`}}),
   removePost:(token, id) => axios.delete(`/api/deletepost/${id}`,{headers: {'Authorization': `bearer ${token}`}}),
   removeUser:(token, id) => axios.delete(`/api/delete/${id}`,{headers: {'Authorization': `bearer ${token}`}}),
-  uploadFile:(token,fileData) => axios.post('/api/upload', fileData,{headers: {'Authorization': `bearer ${token}`/*, 'Content-Type': 'multipart/form-data'*/}}),
+  uploadFile:(token,fileData) => axios.post('/api/upload', fileData,{headers: {'Authorization': `bearer ${token}`}}),
   getImg:(token,imdAdd) => axios.get(`/api/getImage/${imdAdd}`,{headers: {'Authorization': `bearer ${token}`}}),
+  addAct:(token, actData)  => axios.post('/api/act', actData, {headers: {Authorization: `bearer ${token}`}}),
+  getAct: token => axios.get('/api/act', {headers: {Authorization: `bearer ${token}`}}),
+  updateAct:(token,data) => axios.put('/api/act',data,{headers: {'Authorization': `bearer ${token}`}}),
 };

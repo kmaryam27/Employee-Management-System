@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   },
   imageAddress:{
     type: String,
-    default: "https://final-project-gt.s3.amazonaws.com/photos/img_plc.png"
+    default: "http://www.jennybeaumont.com/wp-content/uploads/2015/03/placeholder.gif"
   },
   context:{
     type: String,

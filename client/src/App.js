@@ -12,6 +12,7 @@ import LogoutFunction from './pages/LogoutFunction.jsx';
 import SignUpPage from './pages/SignUpPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import io from 'socket.io-client'
+import API from './utils/API';
 let socket = io(`http://localhost:3001`);
 
 class App extends Component {
@@ -35,7 +36,7 @@ class App extends Component {
  * @description for notification
  */
   sendMessage = message => {
-    socket.emit(`update-task`, message);
+    socket.emit(`update-task`, "message");
   }
 
   /**

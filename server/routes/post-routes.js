@@ -8,7 +8,7 @@ const router = new express.Router();
 router.get('/post', (req, res) => {
   db.Post.find({})
     .then(function(data) {
-      res.json(data);
+      res.json(data.reverse());
     })
     .catch(function(err) {
       res.json(err);

@@ -69,7 +69,17 @@ function SignUpForm(props) {
         </Typography>
         {props.errors.summary && <p className="error-message">{props.errors.summary}</p>}
 
-        <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/>
+        <div style={{margin:'10px'}}>
+            <img style={{width:'100px', height:'100px'}} 
+              src={((props.uploadedImg)&&(props.uploadedImg !== ''))?
+                String(window.location).includes('localhost')?
+                `http://localhost:3001/post/getImage/${props.uploadedImg}`:
+                `https://final-mongo.herokuapp.com/post/getImage/${props.uploadedImg}`
+                :'http://sg-fs.com/wp-content/uploads/2017/08/user-placeholder.png'
+                } alt="new user"/>
+                <ImageUploader handleFileUpload={props.handleFileUpload}/>
+        </div>
+        {/* <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/> */}
 
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
           
@@ -117,7 +127,7 @@ function SignUpForm(props) {
             <option value={2}>Employee</option>
           </Select>
         </FormControl>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="secondary" className={classes.submit}>
             Sign in
           </Button>
           <CardText>This part is just for Managers</CardText>

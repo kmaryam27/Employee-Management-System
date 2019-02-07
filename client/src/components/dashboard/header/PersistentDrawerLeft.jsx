@@ -12,7 +12,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-// import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ImageAvatars from '../../avatar/ImageAvatars';
@@ -163,45 +162,47 @@ class PrimarySearchAppBar extends React.Component {
   };
 
 
-  update() {
+  componentDidUpdate() {
+    this._isMounted = false;
+  }
+
+  componentWillUpdate(){
     this._isMounted = true;
     this.manageSockets();
   }
 
   manageSockets = () => {
-console.log('soket')
-console.log(this.props.socketData)
-    if(this.props.socketData === {}){
-      if(this.props.socketData.length !== 0){
-      console.log('**********')
-      let mynotifications = this.state.notificationList;
+    console.log(this._isMounted);
+      if((this.props.socketData === 'message')&& ( this._isMounted === true)){
+      let mynotifications = [];
       let newNotification = 0;
-      for (let i = 0; i < this.props.socketData.length; i++) {
-        mynotifications.push(this.props.socketData[i]);
-        newNotification++;
-      }   
-      this.setState({notifications: this.state.notifications + newNotification,
-      notificationList: mynotifications})
+      API.getAct(this.props.token).then(result => {
+        for (let i = 0; i < result.data.items.act; i++) {
+          if(result.data.items.act[i].isView === false) newNotification++;
+          mynotifications.push(result.data.items.act[i]);  
+        }  
+        this.setState({notifications: this.state.notifications + newNotification,
+        notificationList: mynotifications})
+      }).catch(err => console.log(err))
+      
       }
-    }
   }
 
-
-  componentDidUpdate() {
-    console.log(this.props.user);
-  }
 
   handleProfileMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    API.updateAct(this.props.token, {});
+      this.setState({ anchorEl: event.currentTarget , notifications: 0});
+      
   };
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null , notification: 0});
     this.handleMobileMenuClose();
   };
 
   handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
+    API.updateAct(this.props.token, {});
+    this.setState({ mobileMoreAnchorEl: event.currentTarget , notifications: 0});
   };
 
   handleMobileMenuClose = () => {
@@ -237,19 +238,13 @@ console.log(this.props.socketData)
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        {/* <MenuItem>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem> */}
         <MenuItem>
           <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-            <Badge badgeContent={this.props.notificationList.length !== 0? this.props.notificationList.length: null} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+          {((this.state.notifications)&&(this.state.notifications !== 0))? 
+              <Badge badgeContent={this.state.notifications} color="secondary"> 
+                <NotificationsIcon />
+              </Badge>:  <NotificationsIcon />
+              }
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
@@ -285,21 +280,17 @@ console.log(this.props.socketData)
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/* <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton> */}
               <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-              <Badge badgeContent={this.props.notificationList.length !== 0? this.props.notificationList.length: null} color="secondary">
-                {/* <Badge badgeContent={this.state.notifications !== 0? this.state.notifications: null} color="secondary"> */}
-                  <NotificationsIcon />
-                </Badge>
+              {((this.state.notifications)&&(this.state.notifications !== 0))? 
+              <Badge badgeContent={this.state.notifications} color="secondary"> 
+                <NotificationsIcon />
+              </Badge>:  <NotificationsIcon />
+              }
+              
               </IconButton>
               <IconButton
                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                 aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
                 color="inherit"
               >
               {this.props.avatar === ''?<AccountCircle />:

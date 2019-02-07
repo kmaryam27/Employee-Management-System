@@ -5,7 +5,7 @@ import PersistentDrawerLeft from '../components/dashboard/header/PersistentDrawe
 import SignUpPage from './SignUpPage';
 import PortfolioPage from './PortfolioPage';
 import AddNewsPage from './AddNewsPage';
-import EditEmployeePage from './EditEmployeePage';
+// import EditEmployeePage from './EditEmployeePage';
 import { white } from 'material-ui/styles/colors';
 import { Card, CardTitle, CardActions} from 'material-ui/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -67,7 +67,7 @@ const Modal = props => {
               `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
               (props.postSelected.imageAddress)?
               `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:null
-              } alt="post image"/>
+              } alt="post"/>
         </div>
         <span>
           <textarea data-id="context"  style={{width:'99%', minHeight:'100px' , height:'auto'}}
@@ -101,7 +101,7 @@ const Modal = props => {
                 `http://localhost:3001/post/getImage/${props.postSelected.avatar}`:
                 (props.postSelected.avatar)?
                 `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.avatar}`: null
-                } alt="post image"/>
+                } alt="post"/>
         </div>
         <Button variant="contained" color="secondary" style={{textAlign:"center"}} onClick={props.handleClose}>close</Button>
         <button className="btn-update" variant="contained" color="secondary" data-id={props.postSelected._id} value="update" onClick={props.handleUpdateUser}>UPDATE</button>
@@ -130,7 +130,7 @@ const PostForm = props => (
               <h4><strong>{props.post.title}</strong></h4>
               <p>{props.post.subtitle}</p>
               <button className="btn-post" data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              <Button variant="contained" color="secondary" data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</Button>
+              <button className="btn-update" data-id={props.post._id} value="delete" onClick={props.handleDeletePost}>delete</button>
           </div>
       </div> :
       (props.user.access === 1)?
@@ -146,7 +146,7 @@ const PostForm = props => (
             <h4>Employee: <strong>{props.post.name}</strong></h4>
             <p>{props.post.email}</p>
               <button className="btn-post" data-id={props.post._id} value="read" onClick={props.handleOpen}>read more</button>
-              <Button variant="contained" color="secondary" data-id={props.post._id} value="delete" onClick={props.handleDeleteUser}>delete</Button>
+              <button className="btn-update" data-id={props.post._id} value="delete" onClick={props.handleDeleteUser}>delete</button>
         </div>
       </div> :null
       }
@@ -193,6 +193,7 @@ class DashboardPage extends React.Component {
     avatar: ''
 },
   notificationList:[]
+
   }
 
   
@@ -227,8 +228,6 @@ class DashboardPage extends React.Component {
     event.preventDefault();
     let postId = event.target.getAttribute('data-id');
      API.removePost(this.state.token, postId).then(res => {
-
-
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = document.getElementById('search-private').value;
       if(val !== ''){
@@ -391,7 +390,8 @@ class DashboardPage extends React.Component {
       editEmployee: false,
       open: false,
       searchVal: '',
-      list: []
+      list: [],
+      uploadedImg: ''
     });
   }
 
@@ -404,7 +404,8 @@ class DashboardPage extends React.Component {
       editEmployee: false,
       open: false,
       searchVal: '',
-      list: []
+      list: [],
+      uploadedImg: ''
     });
   }
 
@@ -418,7 +419,8 @@ class DashboardPage extends React.Component {
       editEmployee: false,
       open: false,
       searchVal: '',
-      list: []
+      list: [],
+      uploadedImg: ''
     });
   }
 
@@ -432,7 +434,8 @@ class DashboardPage extends React.Component {
       editEmployee: true,
       open: false,
       searchVal: '',
-      list: []
+      list: [],
+      uploadedImg: ''
     });
   }
 
@@ -446,7 +449,8 @@ class DashboardPage extends React.Component {
       editEmployee: false,
       open: false,
       searchVal: '',
-      list: []
+      list: [],
+      uploadedImg: ''
     });
   }
 
@@ -622,13 +626,21 @@ class DashboardPage extends React.Component {
               </div>
               :
                 (this.state.portfolio === true)?
-            <PortfolioPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData} user={this.state.user}  token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
+            <PortfolioPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData} user={this.state.user} 
+               token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
             (this.state.addEmployee === true)?
-              <SignUpPage secretData={this.state.secretData} user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd}   handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
+              <SignUpPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData}
+                 user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd}   
+                 handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
               (this.state.addNews === true)?
-              <AddNewsPage socket = { this.props.socket } sendMessage = { this.props.sendMessage } secretData={this.state.secretData} user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
-              (this.state.editEmployee === true)?
-              <EditEmployeePage secretData={this.state.secretData} user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd} handleFileUpload={this.handleFileUpload} file={this.state.file}/>:           
+              <AddNewsPage uploadedImg={this.state.uploadedImg} socket = { this.props.socket }
+                 sendMessage = { this.props.sendMessage } secretData={this.state.secretData} user={this.state.user} 
+                 token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} 
+                 file={this.state.file}/>:
+              // (this.state.editEmployee === true)?
+              // <EditEmployeePage secretData={this.state.secretData} user={this.state.user} 
+              // token={this.state.token} imgAdd={this.state.imgAdd} handleFileUpload={this.handleFileUpload}
+              //  file={this.state.file}/>:           
               (this.state.dashboard === true)?
             
             <div>

@@ -49,6 +49,10 @@ const HomeModal = props => {
               String(window.location).includes('localhost')?
                 `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
                 `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:
+                props.postSelected.imageAddress?
+              String(window.location).includes('localhost')?
+                `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
+                `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnDXm4KO9UivJ8YLE7THqigiC8DVut1N2gFjp-H-xBlU2HVXIR'
                 } alt="post image"/>
         </div>

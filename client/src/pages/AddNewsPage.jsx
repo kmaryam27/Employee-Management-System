@@ -27,21 +27,19 @@ class AddNewsPage extends React.Component {
    */
   handleAddNews = event => {
     event.preventDefault();
-
     const { title, subtitle, imageAddress, context} = this.state.post;
-    const avatar = this.props.imgAdd;
+    const avatar = this.props.uploadedImg;
     const userId = this.state.user._id;
-
     API.addPosts(this.props.token,{userId, title, subtitle, avatar, context}).then(res => {
 
-      this.props.sendMessage(this.state.user.name +' ye post add kard');
-
-        alert('new post added successfully');
-
+      API.addAct(this.props.token, {userId, act:"added new post"}).then(res => {
+          this.props.sendMessage(this.state.user.name +' added new post');
+          alert('new post added successfully');
+        });
+      
     }).catch(( {response} ) => {
         const errors = response.data.errors ? response.data.errors : {};
         errors.summary = response.data.message;
-
         this.setState({
           errors
         });
@@ -78,6 +76,7 @@ class AddNewsPage extends React.Component {
         handleFileUpload={this.props.handleFileUpload} 
         file={this.props.file}
         imgAdd={this.props.imgAdd}
+        uploadedImg={this.props.uploadedImg}
       />
     );
   }

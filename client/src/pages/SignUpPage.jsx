@@ -23,7 +23,7 @@ class SignUpPage extends React.Component {
   processForm = event => {
     event.preventDefault();
     const { name, email, password, access} = this.state.user;
-    const avatar = this.props.imgAdd;
+    const avatar = this.props.uploadedImg;
     API.signUpm(this.props.token,{name, email, password, access, avatar}).then(res => {
 
         localStorage.setItem('successMessage', res.data.message);
@@ -68,6 +68,7 @@ class SignUpPage extends React.Component {
         handleFileUpload={this.props.handleFileUpload} 
         file={this.props.file}
         imgAdd={this.props.imgAdd}
+        uploadedImg={this.props.uploadedImg}
       />
     );
   }

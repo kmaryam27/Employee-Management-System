@@ -1,5 +1,4 @@
 const express = require('express');
-
 const router = new express.Router();
 const validator = require('validator');
 const passport = require('passport');
@@ -53,9 +52,9 @@ function validateSignupForm(payload) {
  */
 router.get('/dashboard', (req, res) => {
   db.Post.find({}).then((data) => {
-     items.posts = data;
+     items.posts = data.reverse();
      db.Activity.find({}).then((acts) => {
-      items.act = acts;
+      items.act = acts.reverse();
       if(req.user.access === 2){
         res.status(200).json({
          message: "You're authorized to see this secret message.",
@@ -66,7 +65,7 @@ router.get('/dashboard', (req, res) => {
     else
      if(req.user.access === 1){
      db.User.find({}).then((members) => {
-       items.members = members; 
+       items.members = members.reverse(); 
        res.status(200).json({
          message: "You're authorized to see this secret message.",
          user: req.user,
@@ -164,7 +163,7 @@ router.put('/updatepost', (req, res, next) => {
     db.Post.findOneAndUpdate({ _id: postId }, {$set: {title: post.title, subtitle: post.subtitle, imageAddress: post.imageAddress, context: post.context }}).then((raw) => {
       
       db.Post.find({}).then((data) => {
-        items.posts = data;
+        items.posts = data.reverse();
         if(req.user.access === 2){
             res.status(200).json({
              message: "the selected post updated successfully",
@@ -175,7 +174,7 @@ router.put('/updatepost', (req, res, next) => {
         else
          if(req.user.access === 1){
          db.User.find({}).then((members) => {
-           items.members = members; 
+           items.members = members.reverse(); 
            res.status(200).json({
              message: "the selected post updated successfully",
              user: req.user,
@@ -195,12 +194,14 @@ router.put('/updatepost', (req, res, next) => {
 });
 
 
-
+/**
+ * @description delete post
+ */
 router.delete('/deletepost/:id', (req, res) => {
   const chosen = req.params.id;
   db.Post.deleteOne({_id: chosen}).then((result) => {
     db.Post.find({}).then((data) => {
-      items.posts = data;
+      items.posts = data.reverse();
       if(req.user.access === 2){
           res.status(200).json({
            message: "the selected post romoved successfully",
@@ -211,7 +212,7 @@ router.delete('/deletepost/:id', (req, res) => {
       else
        if(req.user.access === 1){
        db.User.find({}).then((members) => {
-         items.members = members; 
+         items.members = members.reverse(); 
          res.status(200).json({
            message: "the selected post romoved successfully",
            user: req.user,
@@ -241,7 +242,7 @@ router.delete('/delete/:id', (req, res) => {
   const chosen = req.params.id;
   db.User.deleteOne({_id: chosen}).then((result) => {
     db.Post.find({}).then((data) => {
-      items.posts = data;
+      items.posts = data.reverse();
       if(req.user.access === 2){
           res.status(200).json({
            message: "the selected user romoved successfully",
@@ -252,7 +253,7 @@ router.delete('/delete/:id', (req, res) => {
       else
        if(req.user.access === 1){
        db.User.find({}).then((members) => {
-         items.members = members; 
+         items.members = members.reverse(); 
          res.status(200).json({
            message: "the selected user romoved successfully",
            user: req.user,
@@ -313,7 +314,7 @@ router.put('/update', (req, res, next) => {
       {name: userSelected.name, email: userSelected.email, avatar: userSelected.avatar, access: userSelected.access}}).then((raw) => {
       console.log(raw)
       db.Post.find({}).then((data) => {
-        items.posts = data;
+        items.posts = data.reverse();
         if(req.user.access === 2){
             res.status(200).json({
              message: "the selected user updated successfully",
@@ -324,7 +325,7 @@ router.put('/update', (req, res, next) => {
         else
          if(req.user.access === 1){
          db.User.find({}).then((members) => {
-           items.members = members; 
+           items.members = members.reverse(); 
            res.status(200).json({
              message: "the selected user updated successfully",
              user: req.user,
@@ -341,6 +342,52 @@ router.put('/update', (req, res, next) => {
             res.json(err);
         });;
   });
+});
+
+/**
+ * @description add new activity to notification 
+ */
+router.post("/act", (req, res) => {
+  const user = req.user;
+  const newAct = {
+    act: `${user.name}; ${req.body.act}`
+  }
+  db.Activity.create(newAct)
+  .then(function(data) {
+     return db.User.findOneAndUpdate({_id: user._id}, { $push: { activity: data._id } }, { new: true });
+  })
+  .then(function(result) {
+    res.json(result);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+});
+
+router.get('/act', (req, res) => {
+  db.Activity.find({}).then((acts) => {
+      items.act = acts.reverse();
+        res.status(200).json({
+         message: "all acivities",
+         user: req.user,
+         items: items
+       })
+      })
+      .catch(function(err) {
+        res.json(err);
+      }); 
+});
+
+router.put('/act', (req, res, next) => {
+  db.Activity.find({}).then(data => {
+    // data.forEach(e => {
+    //   db.Activity.findOneAndUpdate({_id: e._id}, {$set: {isView: true}})
+    // })
+    
+    res.json({message: 'successfully'})
+  }).catch(function(err) {
+    res.json(err);
+});;
 });
 
 
