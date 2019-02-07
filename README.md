@@ -3,7 +3,8 @@ MERN Application
 
 This is An Employee Management system Final projject of GeorgiaTech global learning center.
 
-<a href="https://drive.google.com/file/d/1Uc6c7YGHHljJ2N1zx-jnh2OMxXrgnjbr/view"><img alt="Employee Management System" style="width:900px;height:auto;" src="https://drive.google.com/file/d/1Uc6c7YGHHljJ2N1zx-jnh2OMxXrgnjbr/view"/></a>
+
+<a href="https://drive.google.com/file/d/1Uc6c7YGHHljJ2N1zx-jnh2OMxXrgnjbr/view">how it works?</a>
 
 ### technologies:
 ### Front-End: 
