@@ -66,7 +66,7 @@ const Modal = props => {
               :((props.postSelected.imageAddress)&&(String(window.location).includes('localhost')))?
               `http://localhost:3001/post/getImage/${props.postSelected.imageAddress}`:
               (props.postSelected.imageAddress)?
-              `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:null
+              `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.imageAddress}`:'http://www.jennybeaumont.com/wp-content/uploads/2015/03/placeholder.gif'
               } alt="post"/>
         </div>
         <span>
@@ -100,7 +100,7 @@ const Modal = props => {
                 :((props.postSelected.avatar)&&(String(window.location).includes('localhost')))?
                 `http://localhost:3001/post/getImage/${props.postSelected.avatar}`:
                 (props.postSelected.avatar)?
-                `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.avatar}`: null
+                `https://final-mongo.herokuapp.com/post/getImage/${props.postSelected.avatar}`: 'http://sg-fs.com/wp-content/uploads/2017/08/user-placeholder.png'
                 } alt="post"/>
         </div>
         <Button variant="contained" color="secondary" style={{textAlign:"center"}} onClick={props.handleClose}>close</Button>

@@ -73,7 +73,7 @@ function PortfolioForm(props) {
                 :((props.user.avatar)&&(String(window.location).includes('localhost')))?
                 `http://localhost:3001/post/getImage/${props.user.avatar}`:
                 (props.postSelected.avatar)?
-                `https://final-mongo.herokuapp.com/post/getImage/${props.user.avatar}`: null
+                `https://final-mongo.herokuapp.com/post/getImage/${props.user.avatar}`: 'http://sg-fs.com/wp-content/uploads/2017/08/user-placeholder.png'
                 } alt="post image"/>
                 <ImageUploader handleFileUpload={props.handleFileUpload}/>
         </div>
