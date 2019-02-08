@@ -29,7 +29,7 @@ class App extends Component {
   /**
    * @description in load page check if user is logged in on refresh
    */
-  componentDidMount() {
+  componentWillMount() {
     this.toggleAuthenticateStatus();
     socket.on(`emit-task`, data => {
       if((data === 'message')){
