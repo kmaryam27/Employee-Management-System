@@ -31,7 +31,7 @@ class App extends Component {
    */
   componentWillMount() {
     this.toggleAuthenticateStatus();
-    socket.on(`emit-task`, data => {
+    socket.on(`emit-task`, data => {console.log('socket willmount appjs')
       if((data === 'message')){
         let mynotifications = [];
         let newNotification = 0;

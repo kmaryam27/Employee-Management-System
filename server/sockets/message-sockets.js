@@ -6,7 +6,7 @@ module.exports = function(io) {
         });
   
         socket.on('update-task', (data) => {
-            console.log(data);
+            console.log('update-task');
             io.emit('emit-task', data);
         });
   

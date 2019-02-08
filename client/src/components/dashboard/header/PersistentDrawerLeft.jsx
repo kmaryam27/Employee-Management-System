@@ -243,6 +243,7 @@ class PrimarySearchAppBar extends React.Component {
       >
         <MenuItem>
           <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
+          {console.log('nnnnn'+this.props.notifications)}
           {((this.props.notifications)&&(this.props.notifications !== 0))? 
               <Badge badgeContent={this.props.notifications} color="secondary"> 
                 <NotificationsIcon />
