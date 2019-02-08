@@ -13,7 +13,8 @@ import SignUpPage from './pages/SignUpPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import io from 'socket.io-client'
 import API from './utils/API';
-let socket = io(`http://localhost:3001`);
+// let socket = io(`http://localhost:3001`);
+var socket = io.connect('https://final-mongo.herokuapp.com', {secure: true});
 
 class App extends Component {
 
