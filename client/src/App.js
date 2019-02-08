@@ -40,7 +40,7 @@ class App extends Component {
             if(result.data.items.act[i].isView === false) newNotification++;
             mynotifications.push(result.data.items.act[i]);  
           }  
-          this.setState({notifications: this.state.notifications + newNotification,
+          this.setState({notifications: newNotification,
           notificationList: mynotifications, socketData: data})
         }).catch(err => console.log(err))
         
@@ -73,6 +73,7 @@ class App extends Component {
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <Router>
           <div>
+            {console.log(this.state.notifications)}
             <div className="top-bar">
               <div className="top-bar-left">
                 <Social/>
