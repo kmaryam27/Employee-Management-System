@@ -192,7 +192,8 @@ class DashboardPage extends React.Component {
     email: '',
     avatar: ''
 },
-  notificationList:[]
+  actList:[],
+  viewPost:0
 
   }
 
@@ -349,9 +350,11 @@ class DashboardPage extends React.Component {
     if (this._isMounted){
     API.dashboard(Auth.getToken())
     .then(res => {
-      
+      let viewPost = 0;
       const alldata = res.data.items.posts.concat(res.data.items.members);
-     
+      (res.data.items.act).forEach(e => {
+       if(e.isView === false)  viewPost++;
+     });
       this.setState({
           secretData: res.data.message,
           user: res.data.user,
@@ -364,7 +367,8 @@ class DashboardPage extends React.Component {
           total: (alldata.length),
           allDataSearch: alldata,
           allData: alldata,
-          notificationList: res.data.items.act
+          actList: res.data.items.act,
+          viewPost: viewPost
         });
     }).catch((err) => alert("we have some problem in database please run agin or call for support")); 
   }
@@ -579,7 +583,10 @@ class DashboardPage extends React.Component {
          handleDrawerClose={this.handleDrawerClose} handleDrawerOpen={this.handleDrawerOpen}
          posts={this.state.posts} members={this.state.members} searchVal={this.state.searchVal} 
          SearchOpration={this.SearchOpration} handleChange={this.handleChange}
-         socketData={this.props.socketData} notificationList={this.state.notificationList}/>
+         socketData={this.props.socketData}  notificationList={this.props.notificationList} 
+         notifications={this.props.notifications} actList={this.state.actList}
+         sendMessage = { this.sendMessage } socket = { this.props.socket } viewPost={this.state.viewPost}
+         handleClickNotification={this.props.handleClickNotification}/>
         <main className={(this.state.open === false)?"content contentShift": "content "}>
           <div className="drawerHeader"/>
           {(this.state.searchVal.length > 0)?

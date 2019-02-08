@@ -19,8 +19,12 @@ class App extends Component {
 
   state = {
     authenticated: false,//auth
-    socketData: {}//notifications
+    socketData: {},//notifications
+    notificationList:[],
+    notifications: 0
   }
+
+
 
   /**
    * @description in load page check if user is logged in on refresh
@@ -28,10 +32,22 @@ class App extends Component {
   componentDidMount() {
     this.toggleAuthenticateStatus();
     socket.on(`emit-task`, data => {
-      console.log('data omad client' + data)
-      this.setState({ socketData: data })
+      if((data === 'message')){
+        let mynotifications = [];
+        let newNotification = 0;
+        API.getAct(Auth.getToken()).then(result => {
+          for (let i = 0; i < (result.data.items.act).length; i++) {
+            if(result.data.items.act[i].isView === false) newNotification++;
+            mynotifications.push(result.data.items.act[i]);  
+          }  
+          this.setState({notifications: this.state.notifications + newNotification,
+          notificationList: mynotifications, socketData: data})
+        }).catch(err => console.log(err))
+        
+        }
     })
   }
+
 /**
  * @description for notification
  */
@@ -44,6 +60,12 @@ class App extends Component {
    */
   toggleAuthenticateStatus = () => {
     this.setState({ authenticated: Auth.isUserAuthenticated() })
+  }
+
+  handleClickNotification = () => {console.log('here')
+    API.updateAct(Auth.getToken(), {}).then(result => {
+      this.setState({notifications: 0})
+    })
   }
 
   render() {
@@ -69,7 +91,7 @@ class App extends Component {
             <Switch>
               <PropsRoute exact path="/" component={HomePage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
               <LoggedOutRoute path="/login" component={LoginPage} toggleAuthenticateStatus={this.toggleAuthenticateStatus}/>
-              <PrivateRoute exact path="/dashboard" socket = { socket } sendMessage = { this.sendMessage } socketData={this.state.socketData} component={DashboardPage}/>
+              <PrivateRoute exact path="/dashboard" handleClickNotification={this.handleClickNotification} notificationList={this.state.notificationList} notifications={this.state.notifications} socket = { socket } sendMessage = { this.sendMessage } socketData={this.state.socketData} component={DashboardPage}/>
               <LoggedOutRoute path="/signup" component={SignUpPage}/>
               <Route path="/logout" component={LogoutFunction}/>
             </Switch>

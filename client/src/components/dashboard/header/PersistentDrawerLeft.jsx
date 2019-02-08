@@ -155,8 +155,8 @@ class PrimarySearchAppBar extends React.Component {
     mobileMoreAnchorEl: null,
     open: false ,
     
-    notifications: 0,//notifications
-    notificationList: [],
+    // notifications: 0,//notifications
+    // notificationList: [],
 
     myFile: null
   };
@@ -164,16 +164,17 @@ class PrimarySearchAppBar extends React.Component {
 
   componentDidUpdate() {
     this._isMounted = false;
+    // this.manageSockets();
   }
 
   componentWillUpdate(){
     this._isMounted = true;
-    // this.manageSockets();
+    
   }
 
   manageSockets = () => {
     console.log(this._isMounted);
-      if((this.props.socketData === 'message')&& ( this._isMounted === true)){
+      if((this.props.socketData === 'message')){
       let mynotifications = [];
       let newNotification = 0;
       API.getAct(this.props.token).then(result => {
@@ -190,19 +191,19 @@ class PrimarySearchAppBar extends React.Component {
 
 
   handleProfileMenuOpen = event => {
-    API.updateAct(this.props.token, {});
-      this.setState({ anchorEl: event.currentTarget , notifications: 0});
-      
+    // API.updateAct(this.props.token, {});
+    this.props.handleClickNotification();
+    this.setState({ anchorEl: event.currentTarget});
   };
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null , notification: 0});
+    this.setState({ anchorEl: null});
     this.handleMobileMenuClose();
   };
 
   handleMobileMenuOpen = event => {
     API.updateAct(this.props.token, {});
-    this.setState({ mobileMoreAnchorEl: event.currentTarget , notifications: 0});
+    this.setState({ mobileMoreAnchorEl: event.currentTarget});
   };
 
   handleMobileMenuClose = () => {
@@ -226,7 +227,9 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-      {this.props.notificationList.map((e,i) => <MenuItem key={i} onClick={this.handleMenuClose}>{e.act}</MenuItem>)}
+      {(this.props.notificationList).length > 0? 
+      this.props.notificationList.map((e,i) => <MenuItem key={i} onClick={this.handleMenuClose}>{e.act}</MenuItem>):
+      this.props.actList.map((e,i) => <MenuItem key={i} onClick={this.handleMenuClose}>{e.act}</MenuItem>)}
       </Menu>
     );
 
@@ -240,8 +243,8 @@ class PrimarySearchAppBar extends React.Component {
       >
         <MenuItem>
           <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-          {((this.state.notifications)&&(this.state.notifications !== 0))? 
-              <Badge badgeContent={this.state.notifications} color="secondary"> 
+          {((this.props.notifications)&&(this.props.notifications !== 0))? 
+              <Badge badgeContent={this.props.notifications} color="secondary"> 
                 <NotificationsIcon />
               </Badge>:  <NotificationsIcon />
               }
@@ -281,10 +284,14 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <IconButton color="inherit" onClick={this.handleProfileMenuOpen}>
-              {((this.state.notifications)&&(this.state.notifications !== 0))? 
-              <Badge badgeContent={this.state.notifications} color="secondary"> 
+              {((this.props.notifications)&&(this.props.notifications !== 0))? 
+              <Badge badgeContent={this.props.notifications} color="secondary"> 
                 <NotificationsIcon />
-              </Badge>:  <NotificationsIcon />
+              </Badge>:  (this.props.viewPost !== 0)?
+                <Badge badgeContent={this.props.viewPost} color="secondary"> 
+                  <NotificationsIcon />
+                </Badge>:
+              <NotificationsIcon />
               }
               
               </IconButton>

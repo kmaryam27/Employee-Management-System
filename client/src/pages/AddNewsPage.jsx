@@ -35,6 +35,7 @@ class AddNewsPage extends React.Component {
       API.addAct(this.props.token, {userId, act:"added new post"}).then(res => {
           this.props.sendMessage(this.state.user.name +' added new post');
           alert('new post added successfully');
+          // this.manageSockets();
         });
       
     }).catch(( {response} ) => {
@@ -45,6 +46,24 @@ class AddNewsPage extends React.Component {
         });
       });
   }
+
+
+  // manageSockets = () => {
+  //   console.log(this._isMounted);
+  //     if((this.props.socketData === 'message')){
+  //     let mynotifications = [];
+  //     let newNotification = 0;
+  //     API.getAct(this.props.token).then(result => {
+  //       for (let i = 0; i < result.data.items.act; i++) {
+  //         if(result.data.items.act[i].isView === false) newNotification++;
+  //         mynotifications.push(result.data.items.act[i]);  
+  //       }  
+  //       this.setState({notifications: this.state.notifications + newNotification,
+  //       notificationList: mynotifications})
+  //     }).catch(err => console.log(err))
+      
+  //     }
+  // }
 
   /**
    * @description Change the user object.

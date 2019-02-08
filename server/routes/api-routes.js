@@ -387,9 +387,10 @@ router.get('/act', (req, res) => {
 
 router.put('/act', (req, res, next) => {
   db.Activity.find({}).then(data => {
-    // data.forEach(e => {
-    //   db.Activity.findOneAndUpdate({_id: e._id}, {$set: {isView: true}})
-    // })
+    data.forEach(e => {
+      db.Activity.findOneAndUpdate({_id: e._id}, {$set: {isView: true}})
+      .then((ret) => console.log(ret))
+    })
     
     res.json({message: 'successfully'})
   }).catch(function(err) {
