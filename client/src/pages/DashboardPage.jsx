@@ -528,7 +528,7 @@ class DashboardPage extends React.Component {
 
   SearchOpration = (event) => {
     event.preventDefault();
-    let val = document.getElementById('search-private').value;
+    let val = (document.getElementById('search-private').value);
     
     if(val !== ''){
       const selection = this.state.allData.filter(e => 
