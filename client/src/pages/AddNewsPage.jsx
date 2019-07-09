@@ -86,7 +86,7 @@ class AddNewsPage extends React.Component {
     return (
       <PostForm
         onSubmit={this.props.handleAddNews}
-        onChange={this.props.changeUser}
+        onChange={this.props.changePost}
         errors={this.props.errors}
         // user={this.state.user}
         post={this.props.post}

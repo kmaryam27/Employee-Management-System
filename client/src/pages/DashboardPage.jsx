@@ -200,7 +200,13 @@ class DashboardPage extends React.Component {
     context: '',
     imageAddress: ''
   },
-  errors: {}
+  errors: {},
+  newUser: {
+        email: '',
+        name: '',
+        password: '',
+        access: '2'
+      }
   }
 
   
@@ -297,8 +303,15 @@ class DashboardPage extends React.Component {
      API.updatePost(this.state.token, {postId, selected}).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = (document.getElementById('search-private').value).trim();
-      if(val !== ''){
-        const selection = allSrverdata.filter(e => 
+      let selection = [];
+      if(document.getElementById('search-private').value === ' '){
+        selection = allSrverdata;
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false, postModel: {}});
+      }
+      else if(val !== ''){
+         selection = allSrverdata.filter(e => 
           (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
                       ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
                       ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
@@ -352,7 +365,7 @@ class DashboardPage extends React.Component {
    *
    * @param {object} event - the JavaScript event object
    */
-  changeUser = event => {
+  changePost = event => {
     const field = event.target.name;
     const post = this.state.post;
     post[field] = event.target.value;
@@ -363,6 +376,22 @@ class DashboardPage extends React.Component {
   }
 
   /**
+   * @description Change the user object.
+   *
+   * @param {object} event - the JavaScript event object
+   */
+  changeUser = event => {
+    const field = event.target.name;
+    const newUser = this.state.newUser;
+    newUser[field] = event.target.value;
+
+    this.setState({
+      newUser
+    });
+  }
+  
+
+  /**
    * @description Process the form.
    * @description create a string for an HTTP body message
    *
@@ -370,6 +399,9 @@ class DashboardPage extends React.Component {
    */
   handleAddNews = event => {
     event.preventDefault();
+    this.setState({
+      errors: {}
+    });
     const { title, subtitle, imageAddress, context} = this.state.post;
     const avatar = this.state.uploadedImg;
     const userId = this.state.user._id;
@@ -398,31 +430,42 @@ class DashboardPage extends React.Component {
       });
   }
 
-  /************* */
-  //   const allSrverdata = res.data.items.posts.concat(res.data.items.members);
-  //   const val = (document.getElementById('search-private').value).trim();
-  //   if(val !== ''){
-  //     const selection = allSrverdata.filter(e => 
-  //       (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
-  //                   ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
-  //                   ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
-  //                   (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
-  //                   ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
-  //     let ary = (selection).slice(0,this.state.offset);
-  //     this.setState({list:ary});
-  //   this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
-  //   }else{
-  //     let ary = [];
-  //     this.setState({list:ary});
-  //   this.setState({allData: allSrverdata, allDataSearch: [], total: 0, open: false});
-  //   }
+  /**
+   * @description Process the form.
+   * @description  create a string for an HTTP body message
+   *
+   * @param {object} event - the JavaScript event object
+   */
+  processForm = event => {
+    event.preventDefault();
+    this.setState({
+      errors: {}
+    });
+    const { name, email, password, access} = this.state.newUser;
+    const avatar = this.state.uploadedImg;
+    console.log('pppppp')
+    console.log(access);
+    API.signUpm(this.state.token,{name, email, password, access, avatar}).then(res => {
 
+        localStorage.setItem('successMessage', res.data.message);
+        var mydiv = document.getElementById("upload-msg");
+        mydiv.innerHTML = "";
+        this.setState({newUser: {
+          email: '',
+          name: '',
+          password: '',
+          access: '2'
+        }, uploadedImg: '', file: null})
 
-  //   alert(res.data.message);
-    
-  //  })
-   /******************* */
-
+        alert('Employee added successfully');
+    }).catch(( {response} ) => {
+        const errors = response.data.errors ? response.data.errors : {};
+        errors.summary = response.data.message;
+        this.setState({
+          errors
+        });
+      });
+  }
 
     /**
    * @description get all post and divide them 3 post 3 post for lazy loading
@@ -591,6 +634,8 @@ class DashboardPage extends React.Component {
   }
 
   handleChange = (event) => {
+    console.log('event.target.value')
+    console.log(event.target.value)
    if(event.target.value !== ''){
       const val = (document.getElementById('search-private').value).trim();
       let selection = [];
@@ -730,14 +775,14 @@ class DashboardPage extends React.Component {
             <PortfolioPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData} user={this.state.user} 
                token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
             (this.state.addEmployee === true)?
-              <SignUpPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData}
-                 user={this.state.user} token={this.state.token} imgAdd={this.state.imgAdd}   
-                 handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
+              <SignUpPage uploadedImg={this.state.uploadedImg} secretData={this.state.secretData} newUser={this.state.newUser}
+                 token={this.state.token} imgAdd={this.state.imgAdd} errors={this.state.errors}  
+                 handleFileUpload={this.handleFileUpload} file={this.state.file} changeUser={this.changeUser} processForm={this.processForm}/>:
               (this.state.addNews === true)?
               <AddNewsPage uploadedImg={this.state.uploadedImg} socket = { this.props.socket }
                  sendMessage = { this.props.sendMessage } secretData={this.state.secretData} post={this.state.post} 
                  token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} 
-                 file={this.state.file} handleAddNews={this.handleAddNews} changeUser={this.changeUser} errors={this.state.errors}/>:
+                 file={this.state.file} handleAddNews={this.handleAddNews} changePost={this.changePost} errors={this.state.errors}/>:
               // (this.state.editEmployee === true)?
               // <EditEmployeePage secretData={this.state.secretData} user={this.state.user} 
               // token={this.state.token} imgAdd={this.state.imgAdd} handleFileUpload={this.handleFileUpload}

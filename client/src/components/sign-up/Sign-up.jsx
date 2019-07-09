@@ -82,7 +82,8 @@ function SignUpForm(props) {
         {/* <ImageUploader submitFile={props.submitFile} handleFileUpload={props.handleFileUpload} file={props.file}/> */}
 
         <form className={classes.form} action="/" onSubmit={props.onSubmit}>
-          
+          {console.log('ffffffffffffffffffff')}
+          {console.log(props.user)}
         <FormControl margin="normal" required fullWidth>
             <TextField id="name" name="name" autoComplete="name" autoFocus 
             errorText={props.errors.name} onChange={props.onChange} value={props.user.name} 
@@ -122,9 +123,10 @@ function SignUpForm(props) {
               />
             }
           >
-            <option value="" />
-            <option value={1}>Manager</option>
+            {/* <option value="" /> */}
             <option value={2}>Employee</option>
+            <option value={1}>Manager</option>
+           
           </Select>
         </FormControl>
           <Button type="submit" fullWidth variant="contained" color="secondary" className={classes.submit}>
