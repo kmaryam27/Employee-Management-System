@@ -243,7 +243,13 @@ class DashboardPage extends React.Component {
      API.removePost(this.state.token, postId).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = (document.getElementById('search-private').value).trim();
-      if(val !== ''){
+      if(document.getElementById('search-private').value === ' '){
+        const selection = allSrverdata;
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
+      }
+      else if(val !== ''){
         const selection = allSrverdata.filter(e => 
           (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
                       ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
@@ -272,7 +278,13 @@ class DashboardPage extends React.Component {
      API.removeUser(this.state.token, postId).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = (document.getElementById('search-private').value).trim();
-      if(val !== ''){
+      if(document.getElementById('search-private').value === ' '){
+        const selection = allSrverdata;
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
+      }
+      else if(val !== ''){
         const selection = allSrverdata.filter(e => 
           (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
                       ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
@@ -340,7 +352,13 @@ class DashboardPage extends React.Component {
        console.log(res)
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
       const val = (document.getElementById('search-private').value).trim();
-      if(val !== ''){
+      if(document.getElementById('search-private').value === ' '){
+        const selection = allSrverdata;
+        let ary = (selection).slice(0,this.state.offset);
+        this.setState({list:ary});
+      this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false, postModel: {}});
+      }
+      else if(val !== ''){
         const selection = allSrverdata.filter(e => 
           (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
                       ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
@@ -443,11 +461,10 @@ class DashboardPage extends React.Component {
     });
     const { name, email, password, access} = this.state.newUser;
     const avatar = this.state.uploadedImg;
-    console.log('pppppp')
-    console.log(access);
     API.signUpm(this.state.token,{name, email, password, access, avatar}).then(res => {
 
         localStorage.setItem('successMessage', res.data.message);
+        this.loadInitialContent();
         var mydiv = document.getElementById("upload-msg");
         mydiv.innerHTML = "";
         this.setState({newUser: {
@@ -455,7 +472,7 @@ class DashboardPage extends React.Component {
           name: '',
           password: '',
           access: '2'
-        }, uploadedImg: '', file: null})
+        }, uploadedImg: '', file: null});
 
         alert('Employee added successfully');
     }).catch(( {response} ) => {
