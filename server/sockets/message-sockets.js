@@ -1,12 +1,11 @@
 module.exports = function(io) {
-    io.on('connection', (socket) => {
+    io.on('connection', (socket) => { 
       
         socket.on('new-task', (data) => {
             io.emit('emit-task', data);
         });
   
         socket.on('update-task', (data) => {
-            console.log('update-task');
             io.emit('emit-task', data);
         });
   

@@ -4,20 +4,20 @@ import API from '../utils/API';
 
 class AddNewsPage extends React.Component {
 
-  state = {
-    errors: {},
-    user: {},
-    post: {
-      title: '',
-      subtitle: '',
-      context: '',
-      imageAddress: ''
-    }
-  }
+  // state = {
+    // errors: {},
+    // user: {},
+    // post: {
+    //   title: '',
+    //   subtitle: '',
+    //   context: '',
+    //   imageAddress: ''
+    // }
+  // }
 
-  componentDidMount(){
-    this.setState({user: this.props.user})
-  }
+  // componentDidMount(){
+  //   this.setState({user: this.props.user})
+  // }
 
   /**
    * @description Process the form.
@@ -25,27 +25,26 @@ class AddNewsPage extends React.Component {
    *
    * @param {object} event - the JavaScript event object
    */
-  handleAddNews = event => {
-    event.preventDefault();
-    const { title, subtitle, imageAddress, context} = this.state.post;
-    const avatar = this.props.uploadedImg;
-    const userId = this.state.user._id;
-    API.addPosts(this.props.token,{userId, title, subtitle, avatar, context}).then(res => {
+  // handleAddNews = event => {
+  //   event.preventDefault();
+  //   const { title, subtitle, imageAddress, context} = this.state.post;
+  //   const avatar = this.props.uploadedImg;
+  //   const userId = this.state.user._id;
+  //   API.addPosts(this.props.token,{userId, title, subtitle, avatar, context}).then(res => {
 
-      API.addAct(this.props.token, {userId, act:"added new post"}).then(res => {
-          this.props.sendMessage(this.state.user.name +' added new post');
-          alert('new post added successfully');
-          // this.manageSockets();
-        });
+  //     API.addAct(this.props.token, {userId, act:"added new post"}).then(res => {
+  //         this.props.sendMessage(this.state.user.name +' added new post');
+  //         alert('new post added successfully');
+  //       });
       
-    }).catch(( {response} ) => {
-        const errors = response.data.errors ? response.data.errors : {};
-        errors.summary = response.data.message;
-        this.setState({
-          errors
-        });
-      });
-  }
+  //   }).catch(( {response} ) => {
+  //       const errors = response.data.errors ? response.data.errors : {};
+  //       errors.summary = response.data.message;
+  //       this.setState({
+  //         errors
+  //       });
+  //     });
+  // }
 
 
   // manageSockets = () => {
@@ -70,15 +69,15 @@ class AddNewsPage extends React.Component {
    *
    * @param {object} event - the JavaScript event object
    */
-  changeUser = event => {
-    const field = event.target.name;
-    const post = this.state.post;
-    post[field] = event.target.value;
+  // changeUser = event => {
+  //   const field = event.target.name;
+  //   const post = this.state.post;
+  //   post[field] = event.target.value;
 
-    this.setState({
-      post
-    });
-  }
+  //   this.setState({
+  //     post
+  //   });
+  // }
 
   /**
    *@description Render the component.
@@ -86,11 +85,11 @@ class AddNewsPage extends React.Component {
   render() {
     return (
       <PostForm
-        onSubmit={this.handleAddNews}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        user={this.state.user}
-        post={this.state.post}
+        onSubmit={this.props.handleAddNews}
+        onChange={this.props.changeUser}
+        errors={this.props.errors}
+        // user={this.state.user}
+        post={this.props.post}
         submitFile={this.props.submitFile} 
         handleFileUpload={this.props.handleFileUpload} 
         file={this.props.file}

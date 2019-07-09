@@ -193,21 +193,27 @@ class DashboardPage extends React.Component {
     avatar: ''
 },
   actList:[],
-  viewPost:0
-
+  viewPost:0,
+  post: {
+    title: '',
+    subtitle: '',
+    context: '',
+    imageAddress: ''
+  },
+  errors: {}
   }
 
   
   /**
    * @description This method will be executed after initial rendering.
    */
-  componentDidMount() {
+  componentDidMount() {console.log('dash componentDidMount')
     this._isMounted = true;
     window.addEventListener('scroll', this.loadOnScroll);
     this.loadInitialContent();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount(){console.log('dash componentwillMount')
     this._isMounted = false;
     window.removeEventListener('scroll', this.loadOnScroll);
   }
@@ -230,14 +236,14 @@ class DashboardPage extends React.Component {
     let postId = event.target.getAttribute('data-id');
      API.removePost(this.state.token, postId).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
-      const val = document.getElementById('search-private').value;
+      const val = (document.getElementById('search-private').value).trim();
       if(val !== ''){
         const selection = allSrverdata.filter(e => 
-          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.context.toUpperCase()).includes((val).toUpperCase())):
-                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+          (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                      (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
         let ary = (selection).slice(0,this.state.offset);
         this.setState({list:ary});
       this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
@@ -259,14 +265,14 @@ class DashboardPage extends React.Component {
     let postId = event.target.getAttribute('data-id');
      API.removeUser(this.state.token, postId).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
-      const val = document.getElementById('search-private').value;
+      const val = (document.getElementById('search-private').value).trim();
       if(val !== ''){
         const selection = allSrverdata.filter(e => 
-          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.context.toUpperCase()).includes((val).toUpperCase())):
-                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+          (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                      (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
         let ary = (selection).slice(0,this.state.offset);
         this.setState({list:ary});
       this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
@@ -290,14 +296,14 @@ class DashboardPage extends React.Component {
     if(this.state.uploadedImg !== '') selected.imageAddress = this.state.uploadedImg;
      API.updatePost(this.state.token, {postId, selected}).then(res => {
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
-      const val = document.getElementById('search-private').value;
+      const val = (document.getElementById('search-private').value).trim();
       if(val !== ''){
         const selection = allSrverdata.filter(e => 
-          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.context.toUpperCase()).includes((val).toUpperCase())):
-                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+          (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                      (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
         let ary = (selection).slice(0,this.state.offset);
         this.setState({list:ary});
       this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false, postModel: {}});
@@ -320,14 +326,14 @@ class DashboardPage extends React.Component {
      API.updateUser(this.state.token, {userId, selected}).then(res => {
        console.log(res)
       const allSrverdata = res.data.items.posts.concat(res.data.items.members);
-      const val = document.getElementById('search-private').value;
+      const val = (document.getElementById('search-private').value).trim();
       if(val !== ''){
         const selection = allSrverdata.filter(e => 
-          (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.context.toUpperCase()).includes((val).toUpperCase())):
-                      ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                      (e.email.toUpperCase()).includes((val).toUpperCase())));
+          (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                      (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                      ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
         let ary = (selection).slice(0,this.state.offset);
         this.setState({list:ary});
       this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false, postModel: {}});
@@ -340,6 +346,82 @@ class DashboardPage extends React.Component {
       alert(res.data.message);
      })
   };
+
+  /**
+   * @description Change the user object.
+   *
+   * @param {object} event - the JavaScript event object
+   */
+  changeUser = event => {
+    const field = event.target.name;
+    const post = this.state.post;
+    post[field] = event.target.value;
+
+    this.setState({
+      post
+    });
+  }
+
+  /**
+   * @description Process the form.
+   * @description create a string for an HTTP body message
+   *
+   * @param {object} event - the JavaScript event object
+   */
+  handleAddNews = event => {
+    event.preventDefault();
+    const { title, subtitle, imageAddress, context} = this.state.post;
+    const avatar = this.state.uploadedImg;
+    const userId = this.state.user._id;
+    API.addPosts(this.state.token,{userId, title, subtitle, avatar, context}).then(res => {
+      this.loadInitialContent();
+    }).then(res => {
+      API.addAct(this.state.token, {userId, act:"added new post"}).then(res => {
+          this.props.sendMessage(this.state.user.name +' added new post');
+          var mydiv = document.getElementById("upload-msg");
+          mydiv.innerHTML = "";
+          this.setState({post: {
+            title: '',
+            subtitle: '',
+            context: '',
+            imageAddress: ''
+          }, uploadedImg: '', file: null})
+          alert('new post added successfully');
+        });
+      
+    }).catch(( {response} ) => {
+        const errors = response.data.errors ? response.data.errors : {};
+        errors.summary = response.data.message;
+        this.setState({
+          errors
+        });
+      });
+  }
+
+  /************* */
+  //   const allSrverdata = res.data.items.posts.concat(res.data.items.members);
+  //   const val = (document.getElementById('search-private').value).trim();
+  //   if(val !== ''){
+  //     const selection = allSrverdata.filter(e => 
+  //       (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+  //                   ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+  //                   ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+  //                   (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+  //                   ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
+  //     let ary = (selection).slice(0,this.state.offset);
+  //     this.setState({list:ary});
+  //   this.setState({allData: allSrverdata, allDataSearch: selection, total: selection.length, open: false});
+  //   }else{
+  //     let ary = [];
+  //     this.setState({list:ary});
+  //   this.setState({allData: allSrverdata, allDataSearch: [], total: 0, open: false});
+  //   }
+
+
+  //   alert(res.data.message);
+    
+  //  })
+   /******************* */
 
 
     /**
@@ -470,12 +552,15 @@ class DashboardPage extends React.Component {
 
     const data = new FormData();
     data.append('file', event.target.files[0]);
-    data.append('filename', (event.target.files[0].name));
+    if(event.target.files[0] !== undefined){
+      data.append('filename', (event.target.files[0].name));
 
     API.uploadFile(Auth.getToken(),data).then((response) => {
       mydiv.innerHTML = "file uploaded";
       this.setState({uploadedImg: response.data})   
     });
+    } else mydiv.innerHTML = "";
+    
   }
 
   loadOnScroll = (e) =>{
@@ -506,14 +591,17 @@ class DashboardPage extends React.Component {
   }
 
   handleChange = (event) => {
-    if(event.target.value !== ''){
-      const val = document.getElementById('search-private').value;
-      const selection = this.state.allData.filter(e => 
-        (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.context.toUpperCase()).includes((val).toUpperCase())):
-                    ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.email.toUpperCase()).includes((val).toUpperCase())));
+   if(event.target.value !== ''){
+      const val = (document.getElementById('search-private').value).trim();
+      let selection = [];
+      if(document.getElementById('search-private').value === ' ') selection = this.state.allData; 
+      else  selection = this.state.allData.filter(e => 
+        (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                    (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
+      console.log('handle change' + selection.length)
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
     this.setState({searchVal: event.target.value, allDataSearch: selection, total: selection.length, open: false});
@@ -522,21 +610,25 @@ class DashboardPage extends React.Component {
       this.setState({list:ary});
     this.setState({searchVal: event.target.value, allDataSearch: [], total: 0, open: false});
     }
-    
   }
   
 
   SearchOpration = (event) => {
     event.preventDefault();
-    let val = (document.getElementById('search-private').value);
-    
-    if(val !== ''){
+    let val = (document.getElementById('search-private').value).trim();
+    if(document.getElementById('search-private').value === ' ') {
+      const selection = this.state.allData;
+      let ary = (selection).slice(0,this.state.offset);
+      this.setState({list:ary});
+      this.setState({searchVal: '', allDataSearch: selection, total: selection.length, open: false});
+    }
+    else if(val !== ''){
       const selection = this.state.allData.filter(e => 
-        (e.title)? ((e.title.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.subtitle.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.context.toUpperCase()).includes((val).toUpperCase())):
-                    ((e.name.toUpperCase()).includes((val).toUpperCase()) || 
-                    (e.email.toUpperCase()).includes((val).toUpperCase())));
+        (e.title)? (((e.title.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.subtitle.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.context.toUpperCase()).trim()).includes((val).toUpperCase())):
+                    (((e.name.toUpperCase()).trim()).includes((val).toUpperCase()) || 
+                    ((e.email.toUpperCase()).trim()).includes((val).toUpperCase())));
       let ary = (selection).slice(0,this.state.offset);
       this.setState({list:ary});
       this.setState({searchVal: '', allDataSearch: selection, total: selection.length, open: false});
@@ -576,6 +668,8 @@ class DashboardPage extends React.Component {
   render() {
     return (
       <div>
+        {console.log('dashboard**********')}
+        {console.log(this.state.allData.length)}
         <PersistentDrawerLeft token={this.state.token} imgAdd={this.state.imgAdd}
          user={this.state.user} open={this.state.open} 
          addEmployeeCLick={this.addEmployeeCLick} portfolioCLick={this.portfolioCLick} 
@@ -641,9 +735,9 @@ class DashboardPage extends React.Component {
                  handleFileUpload={this.handleFileUpload} file={this.state.file}/>:
               (this.state.addNews === true)?
               <AddNewsPage uploadedImg={this.state.uploadedImg} socket = { this.props.socket }
-                 sendMessage = { this.props.sendMessage } secretData={this.state.secretData} user={this.state.user} 
+                 sendMessage = { this.props.sendMessage } secretData={this.state.secretData} post={this.state.post} 
                  token={this.state.token} imgAdd={this.state.imgAdd}  handleFileUpload={this.handleFileUpload} 
-                 file={this.state.file}/>:
+                 file={this.state.file} handleAddNews={this.handleAddNews} changeUser={this.changeUser} errors={this.state.errors}/>:
               // (this.state.editEmployee === true)?
               // <EditEmployeePage secretData={this.state.secretData} user={this.state.user} 
               // token={this.state.token} imgAdd={this.state.imgAdd} handleFileUpload={this.handleFileUpload}

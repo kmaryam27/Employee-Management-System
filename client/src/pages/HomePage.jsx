@@ -114,6 +114,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    console.log('home page componentDidMount')
     window.addEventListener('scroll', this.loadOnScroll);
     this.homeLoadInitialContent();
   }
@@ -141,7 +142,7 @@ class HomePage extends Component {
   /**
    * @description update authenticated state on logout
    */
-  componentWillMount() {
+  componentWillMount() {console.log('home page componentwillMount')
    this.props.toggleAuthenticateStatus();
   }
 
@@ -150,6 +151,7 @@ class HomePage extends Component {
    */
   componentWillUnmount(){
     this._isMounted = false;
+    console.log('home page componentwillUnMount')
     window.removeEventListener('scroll', this.loadOnScroll);
   }
 
@@ -243,6 +245,7 @@ class HomePage extends Component {
   render() {
     return (
     <div className="home">
+      {console.log('home page')}
         <header className="main-header header-color">
             <Logo/>
             <SearchForm className="main-search" handleChange={this.handleChange} value={this.state.searchVal} SearchOpration={this.SearchOpration}/>
@@ -250,7 +253,7 @@ class HomePage extends Component {
         <Slider />
     <Card>
         {Auth.isUserAuthenticated() ? (
-          <CardText style={{ fontSize: '16px', color: 'green' }}>Welcome!</CardText>
+          <CardText style={{ fontSize: '16px', color: 'green' }}>Welcome! </CardText>
         ) : (
           <CardText style={{ fontSize: '16px', color: 'red' }}>You are not logged in.</CardText>
         )}

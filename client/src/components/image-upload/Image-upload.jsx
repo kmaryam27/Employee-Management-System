@@ -7,6 +7,7 @@ class ImageUpload extends Component {
   render () {
     return (
       <form>
+        {console.log('kjknknkn')}
         <input className="fileInput" label='upload file' type='file' onChange={this.props.handleFileUpload} />
         <div id="upload-msg"></div>
       </form>

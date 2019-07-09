@@ -32,7 +32,7 @@ class App extends Component {
    */
   componentWillMount() {
     this.toggleAuthenticateStatus();
-    socket.on(`emit-task`, data => {console.log('socket willmount appjs')
+    socket.on(`emit-task`, data => {
       if((data === 'message')){
         let mynotifications = [];
         let newNotification = 0;
@@ -63,7 +63,7 @@ class App extends Component {
     this.setState({ authenticated: Auth.isUserAuthenticated() })
   }
 
-  handleClickNotification = () => {console.log('here')
+  handleClickNotification = () => {
     API.updateAct(Auth.getToken(), {}).then(result => {
       this.setState({notifications: 0})
     })
@@ -74,7 +74,6 @@ class App extends Component {
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <Router>
           <div>
-            {console.log(this.state.notifications)}
             <div className="top-bar">
               <div className="top-bar-left">
                 <Social/>
