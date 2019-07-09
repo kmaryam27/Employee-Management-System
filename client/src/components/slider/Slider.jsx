@@ -20,6 +20,7 @@ import p12 from '../../assets/img/slider/jooj.jpg';
 import p13 from '../../assets/img/slider/vegetable.jpg';
 import p14 from '../../assets/img/slider/steak.jpg';
 import p15 from '../../assets/img/slider/pan.jpg';
+import p16 from '../../assets/img/slider/oil.jpg';
 // import { Slide } from '@material-ui/core';
 
 /**
@@ -118,6 +119,7 @@ const SliderImg = props => (
             <a href="/"><img alt="International Foods" className='img-effect-pan' src={p15}/></a>
             </div>
             <div>
+            <a href="/"><img alt="International Foods" className='slider-pic3 img-effect-veg' src={p16}/></a>
             <a href="/"><img alt="International Foods" className='slider-pic3 img-effect-third' src={p14}/></a>
             </div>
             <div>

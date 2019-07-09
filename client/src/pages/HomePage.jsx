@@ -165,7 +165,6 @@ class HomePage extends Component {
       if(!this.state.isFetching){
 
         this.setState({isFetching:true});
-
         setTimeout(() => {
           var count = this.state.currentCount + this.state.offset;
           if(count > this.state.total) count = this.state.total;
@@ -173,7 +172,7 @@ class HomePage extends Component {
             this.setState({
               isFetching:false,
               currentCount:count,
-              list: (this.state.news).slice(0, count)
+              list: (this.state.test).slice(0, count)
             })
           }
         }, 1000);
@@ -239,7 +238,6 @@ class HomePage extends Component {
     this.setState({searchVal: '', test: selection, total: selection.length});
     }
     document.getElementById('search').value = '';
-    
   }
 
   render() {
