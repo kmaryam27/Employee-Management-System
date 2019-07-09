@@ -331,13 +331,19 @@
       border: 2px solid goldenrod;
       margin-right: 5px;
       margin-bottom: 5px;
-  
     }
   
     .img-effect1{
       -webkit-animation-name: img-effect;
       animation-duration: 4.5s;
       animation-fill-mode: forwards; 
+    }
+
+    .slider-pic3{
+      width: 15%;
+      height: 155px;
+      margin-right: 5px;
+      margin-bottom: 5px;
     }
   
     .img-effect1.closed{
@@ -360,6 +366,14 @@
       -webkit-animation-name: img-effect;
       animation-duration: 4.5s;
       animation-fill-mode: forwards;
+    }
+
+    .img-effect4{
+      opacity: 0;
+      animation-delay: 3s;
+      -webkit-animation-name: img-effect;
+      animation-duration: 4.5s;
+      animation-fill-mode: forwards; 
     }
   
   
@@ -431,7 +445,61 @@
       to {transform:rotate(360deg);opacity: 1;}
     }
   
+    .img-effect-third {
+      animation: MoveUpDown 3s linear infinite;
+      position: absolute;
+      left: 40%;
+      bottom: 20%;
+    }
+
+    .img-effect-veg {
+      animation: MoveUpDown2 3s linear infinite;
+      position: absolute;
+      left: 40%;
+      bottom: 50%;
+    }
+
+    
+    @keyframes MoveUpDown {
+      0%, 100% {
+        bottom: 20%;
+      }
+      50% {
+        bottom: 70%;
+      }
+    }
+
+    @keyframes MoveUpDown2 {
+      0%, 100% {
+        bottom: 50%;
+      }
+      50% {
+        bottom: 95%;
+      }
+    }
   
+    .img-effect-pan {
+      width: 25%;
+      height: 170px;
+      margin-right: 5px;
+      margin-bottom: 5px; 
+      animation: MoveLeftRight 3s linear infinite;
+      position: absolute;
+      left: 38%;
+      bottom: 5%;
+    }
+
+    
+    @keyframes MoveLeftRight {
+      0%, 100% {
+        left: 38%;
+        bottom: 5%;
+      }
+      50% {
+        left: 36%;
+        bottom: 10%;
+      }
+    }
   
     /* {box-sizing: border-box;} */
     
@@ -493,13 +561,21 @@
       margin-top: 170px;
       margin-right: 95%;
     }
+
+    .back-arrow:hover{
+      cursor: pointer;
+    }
   
   
   
     .next-arrow{
       color: #f2f2f2;
       margin-top: 170px;
-      margin-left: 95%;
+      margin-left: 95%; 
+    }
+
+    .next-arrow:hover{
+      cursor: pointer;
     }
   
   

@@ -17,7 +17,10 @@ import p9 from '../../assets/img/slider/dande.jpg';
 import p10 from '../../assets/img/slider/cake2.jpg';
 import p11 from '../../assets/img/slider/falafel.jpg';
 import p12 from '../../assets/img/slider/jooj.jpg';
-import { Slide } from '@material-ui/core';
+import p13 from '../../assets/img/slider/vegetable.jpg';
+import p14 from '../../assets/img/slider/steak.jpg';
+import p15 from '../../assets/img/slider/pan.jpg';
+// import { Slide } from '@material-ui/core';
 
 /**
  * @description left arrow component
@@ -95,27 +98,41 @@ const SliderImg = props => (
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect1' src={p1}/></a>
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p2}/></a>
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect3' src={p3}/></a>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect1' src={p4}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect4' src={p4}/></a>
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p5}/></a>
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect3' src={p6}/></a>
             </div>
             <div>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect3' src={p7}/></a>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p8}/></a>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect1' src={p9}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect4' src={p7}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect3' src={p8}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p9}/></a>
             <a href="/"><img alt="Persian Foods" className='slider-pic img-effect3' src={p10}/></a>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p11}/></a>
-            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect1' src={p12}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect4' src={p11}/></a>
+            <a href="/"><img alt="Persian Foods" className='slider-pic img-effect2' src={p12}/></a>
             </div>
         </div>
-        <LeftArrow goToPrevSlide={props.goToPrevSlide} onClick={props.goToPrevSlide}/>
-        <RightArrow goToNextSlide={props.goToNextSlide} onClick={props.goToNextSlide}/>
+
+        <div id="m3" className=" slider-img fade">
+            <label id="lbl5" className="slides">International Foods</label> 
+            <div>
+            <a href="/"><img alt="International Foods" className='img-effect-pan' src={p15}/></a>
+            </div>
+            <div>
+            <a href="/"><img alt="International Foods" className='slider-pic3 img-effect-third' src={p14}/></a>
+            </div>
+            <div>
+            <a href="/"><img alt="International Foods" className='slider-pic3 img-effect-veg' src={p13}/></a>
+            </div>
+            
+        </div>
+
         <div>
             <span className="dot"></span> 
             <span className="dot"></span> 
             <span className="dot"></span> 
         </div>
-
+        <LeftArrow goToPrevSlide={props.goToPrevSlide} onClick={props.goToPrevSlide}/>
+        <RightArrow goToNextSlide={props.goToNextSlide} onClick={props.goToNextSlide}/>
 </div>
 
 )
@@ -126,24 +143,29 @@ class Slider extends Component {
         this.showSlides(); 
     }
 
-    goToNextSlide(){console.log('goToNextSlide')
+    goToNextSlide(){
       var slides = document.getElementsByClassName("slider-img");
       var dots = document.getElementsByClassName("dot");
       if ( slides.length > 0){ 
         for (let i = 0; i < slides.length; i++) {
-            console.log(slides[i])
-            console.log(slides[i + 1])
             if(slides[i].style.display === "block"){
                 slides[i].style.display = "none";
                 dots[i].className = dots[i].className.replace(" active", "");
-                slides[i + 1].style.display = "block";  
-                dots[i + 1].className += " active"; 
+                if(i === 0 || i === 1){
+                    slides[i + 1].style.display = "block";  
+                    dots[i + 1].className += " active"; 
+                    break;
+                }else {
+                    slides[0].style.display = "block";  
+                    dots[0].className += " active"; 
+                    break;
+                }
                 }
             }
         }
     }
 
-    goToPrevSlide(){console.log('goToPrevSlide')
+    goToPrevSlide(){
         var slides = document.getElementsByClassName("slider-img");
         var dots = document.getElementsByClassName("dot");
         if ( slides.length > 0){ 
@@ -151,8 +173,16 @@ class Slider extends Component {
                 if(slides[i].style.display === "block"){
                     slides[i].style.display = "none";
                     dots[i].className = dots[i].className.replace(" active", "");
-                    slides[i - 1].style.display = "block";  
-                    dots[i - 1].className += " active"; 
+                    if(i === 1 || i === 2){
+                        slides[i - 1].style.display = "block";  
+                        dots[i - 1].className += " active"; 
+                        break;
+                    }else {
+                        slides[2].style.display = "block";  
+                        dots[2].className += " active"; 
+                        break;
+                    }
+                    
                 }
             }
         }
