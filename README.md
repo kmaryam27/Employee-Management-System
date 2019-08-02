@@ -1,4 +1,4 @@
-# Restaurant App with Automation software/ Basic Employee-Management-System
+# Restaurant App with Automation software / Basic Employee-Management-System with Facebook components
 MERN Application 
 
 This is An Employee Management system Final projject of GeorgiaTech global learning center.
