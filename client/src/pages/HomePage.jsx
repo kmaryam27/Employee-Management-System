@@ -255,7 +255,7 @@ class HomePage extends Component {
         {Auth.isUserAuthenticated() ? (
           <CardText style={{ fontSize: '16px', color: 'green' }}>Welcome! </CardText>
         ) : (
-          <CardText style={{ fontSize: '16px', color: 'red' }}>You are not logged in.</CardText>
+          <CardText style={{ fontSize: '14px', color: 'red' }}>You are not logged in. <span style={{color: 'black' }}>login Email: </span>admin@gmail.com <span style={{color: 'black' }}>   password: </span> admin123</CardText>
         )}
     </Card>
      {this.state.searchVal.length > 0?
