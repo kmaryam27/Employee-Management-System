@@ -1,10 +1,18 @@
 # Restaurant App and Automation software with Facebook components
 MERN Application 
 
-This is An Employee Management system Final projject of GeorgiaTech global learning center.
+This is An Basic Employee Management System (Final project of Georgia Tech Trilogy Education for Full Stack MERN Certification work).
+
+Includes:
+Home page, with public access for show post's titles, search them and lazy loading and post ditails with Modals Header and slider and shiny Logo.
+Login page, for check it can use login Email: admin@gmail.com password: admin123 on heroku app with Materialize library for UI.
+Dashboard, with 2 access leve
+    1- Manager level Dahsboard can Search, add, remove and manipulate employees, posts and edit the his/her profile's information.
+    2- Employee level Dahsboard can Search, add, removeand manipulate posts and edit the his/her profile's information.
+    in this part per new post will make a notification for all Managers and employees
 
 
-<a href="https://drive.google.com/file/d/1Uc6c7YGHHljJ2N1zx-jnh2OMxXrgnjbr/view">how it works?</a>
+<a href="https://drive.google.com/file/d/1Uc6c7YGHHljJ2N1zx-jnh2OMxXrgnjbr/view">how it works?(The link to a video of project)</a>
 
 ### technologies:
 ### Front-End: 
@@ -34,21 +42,23 @@ Yarn start
 
 ### image
 
-![Upload Photo](https://scontent.fatl1-1.fna.fbcdn.net/v/t1.0-9/51349612_2123584214424323_2504436571789328384_o.jpg?_nc_cat=102&_nc_oc=AQlDs2_f7ZfgETXMKLXnq52iyIeS1hMdnA42Sht6dW9HmqZR-h9SEuPTKvcryUnlimVndqrCjtXzX5R86N9CYsJe&_nc_ht=scontent.fatl1-1.fna&oh=db546e18b5f5d35bc57f68885198e8f6&oe=5DA8A412)
+![Upload Photo](https://scontent.fatl1-1.fna.fbcdn.net/v/t1.0-9/51349612_2123584214424323_2504436571789328384_o.jpg?_nc_cat=102&_nc_oc=AQkHBydTZgeW2JPZ6bUw8dgpEcNKj1Gi0jKus3fKCkWU7pc_9nClGzz0Syq2n-w8kzVDMTdq1ZNumxc1ANV3SEGJ&_nc_ht=scontent.fatl1-1.fna&oh=57a85883c68e278d41e6e717f4fc64d3&oe=5E46D812)
+
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51535766_2123589414423803_8680558432010371072_o.jpg?_nc_cat=101&_nc_oc=AQmsuh1I4EiWV2P8NCAxLbia1MfeU-Ie1ISeU6mqWe85Ag0rIMUgaepN99L4pE9szrNW7OpcJ5YAiWn1QJFoxLvO&_nc_ht=scontent.fatl1-2.fna&oh=1c681eb9d400b04d2951ef0dad509ae9&oe=5E3FB6F3)
 
 
-![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51800973_2123585624424182_2712125182880776192_o.jpg?_nc_cat=106&_nc_oc=AQkQJ8UfmtCMVvH_xpSebKHd1FlpfRIgA3bF3ZUeFiEv4QoXSgmRMEeG3cApwP9hNdzO7fk5xQru01Y7seB3-4Yb&_nc_ht=scontent.fatl1-2.fna&oh=1e0242eec32e3bafb763fcea3705582c&oe=5DADBEF2)
-
-![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51410412_2123587684423976_8117650882801172480_o.jpg?_nc_cat=103&_nc_oc=AQnTeHWMTP3KlHopZyO4dLcLDXSv7sfToADBLVw--E2i8MASTFPP9nhurd2txZZ--d27oDrQsYSwcrN37273899u&_nc_ht=scontent.fatl1-2.fna&oh=d98c8e1ac48df0de71e5d65705dd89a6&oe=5DBAA9D6)
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51800973_2123585624424182_2712125182880776192_o.jpg?_nc_cat=106&_nc_oc=AQn7RDxNLmu7chdk0uyoqPWetPzOP31k5jT7L47GyojlX9vhlAP6Om3vtdiAa7wRFY_fxHcSlfvNlBifp9PCjeZc&_nc_ht=scontent.fatl1-2.fna&oh=5a4f11872e0272b7d756694cffc5cd8e&oe=5E4BF2F2)
 
 
-![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51535766_2123589414423803_8680558432010371072_o.jpg?_nc_cat=101&_nc_oc=AQmUPPTiejiqb_7lAUFoAY5j_zIrHPy2QPYj1f42ZBW5WUUwzifLiCi-nxX3qYrJh5_h0embSgr1xbRvGeLEvxt0&_nc_ht=scontent.fatl1-2.fna&oh=b5857a78fd61e1e1881eef8a83ae9b2f&oe=5D79F5F3)
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51767667_2123586984424046_7059842575720513536_o.jpg?_nc_cat=103&_nc_oc=AQnGH7rc7rfzKd33nrjB20tEYqEesUe0kj1tcFJFw4DOPcH1qp8y2Zni-O4fQyLWSBXmO3Ru-gnFeqztvCdZeNzx&_nc_ht=scontent.fatl1-2.fna&oh=4f857301c95a1356ddb5cd251ad270e1&oe=5E491B2B)
 
 
-![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51779257_2123590171090394_2731474603254743040_o.jpg?_nc_cat=108&_nc_oc=AQm1B6SNh1bh4kFhxBSy-hAMZUfe_Oklc96ca1f-AiFyhWsjTAu_P_8XHpT6hho0g09zZIuHtxltPpcyy4pcasb8&_nc_ht=scontent.fatl1-2.fna&oh=5284ad7a440e6adeecb2d185e5717b78&oe=5DC0BAA3)
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51410412_2123587684423976_8117650882801172480_o.jpg?_nc_cat=103&_nc_oc=AQmgPrVWW8SBXh9OryOyuRAGY8TtssfHkgKjogmBvErrGA5DKJ0FCHXV4O5ldUuetr0DCM-KfUrnVQvTnt_0FE0M&_nc_ht=scontent.fatl1-2.fna&oh=185ce71b252310b57c4da08f1c63c408&oe=5E58DDD6)
 
 
-![Upload Photo](https://scontent.fatl1-1.fna.fbcdn.net/v/t1.0-9/51315362_2123591004423644_6006286337802502144_o.jpg?_nc_cat=102&_nc_oc=AQmDStVa2E-doITbdGN3WETdC80kkf3yR4_qBs9wsybXjAASpTGeRhGrJTGohSbKYXkuvX69B4FyjjW4uv9NJ5o4&_nc_ht=scontent.fatl1-1.fna&oh=df5af0613b614017e5f7811abb8f005e&oe=5D7CDDFC)
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51535766_2123589414423803_8680558432010371072_o.jpg?_nc_cat=101&_nc_oc=AQmsuh1I4EiWV2P8NCAxLbia1MfeU-Ie1ISeU6mqWe85Ag0rIMUgaepN99L4pE9szrNW7OpcJ5YAiWn1QJFoxLvO&_nc_ht=scontent.fatl1-2.fna&oh=1c681eb9d400b04d2951ef0dad509ae9&oe=5E3FB6F3)
+
+![Upload Photo](https://scontent.fatl1-2.fna.fbcdn.net/v/t1.0-9/51779257_2123590171090394_2731474603254743040_o.jpg?_nc_cat=108&_nc_oc=AQmDmlJYrY4el0-52Z_idb-ZGVh-ebi6QD3DWWjbG8tUVo74xfn_Db3p41Lckxj4MC99fHbzmj6Mnp4H5fTrR-lc&_nc_ht=scontent.fatl1-2.fna&oh=eb6ef5cc1f28c29974a69d36feeb4ee6&oe=5E5EEEA3)
 
 ## Features implemented
 
