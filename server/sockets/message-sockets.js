@@ -1,4 +1,4 @@
-module.exports = function(io) {
+const socket = function(io) => () {
     io.on('connection', (socket) => { 
       
         socket.on('new-task', (data) => {
@@ -16,6 +16,7 @@ module.exports = function(io) {
     });
   }
   
+module.exports = soc
   
   
   
